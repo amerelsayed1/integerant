@@ -4,11 +4,6 @@ import { ArrowRightIcon } from 'lucide-vue-next'
 
 const mounted = ref(false)
 onMounted(() => requestAnimationFrame(() => { mounted.value = true }))
-
-const scrollTo = (e: Event, id: string) => {
-  e.preventDefault()
-  document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })
-}
 </script>
 
 <template>
@@ -35,21 +30,19 @@ const scrollTo = (e: Event, id: string) => {
           </p>
 
           <div class="flex flex-col sm:flex-row items-center gap-4 justify-center lg:justify-start">
-            <a
-              href="#contact"
+            <router-link
+              to="/contact"
               class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-7 py-3.5 bg-blue-700 hover:bg-blue-800 text-white font-medium rounded-xl transition-colors duration-200 shadow-sm shadow-blue-700/20"
-              @click="scrollTo($event, 'contact')"
             >
               Contact Us
               <ArrowRightIcon :size="16" />
-            </a>
-            <a
-              href="#services"
+            </router-link>
+            <router-link
+              to="/services"
               class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-7 py-3.5 border-2 border-slate-200 hover:border-blue-700 text-slate-800 hover:text-blue-700 font-medium rounded-xl transition-colors duration-200"
-              @click="scrollTo($event, 'services')"
             >
               Our Services
-            </a>
+            </router-link>
           </div>
         </div>
 

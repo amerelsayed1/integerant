@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, ref, onMounted } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
+import { useRoute } from 'vue-router'
 import {
   ArrowLeftIcon,
   ArrowRightIcon,
@@ -13,13 +13,6 @@ import { vAnimate } from '../composables/animate'
 import { services, serviceKeys } from '../data/services'
 
 const route = useRoute()
-const router = useRouter()
-
-const scrollToHome = async (e: Event, sectionId: string) => {
-  e.preventDefault()
-  await router.push({ path: '/', hash: `#${sectionId}` })
-}
-
 const slug = computed(() => route.params.slug as string)
 const service = computed(() => (slug.value ? services[slug.value] : null))
 
@@ -60,14 +53,13 @@ onMounted(() => requestAnimationFrame(() => { mounted.value = true }))
           class="transition-all duration-500 ease-out"
           :class="mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'"
         >
-          <a
-            href="#services"
+          <router-link
+            to="/services"
             class="inline-flex items-center gap-1.5 text-sm font-medium text-blue-700 hover:text-blue-800 mb-6 transition-colors"
-            @click="scrollToHome($event, 'services')"
           >
             <ArrowLeftIcon :size="14" />
             All Services
-          </a>
+          </router-link>
 
           <div class="flex items-start gap-5 mb-6">
             <div class="w-14 h-14 bg-blue-50 rounded-2xl flex items-center justify-center flex-shrink-0">
@@ -168,14 +160,13 @@ onMounted(() => requestAnimationFrame(() => { mounted.value = true }))
           <p class="text-slate-400 text-lg max-w-xl mx-auto mb-8">
             Let's discuss how our {{ service.title.toLowerCase() }} services can help your business grow.
           </p>
-          <a
-            href="#contact"
+          <router-link
+            to="/contact"
             class="inline-flex items-center gap-2 px-8 py-4 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-xl transition-colors duration-200 shadow-lg shadow-blue-600/20"
-            @click="scrollToHome($event, 'contact')"
           >
             {{ service.ctaText }}
             <ArrowRightIcon :size="16" />
-          </a>
+          </router-link>
         </div>
       </div>
     </section>

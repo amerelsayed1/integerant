@@ -1,12 +1,19 @@
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted } from 'vue'
-import { useRouter } from 'vue-router'
+import { RouterLink, useRoute, useRouter } from 'vue-router'
 import { MenuIcon, XIcon } from 'lucide-vue-next'
 import AppLogo from './AppLogo.vue'
 
 const router = useRouter()
+const route = useRoute()
 
-const navItems = ['Home', 'About', 'Services', 'Process', 'Contact']
+const navItems = [
+  { label: 'Home', to: '/' },
+  { label: 'About', to: '/about' },
+  { label: 'Services', to: '/services' },
+  { label: 'Process', to: '/process' },
+  { label: 'Contact', to: '/contact' },
+]
 
 const isMenuOpen = ref(false)
 const scrolled = ref(false)
@@ -15,19 +22,13 @@ const handleScroll = () => {
   scrolled.value = window.scrollY > 20
 }
 
-const scrollToSection = async (e: Event, sectionId: string) => {
-  e.preventDefault()
+const isActiveLink = (path: string) => {
+  if (path === '/services') return route.path === '/services' || route.path.startsWith('/services/')
+  return route.path === path
+}
+
+const closeMenu = () => {
   isMenuOpen.value = false
-
-  if (router.currentRoute.value.path !== '/') {
-    await router.push({ path: '/', hash: `#${sectionId}` })
-    return
-  }
-
-  const el = document.getElementById(sectionId)
-  if (el) {
-    el.scrollIntoView({ behavior: 'smooth' })
-  }
 }
 
 onMounted(() => window.addEventListener('scroll', handleScroll))
@@ -45,27 +46,26 @@ onUnmounted(() => window.removeEventListener('scroll', handleScroll))
           <AppLogo variant="horizontal" />
         </a>
 
-        <!-- Desktop Navigation -->
         <nav class="hidden md:flex items-center gap-1">
-          <a
+          <RouterLink
             v-for="item in navItems"
-            :key="item"
-            :href="`#${item.toLowerCase()}`"
-            class="px-4 py-2 text-sm font-medium text-slate-600 hover:text-blue-700 rounded-lg transition-colors duration-200"
-            @click="scrollToSection($event, item.toLowerCase())"
+            :key="item.label"
+            :to="item.to"
+            class="px-4 py-2 text-sm font-medium rounded-lg transition-colors duration-200"
+            :class="isActiveLink(item.to) ? 'text-blue-700 bg-blue-50' : 'text-slate-600 hover:text-blue-700'"
           >
-            {{ item }}
-          </a>
-          <a
-            href="#contact"
-            class="ml-4 px-5 py-2.5 bg-blue-700 hover:bg-blue-800 text-white text-sm font-medium rounded-lg transition-colors duration-200"
-            @click="scrollToSection($event, 'contact')"
+            {{ item.label }}
+          </RouterLink>
+
+          <RouterLink
+            to="/contact"
+            class="ml-4 px-5 py-2.5 text-white text-sm font-medium rounded-lg transition-colors duration-200"
+            :class="isActiveLink('/contact') ? 'bg-blue-800' : 'bg-blue-700 hover:bg-blue-800'"
           >
             Get Started
-          </a>
+          </RouterLink>
         </nav>
 
-        <!-- Mobile Menu Button -->
         <button
           class="md:hidden p-2 text-slate-700 hover:text-slate-900 rounded-lg"
           :aria-label="isMenuOpen ? 'Close menu' : 'Open menu'"
@@ -77,25 +77,25 @@ onUnmounted(() => window.removeEventListener('scroll', handleScroll))
       </div>
     </div>
 
-    <!-- Mobile Navigation -->
     <div v-if="isMenuOpen" class="md:hidden bg-white border-t border-slate-100">
       <div class="px-4 py-4 space-y-1">
-        <a
+        <RouterLink
           v-for="item in navItems"
-          :key="item"
-          :href="`#${item.toLowerCase()}`"
-          class="block px-4 py-3 text-sm font-medium text-slate-600 hover:text-blue-700 hover:bg-slate-50 rounded-lg transition-colors"
-          @click="scrollToSection($event, item.toLowerCase())"
+          :key="item.label"
+          :to="item.to"
+          class="block px-4 py-3 text-sm font-medium rounded-lg transition-colors"
+          :class="isActiveLink(item.to) ? 'text-blue-700 bg-blue-50' : 'text-slate-600 hover:text-blue-700 hover:bg-slate-50'"
+          @click="closeMenu"
         >
-          {{ item }}
-        </a>
-        <a
-          href="#contact"
+          {{ item.label }}
+        </RouterLink>
+        <RouterLink
+          to="/contact"
           class="block mt-2 px-4 py-3 bg-blue-700 hover:bg-blue-800 text-white text-sm font-medium rounded-lg text-center transition-colors"
-          @click="scrollToSection($event, 'contact')"
+          @click="closeMenu"
         >
           Get Started
-        </a>
+        </RouterLink>
       </div>
     </div>
   </header>
