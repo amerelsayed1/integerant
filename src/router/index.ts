@@ -9,12 +9,16 @@ import ServiceDetailPage from '../pages/ServiceDetailPage.vue'
 const router = createRouter({
   history: createWebHistory(),
   routes: [
-    { path: '/', component: HomePage },
-    { path: '/about', component: AboutPage },
-    { path: '/services', component: ServicesPage },
-    { path: '/services/:slug', component: ServiceDetailPage },
-    { path: '/process', component: ProcessPage },
-    { path: '/contact', component: ContactPage },
+    { path: '/', component: HomePage, meta: { titleKey: 'meta.homeTitle', descriptionKey: 'meta.homeDescription' } },
+    { path: '/about', component: AboutPage, meta: { titleKey: 'meta.aboutTitle', descriptionKey: 'meta.aboutDescription' } },
+    {
+      path: '/services',
+      component: ServicesPage,
+      meta: { titleKey: 'meta.servicesTitle', descriptionKey: 'meta.servicesDescription' },
+    },
+    { path: '/services/:slug', component: ServiceDetailPage, meta: { descriptionKey: 'meta.servicesDescription' } },
+    { path: '/process', component: ProcessPage, meta: { titleKey: 'meta.processTitle', descriptionKey: 'meta.processDescription' } },
+    { path: '/contact', component: ContactPage, meta: { titleKey: 'meta.contactTitle', descriptionKey: 'meta.contactDescription' } },
   ],
   scrollBehavior() {
     return { top: 0 }
