@@ -6,7 +6,7 @@ import AppLogo from './AppLogo.vue'
 import { useI18n } from '../i18n'
 
 const route = useRoute()
-const { t, locale, toggleLocale } = useI18n()
+const { t, toggleLocale } = useI18n()
 
 const navItems = computed(() => [
   { label: t('nav.home'), to: '/' },
@@ -76,14 +76,14 @@ onUnmounted(() => window.removeEventListener('scroll', handleScroll))
         <div class="md:hidden flex items-center gap-2">
           <button
             class="p-2 text-slate-700 hover:text-slate-900 rounded-lg"
-            :aria-label="locale === 'en' ? 'Switch to Arabic' : 'Switch to English'"
+            :aria-label="t('nav.switchLanguage')"
             @click="toggleLocale"
           >
             <LanguagesIcon :size="20" />
           </button>
           <button
             class="p-2 text-slate-700 hover:text-slate-900 rounded-lg"
-            :aria-label="isMenuOpen ? 'Close menu' : 'Open menu'"
+            :aria-label="isMenuOpen ? t('nav.closeMenu') : t('nav.openMenu')"
             @click="isMenuOpen = !isMenuOpen"
           >
             <XIcon v-if="isMenuOpen" :size="22" />

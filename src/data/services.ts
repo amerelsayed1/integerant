@@ -9,7 +9,7 @@ import {
   CodeIcon,
   WorkflowIcon,
 } from 'lucide-vue-next'
-import type { Locale } from '../i18n/messages'
+import type { Locale } from '../i18n'
 
 type LString = { en: string; ar: string }
 type LArray = { en: string[]; ar: string[] }

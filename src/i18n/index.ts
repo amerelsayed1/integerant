@@ -1,6 +1,10 @@
 import { computed, ref } from 'vue'
-import { messages, type Locale } from './messages'
+import en from '../locales/en.json'
+import ar from '../locales/ar.json'
 
+export type Locale = 'en' | 'ar'
+
+const messages = { en, ar } as const
 const STORAGE_KEY = 'integrant-locale'
 const saved = (typeof window !== 'undefined' ? window.localStorage.getItem(STORAGE_KEY) : null) as Locale | null
 

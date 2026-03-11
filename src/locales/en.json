@@ -1,0 +1,159 @@
+{
+  "meta": {
+    "defaultTitle": "Integrant | Software Solutions Company",
+    "defaultDescription": "Integrant delivers custom software, web and mobile engineering, SaaS platforms, and consulting for growth-focused businesses.",
+    "homeTitle": "Integrant | Software Solutions for Growing Businesses",
+    "homeDescription": "Build reliable digital products with Integrant. We design, engineer, and scale custom software, web apps, and mobile solutions.",
+    "aboutTitle": "About Integrant | Engineering Excellence",
+    "aboutDescription": "Learn about Integrant's mission, values, and delivery mindset for modern software solutions.",
+    "servicesTitle": "Services | Integrant Software Solutions",
+    "servicesDescription": "Explore Integrant services: custom software, mobile, web, UI/UX, SaaS, integration, consulting, and support.",
+    "processTitle": "Our Process | Integrant",
+    "processDescription": "Discover Integrant's end-to-end delivery process from discovery to launch and long-term support.",
+    "contactTitle": "Contact Integrant | Start Your Project",
+    "contactDescription": "Talk with Integrant about your software project and get a practical plan for delivery.",
+    "serviceTitleSuffix": "Service | Integrant"
+  },
+  "nav": {
+    "home": "Home",
+    "about": "About",
+    "services": "Services",
+    "process": "Process",
+    "contact": "Contact",
+    "getStarted": "Get Started",
+    "switchLanguage": "العربية",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu"
+  },
+  "common": {
+    "learnMore": "Learn more",
+    "step": "Step"
+  },
+  "home": {
+    "hero": {
+      "badge": "Software Solutions & Consulting",
+      "titlePrefix": "Building software",
+      "titleHighlight": "that scales",
+      "titleSuffix": "your business",
+      "description": "We build scalable software and provide expert consulting for startups and growing businesses. From idea to deployment, we are your technology partner.",
+      "contactBtn": "Contact Us",
+      "servicesBtn": "Our Services",
+      "deployed": "Deployed"
+    },
+    "about": {
+      "eyebrow": "Who We Are",
+      "title": "About Integrant",
+      "p1": "Integrant provides end-to-end software solutions, system design, and consulting services tailored for businesses and startups. We combine technical expertise with strategic thinking to deliver products that drive growth.",
+      "p2": "Our team works closely with clients to understand their unique challenges and build solutions that scale. Whether you're launching a new product or modernizing existing systems, we bring the right mix of engineering skill and business insight to every engagement.",
+      "stats": {
+        "projects": "Projects Delivered",
+        "clients": "Happy Clients",
+        "years": "Years of Experience"
+      }
+    },
+    "services": {
+      "eyebrow": "What We Do",
+      "title": "Our Services",
+      "subtitle": "Comprehensive software solutions to help your business grow and succeed in the digital landscape."
+    },
+    "process": {
+      "eyebrow": "How We Work",
+      "title": "Our Process",
+      "subtitle": "A proven methodology that ensures quality delivery, every time.",
+      "steps": [
+        { "title": "Discovery", "description": "Understanding your vision, goals, and requirements" },
+        { "title": "Planning", "description": "Defining scope, architecture, and project roadmap" },
+        { "title": "Development", "description": "Building your solution with agile methodology" },
+        { "title": "Testing", "description": "Rigorous QA to ensure quality and reliability" },
+        { "title": "Delivery", "description": "Deploying your product and ensuring smooth launch" },
+        { "title": "Support", "description": "Ongoing maintenance and continuous improvement" }
+      ]
+    },
+    "contact": {
+      "eyebrow": "Contact",
+      "title": "Get in Touch",
+      "subtitle": "Ready to start your project? Reach out and let's discuss how we can help bring your ideas to life.",
+      "form": {
+        "name": "Name",
+        "namePlaceholder": "Your name",
+        "email": "Email",
+        "emailPlaceholder": "your@email.com",
+        "subject": "Subject",
+        "subjectPlaceholder": "Project inquiry",
+        "message": "Message",
+        "messagePlaceholder": "Tell us about your project...",
+        "submit": "Send Message"
+      },
+      "companyTitle": "Integrant",
+      "companyText": "Software Solutions & Consulting. We partner with startups and growing businesses to build technology that matters.",
+      "emailTitle": "Email Us",
+      "emailResponse": "We typically respond within 24 hours."
+    }
+  },
+  "about": {
+    "title": "About Integrant",
+    "intro": "Integrant is a software solutions company focused on helping businesses design, build, and scale digital products that deliver real value.",
+    "missionTitle": "Mission",
+    "mission": "Enable ambitious teams to ship high-quality software faster with confidence.",
+    "visionTitle": "Vision",
+    "vision": "Be the trusted engineering partner for businesses building the next generation of digital products.",
+    "valuesTitle": "Core values",
+    "values": ["Ownership", "Technical Excellence", "Clarity", "Pragmatism", "Continuous Improvement"],
+    "teamTitle": "Expertise that scales with you",
+    "teamText": "Our team combines product thinkers, designers, and engineers to deliver custom software, SaaS platforms, integrations, and growth-ready systems."
+  },
+  "servicesPage": {
+    "title": "Software services designed for outcomes",
+    "subtitle": "From idea validation to enterprise modernization, our services are structured to reduce risk and accelerate delivery."
+  },
+  "process": {
+    "title": "Our delivery process",
+    "subtitle": "A practical framework that keeps strategy, execution, and quality aligned.",
+    "steps": [
+      { "title": "Discovery", "text": "Clarify goals, constraints, users, and technical context." },
+      { "title": "Planning", "text": "Define scope, milestones, priorities, and architecture decisions." },
+      { "title": "Design", "text": "Design intuitive user flows, reusable components, and system foundations." },
+      { "title": "Development", "text": "Implement in iterative sprints with code quality and velocity in balance." },
+      { "title": "QA", "text": "Validate behavior, reliability, and performance before release." },
+      { "title": "Launch & Support", "text": "Release safely, monitor production, and continuously improve." }
+    ]
+  },
+  "contact": {
+    "title": "Let's discuss your project",
+    "subtitle": "Tell us what you are building and we will get back with a clear next step.",
+    "formTitle": "Project inquiry form",
+    "fields": {
+      "name": "Full name",
+      "email": "Work email",
+      "company": "Company",
+      "budget": "Estimated budget",
+      "message": "Project details"
+    },
+    "submit": "Send Inquiry",
+    "detailsTitle": "Direct contact",
+    "detailsText": "Prefer email? Reach us directly and we will respond within one business day."
+  },
+  "footer": {
+    "about": "Integrant delivers software solutions for startups and enterprises through modern engineering and reliable execution.",
+    "quickLinks": "Quick links",
+    "services": "Services",
+    "contact": "Contact",
+    "rights": "All rights reserved.",
+    "tagline": "Software Solutions Company"
+  },
+  "serviceDetail": {
+    "allServices": "All Services",
+    "notFound": "Service not found",
+    "notFoundText": "The requested service does not exist.",
+    "backHome": "Back to Home",
+    "included": "What is included",
+    "whoFor": "Who this is for",
+    "benefits": "Business benefits",
+    "approach": "Delivery approach",
+    "technologies": "Technologies",
+    "useCases": "Sample engagements",
+    "ready": "Ready to get started?",
+    "prev": "Previous",
+    "next": "Next"
+  }
+}
