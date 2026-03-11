@@ -1,5 +1,7 @@
 import { type Directive } from 'vue'
 
+const observerMap = new WeakMap<HTMLElement, IntersectionObserver>()
+
 export const vAnimate: Directive<HTMLElement, string | undefined> = {
   mounted(el, binding) {
     const animClass = binding.arg === 'scale' ? 'fade-in-scale' : 'fade-in-up'
@@ -9,6 +11,18 @@ export const vAnimate: Directive<HTMLElement, string | undefined> = {
         const ms = mod.replace('delay-', '')
         el.style.transitionDelay = `${ms}ms`
       }
+    }
+
+    if (typeof IntersectionObserver === 'undefined') {
+      if (binding.modifiers.stagger) {
+        const children = Array.from(el.children) as HTMLElement[]
+        children.forEach((child) => {
+          child.classList.add(animClass, 'is-visible')
+        })
+      } else {
+        el.classList.add(animClass, 'is-visible')
+      }
+      return
     }
 
     if (binding.modifiers.stagger) {
@@ -28,6 +42,7 @@ export const vAnimate: Directive<HTMLElement, string | undefined> = {
         { rootMargin: '-60px', threshold: 0.1 }
       )
       observer.observe(el)
+      observerMap.set(el, observer)
     } else {
       el.classList.add(animClass)
 
@@ -41,6 +56,11 @@ export const vAnimate: Directive<HTMLElement, string | undefined> = {
         { rootMargin: '-80px', threshold: 0.1 }
       )
       observer.observe(el)
+      observerMap.set(el, observer)
     }
+  },
+  unmounted(el) {
+    observerMap.get(el)?.disconnect()
+    observerMap.delete(el)
   },
 }
