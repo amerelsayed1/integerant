@@ -15,21 +15,18 @@ const handleScroll = () => {
   scrolled.value = window.scrollY > 20
 }
 
-const scrollToSection = (e: Event, sectionId: string) => {
+const scrollToSection = async (e: Event, sectionId: string) => {
   e.preventDefault()
   isMenuOpen.value = false
 
-  // If not on home page, navigate there first then scroll
   if (router.currentRoute.value.path !== '/') {
-    router.push('/').then(() => {
-      setTimeout(() => {
-        const el = document.getElementById(sectionId)
-        if (el) el.scrollIntoView({ behavior: 'smooth' })
-      }, 100)
-    })
-  } else {
-    const el = document.getElementById(sectionId)
-    if (el) el.scrollIntoView({ behavior: 'smooth' })
+    await router.push({ path: '/', hash: `#${sectionId}` })
+    return
+  }
+
+  const el = document.getElementById(sectionId)
+  if (el) {
+    el.scrollIntoView({ behavior: 'smooth' })
   }
 }
 

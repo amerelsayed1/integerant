@@ -15,13 +15,9 @@ import { services, serviceKeys } from '../data/services'
 const route = useRoute()
 const router = useRouter()
 
-const scrollToHome = (e: Event, sectionId: string) => {
+const scrollToHome = async (e: Event, sectionId: string) => {
   e.preventDefault()
-  router.push('/').then(() => {
-    setTimeout(() => {
-      document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth' })
-    }, 100)
-  })
+  await router.push({ path: '/', hash: `#${sectionId}` })
 }
 
 const slug = computed(() => route.params.slug as string)
