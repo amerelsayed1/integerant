@@ -109,6 +109,18 @@ Validation:
 - Manual check on mobile viewport
 ```
 
+
+## Pages / Routes
+
+The site uses page-based routing (not section-anchor navigation).
+
+- `/` — Home page (`src/pages/HomePage.vue`)
+- `/about` — About page (`src/pages/AboutPage.vue`)
+- `/services` — Services listing page (`src/pages/ServicesPage.vue`)
+- `/services/:slug` — Service detail page (`src/pages/ServiceDetailPage.vue`)
+- `/process` — Process page (`src/pages/ProcessPage.vue`)
+- `/contact` — Contact page (`src/pages/ContactPage.vue`)
+
 ## Project scripts
 
 - `npm run dev` — start local dev server
