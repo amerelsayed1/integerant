@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import { ArrowRightIcon } from 'lucide-vue-next'
 import { vAnimate } from '../composables/animate'
-import { services } from '../data/services'
+import { services, localizeText } from '../data/services'
+import { useI18n } from '../i18n'
 
 const serviceList = Object.values(services)
+const { locale } = useI18n()
 </script>
 
 <template>
@@ -27,8 +29,8 @@ const serviceList = Object.values(services)
           <div class="w-12 h-12 bg-blue-50 rounded-xl flex items-center justify-center mb-5 group-hover:bg-blue-100 transition-colors duration-300">
             <component :is="service.icon" :size="22" class="text-blue-600" />
           </div>
-          <h3 class="text-lg font-semibold text-slate-900 mb-2">{{ service.title }}</h3>
-          <p class="text-slate-600 leading-relaxed text-sm mb-4">{{ service.tagline }}</p>
+          <h3 class="text-lg font-semibold text-slate-900 mb-2">{{ localizeText(service.title, locale) }}</h3>
+          <p class="text-slate-600 leading-relaxed text-sm mb-4">{{ localizeText(service.tagline, locale) }}</p>
           <span class="inline-flex items-center gap-1.5 text-sm font-medium text-blue-700 group-hover:gap-2.5 transition-all duration-200">
             Learn more <ArrowRightIcon :size="14" />
           </span>
