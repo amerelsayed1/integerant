@@ -1,12 +1,20 @@
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted } from 'vue'
-import { useRouter } from 'vue-router'
-import { MenuIcon, XIcon } from 'lucide-vue-next'
+import { computed, ref, onMounted, onUnmounted } from 'vue'
+import { RouterLink, useRoute } from 'vue-router'
+import { MenuIcon, LanguagesIcon, XIcon } from 'lucide-vue-next'
 import AppLogo from './AppLogo.vue'
+import { useI18n } from '../i18n'
 
-const router = useRouter()
+const route = useRoute()
+const { t, toggleLocale } = useI18n()
 
-const navItems = ['Home', 'About', 'Services', 'Process', 'Contact']
+const navItems = computed(() => [
+  { label: t('nav.home'), to: '/' },
+  { label: t('nav.about'), to: '/about' },
+  { label: t('nav.services'), to: '/services' },
+  { label: t('nav.process'), to: '/process' },
+  { label: t('nav.contact'), to: '/contact' },
+])
 
 const isMenuOpen = ref(false)
 const scrolled = ref(false)
@@ -15,22 +23,13 @@ const handleScroll = () => {
   scrolled.value = window.scrollY > 20
 }
 
-const scrollToSection = (e: Event, sectionId: string) => {
-  e.preventDefault()
-  isMenuOpen.value = false
+const isActiveLink = (path: string) => {
+  if (path === '/services') return route.path === '/services' || route.path.startsWith('/services/')
+  return route.path === path
+}
 
-  // If not on home page, navigate there first then scroll
-  if (router.currentRoute.value.path !== '/') {
-    router.push('/').then(() => {
-      setTimeout(() => {
-        const el = document.getElementById(sectionId)
-        if (el) el.scrollIntoView({ behavior: 'smooth' })
-      }, 100)
-    })
-  } else {
-    const el = document.getElementById(sectionId)
-    if (el) el.scrollIntoView({ behavior: 'smooth' })
-  }
+const closeMenu = () => {
+  isMenuOpen.value = false
 }
 
 onMounted(() => window.addEventListener('scroll', handleScroll))
@@ -40,65 +39,72 @@ onUnmounted(() => window.removeEventListener('scroll', handleScroll))
 <template>
   <header
     class="fixed top-0 left-0 right-0 z-50 transition-all duration-300"
-    :class="scrolled ? 'bg-white/90 backdrop-blur-md shadow-sm' : 'bg-white/70 backdrop-blur-sm'"
+    :class="scrolled ? 'bg-white/95 backdrop-blur-md shadow-sm' : 'bg-white/80 backdrop-blur-sm'"
   >
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex justify-between items-center h-16 md:h-18">
-        <a href="/" @click.prevent="router.push('/')">
+        <RouterLink to="/" @click="closeMenu">
           <AppLogo variant="horizontal" />
-        </a>
+        </RouterLink>
 
-        <!-- Desktop Navigation -->
         <nav class="hidden md:flex items-center gap-1">
-          <a
+          <RouterLink
             v-for="item in navItems"
-            :key="item"
-            :href="`#${item.toLowerCase()}`"
-            class="px-4 py-2 text-sm font-medium text-slate-600 hover:text-blue-700 rounded-lg transition-colors duration-200"
-            @click="scrollToSection($event, item.toLowerCase())"
+            :key="item.to"
+            :to="item.to"
+            class="px-4 py-2 text-sm font-medium rounded-lg transition-colors duration-200"
+            :class="isActiveLink(item.to) ? 'text-blue-700 bg-blue-50' : 'text-slate-600 hover:text-blue-700'"
           >
-            {{ item }}
-          </a>
-          <a
-            href="#contact"
-            class="ml-4 px-5 py-2.5 bg-blue-700 hover:bg-blue-800 text-white text-sm font-medium rounded-lg transition-colors duration-200"
-            @click="scrollToSection($event, 'contact')"
+            {{ item.label }}
+          </RouterLink>
+          <button
+            class="ml-2 inline-flex items-center gap-1.5 px-3 py-2 text-sm rounded-lg border border-slate-200 text-slate-700 hover:text-blue-700"
+            @click="toggleLocale"
           >
-            Get Started
-          </a>
+            <LanguagesIcon :size="16" />
+            {{ t('nav.switchLanguage') }}
+          </button>
+          <RouterLink
+            to="/contact"
+            class="ml-2 px-5 py-2.5 text-white text-sm font-medium rounded-lg transition-colors duration-200"
+            :class="isActiveLink('/contact') ? 'bg-blue-800' : 'bg-blue-700 hover:bg-blue-800'"
+          >
+            {{ t('nav.getStarted') }}
+          </RouterLink>
         </nav>
 
-        <!-- Mobile Menu Button -->
-        <button
-          class="md:hidden p-2 text-slate-700 hover:text-slate-900 rounded-lg"
-          :aria-label="isMenuOpen ? 'Close menu' : 'Open menu'"
-          @click="isMenuOpen = !isMenuOpen"
-        >
-          <XIcon v-if="isMenuOpen" :size="22" />
-          <MenuIcon v-else :size="22" />
-        </button>
+        <div class="md:hidden flex items-center gap-2">
+          <button
+            class="p-2 text-slate-700 hover:text-slate-900 rounded-lg"
+            :aria-label="t('nav.switchLanguage')"
+            @click="toggleLocale"
+          >
+            <LanguagesIcon :size="20" />
+          </button>
+          <button
+            class="p-2 text-slate-700 hover:text-slate-900 rounded-lg"
+            :aria-label="isMenuOpen ? t('nav.closeMenu') : t('nav.openMenu')"
+            @click="isMenuOpen = !isMenuOpen"
+          >
+            <XIcon v-if="isMenuOpen" :size="22" />
+            <MenuIcon v-else :size="22" />
+          </button>
+        </div>
       </div>
     </div>
 
-    <!-- Mobile Navigation -->
     <div v-if="isMenuOpen" class="md:hidden bg-white border-t border-slate-100">
       <div class="px-4 py-4 space-y-1">
-        <a
+        <RouterLink
           v-for="item in navItems"
-          :key="item"
-          :href="`#${item.toLowerCase()}`"
-          class="block px-4 py-3 text-sm font-medium text-slate-600 hover:text-blue-700 hover:bg-slate-50 rounded-lg transition-colors"
-          @click="scrollToSection($event, item.toLowerCase())"
+          :key="item.to"
+          :to="item.to"
+          class="block px-4 py-3 text-sm font-medium rounded-lg transition-colors"
+          :class="isActiveLink(item.to) ? 'text-blue-700 bg-blue-50' : 'text-slate-600 hover:text-blue-700 hover:bg-slate-50'"
+          @click="closeMenu"
         >
-          {{ item }}
-        </a>
-        <a
-          href="#contact"
-          class="block mt-2 px-4 py-3 bg-blue-700 hover:bg-blue-800 text-white text-sm font-medium rounded-lg text-center transition-colors"
-          @click="scrollToSection($event, 'contact')"
-        >
-          Get Started
-        </a>
+          {{ item.label }}
+        </RouterLink>
       </div>
     </div>
   </header>
