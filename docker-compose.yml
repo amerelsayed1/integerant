@@ -25,3 +25,24 @@ services:
       - CHOKIDAR_USEPOLLING=true
     command: npm run dev -- --host 0.0.0.0
     profiles: ["dev"]
+
+  api:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    image: integrant-api:latest
+    container_name: integrant-api
+    ports:
+      - "8000:8000"
+    volumes:
+      - api-sqlite:/app/database
+    environment:
+      - APP_ENV=local
+      - APP_DEBUG=true
+      - DB_CONNECTION=sqlite
+      - DB_DATABASE=/app/database/database.sqlite
+    restart: unless-stopped
+    profiles: ["dev", "prod", "api"]
+
+volumes:
+  api-sqlite:
