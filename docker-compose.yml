@@ -1,0 +1,27 @@
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: integrant-web:latest
+    container_name: integrant-web
+    ports:
+      - "8080:80"
+    restart: unless-stopped
+    profiles: ["prod"]
+
+  web-dev:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    image: integrant-web-dev:latest
+    container_name: integrant-web-dev
+    ports:
+      - "5173:5173"
+    volumes:
+      - .:/app
+      - /app/node_modules
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+    command: npm run dev -- --host 0.0.0.0
+    profiles: ["dev"]

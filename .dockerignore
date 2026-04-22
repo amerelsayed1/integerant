@@ -1,0 +1,15 @@
+node_modules
+dist
+.vite
+.git
+.gitignore
+.github
+*.local
+.env*
+npm-debug.log*
+.DS_Store
+Dockerfile
+Dockerfile.dev
+docker-compose.yml
+.dockerignore
+README.md
