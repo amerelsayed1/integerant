@@ -11,6 +11,7 @@ import {
 } from 'lucide-vue-next'
 import { vAnimate } from '../composables/animate'
 import { services, serviceKeys } from '../data/services'
+import { useSeo } from '../composables/seo'
 
 const route = useRoute()
 const router = useRouter()
@@ -37,6 +38,30 @@ const nextService = computed(() =>
 
 const mounted = ref(false)
 onMounted(() => requestAnimationFrame(() => { mounted.value = true }))
+
+useSeo({
+  title: () => (service.value ? `${service.value.title} — ${service.value.tagline}` : 'Service Not Found'),
+  description: () => service.value?.description ?? 'The requested service could not be found.',
+  path: () => (service.value ? `/services/${service.value.slug}` : '/services'),
+  noindex: () => !service.value,
+  jsonLd: () =>
+    service.value
+      ? {
+          '@context': 'https://schema.org',
+          '@type': 'Service',
+          name: service.value.title,
+          description: service.value.description,
+          serviceType: service.value.title,
+          url: `https://integerant.com/services/${service.value.slug}`,
+          provider: {
+            '@type': 'Organization',
+            name: 'Integrant',
+            url: 'https://integerant.com/',
+          },
+          areaServed: 'Worldwide',
+        }
+      : null,
+})
 </script>
 
 <template>

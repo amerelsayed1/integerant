@@ -3,6 +3,7 @@ import { ref, computed } from 'vue'
 import { useRoute } from 'vue-router'
 import DashboardSidebar from '../../components/dashboard/DashboardSidebar.vue'
 import DashboardTopbar from '../../components/dashboard/DashboardTopbar.vue'
+import { useSeo } from '../../composables/seo'
 
 const route = useRoute()
 const sidebarOpen = ref(false)
@@ -39,6 +40,13 @@ const pageMeta = computed(() => {
     },
   }
   return map[route.path] ?? { title: 'Dashboard', subtitle: '' }
+})
+
+useSeo({
+  title: () => `${pageMeta.value.title} — Dashboard`,
+  description: 'Integrant client dashboard.',
+  path: () => route.path,
+  noindex: true,
 })
 </script>
 

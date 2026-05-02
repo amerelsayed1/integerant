@@ -54,6 +54,7 @@ const scrollToSection = (e: Event, sectionId: string) => {
               v-for="social in socialLinks"
               :key="social.label"
               href="#"
+              rel="nofollow noopener"
               class="w-9 h-9 bg-slate-800 hover:bg-blue-700 rounded-lg flex items-center justify-center transition-colors duration-200"
               :aria-label="social.label"
             >

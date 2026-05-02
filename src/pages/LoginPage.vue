@@ -3,9 +3,17 @@ import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useAuth } from '../composables/auth'
 import AppLogo from '../components/AppLogo.vue'
+import { useSeo } from '../composables/seo'
 
 const router = useRouter()
 const { login } = useAuth()
+
+useSeo({
+  title: 'Sign In',
+  description: 'Sign in to the Integrant client dashboard.',
+  path: '/login',
+  noindex: true,
+})
 
 const email = ref('')
 const password = ref('')
