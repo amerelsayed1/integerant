@@ -46,20 +46,54 @@ useSeo({
   noindex: () => !service.value,
   jsonLd: () =>
     service.value
-      ? {
-          '@context': 'https://schema.org',
-          '@type': 'Service',
-          name: service.value.title,
-          description: service.value.description,
-          serviceType: service.value.title,
-          url: `https://integerant.com/services/${service.value.slug}`,
-          provider: {
-            '@type': 'Organization',
-            name: 'Integrant',
-            url: 'https://integerant.com/',
+      ? [
+          {
+            '@context': 'https://schema.org',
+            '@type': 'Service',
+            name: service.value.title,
+            description: service.value.description,
+            serviceType: service.value.title,
+            url: `https://integerant.com/services/${service.value.slug}`,
+            provider: {
+              '@type': 'Organization',
+              name: 'Integrant',
+              url: 'https://integerant.com/',
+            },
+            areaServed: 'Worldwide',
+            hasOfferCatalog: {
+              '@type': 'OfferCatalog',
+              name: `${service.value.title} Capabilities`,
+              itemListElement: service.value.technologies.map((tech) => ({
+                '@type': 'Offer',
+                itemOffered: { '@type': 'Service', name: tech },
+              })),
+            },
           },
-          areaServed: 'Worldwide',
-        }
+          {
+            '@context': 'https://schema.org',
+            '@type': 'BreadcrumbList',
+            itemListElement: [
+              {
+                '@type': 'ListItem',
+                position: 1,
+                name: 'Home',
+                item: 'https://integerant.com/',
+              },
+              {
+                '@type': 'ListItem',
+                position: 2,
+                name: 'Services',
+                item: 'https://integerant.com/#services',
+              },
+              {
+                '@type': 'ListItem',
+                position: 3,
+                name: service.value.title,
+                item: `https://integerant.com/services/${service.value.slug}`,
+              },
+            ],
+          },
+        ]
       : null,
 })
 </script>

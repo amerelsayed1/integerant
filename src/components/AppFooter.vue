@@ -66,7 +66,7 @@ const scrollToSection = (e: Event, sectionId: string) => {
         <!-- Quick Links -->
         <div>
           <h3 class="text-sm font-semibold uppercase tracking-wider text-slate-300 mb-4">Quick Links</h3>
-          <nav>
+          <nav aria-label="Footer quick links">
             <ul class="space-y-2.5">
               <li v-for="item in quickLinks" :key="item">
                 <a
@@ -84,13 +84,15 @@ const scrollToSection = (e: Event, sectionId: string) => {
         <!-- Services -->
         <div>
           <h3 class="text-sm font-semibold uppercase tracking-wider text-slate-300 mb-4">Services</h3>
-          <ul class="space-y-2.5">
-            <li v-for="item in serviceLinks" :key="item.label">
-              <router-link :to="item.to" class="text-slate-400 hover:text-white text-sm transition-colors">
-                {{ item.label }}
-              </router-link>
-            </li>
-          </ul>
+          <nav aria-label="Footer services">
+            <ul class="space-y-2.5">
+              <li v-for="item in serviceLinks" :key="item.label">
+                <router-link :to="item.to" class="text-slate-400 hover:text-white text-sm transition-colors">
+                  {{ item.label }}
+                </router-link>
+              </li>
+            </ul>
+          </nav>
         </div>
 
         <!-- Contact -->

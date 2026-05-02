@@ -11,7 +11,7 @@ export interface SeoOptions {
   image?: MaybeRefOrGetter<string>
   type?: MaybeRefOrGetter<'website' | 'article'>
   noindex?: MaybeRefOrGetter<boolean>
-  jsonLd?: MaybeRefOrGetter<Record<string, unknown> | null>
+  jsonLd?: MaybeRefOrGetter<Record<string, unknown> | Array<Record<string, unknown>> | null>
 }
 
 const MANAGED_ATTR = 'data-managed-seo'
@@ -38,17 +38,26 @@ function setLink(rel: string, href: string) {
   el.setAttribute('href', href)
 }
 
-function setJsonLd(id: string, data: Record<string, unknown> | null) {
-  const existing = document.head.querySelector<HTMLScriptElement>(`script[data-seo-id="${id}"]`)
-  if (!data) {
-    existing?.remove()
-    return
-  }
-  const script = existing ?? document.createElement('script')
-  script.type = 'application/ld+json'
-  script.setAttribute('data-seo-id', id)
-  script.text = JSON.stringify(data)
-  if (!existing) document.head.appendChild(script)
+function clearJsonLd(idPrefix: string) {
+  document.head
+    .querySelectorAll<HTMLScriptElement>(`script[data-seo-id^="${idPrefix}"]`)
+    .forEach((node) => node.remove())
+}
+
+function setJsonLd(
+  idPrefix: string,
+  data: Record<string, unknown> | Array<Record<string, unknown>> | null
+) {
+  clearJsonLd(idPrefix)
+  if (!data) return
+  const blocks = Array.isArray(data) ? data : [data]
+  blocks.forEach((block, i) => {
+    const script = document.createElement('script')
+    script.type = 'application/ld+json'
+    script.setAttribute('data-seo-id', `${idPrefix}-${i}`)
+    script.text = JSON.stringify(block)
+    document.head.appendChild(script)
+  })
 }
 
 export function useSeo(options: SeoOptions) {
@@ -90,6 +99,6 @@ export function useSeo(options: SeoOptions) {
   })
 
   onBeforeUnmount(() => {
-    setJsonLd('page-jsonld', null)
+    clearJsonLd('page-jsonld')
   })
 }

@@ -49,7 +49,7 @@ onUnmounted(() => window.removeEventListener('scroll', handleScroll))
         </a>
 
         <!-- Desktop Navigation -->
-        <nav class="hidden md:flex items-center gap-1">
+        <nav class="hidden md:flex items-center gap-1" aria-label="Primary">
           <a
             v-for="item in navItems"
             :key="item"
@@ -81,7 +81,7 @@ onUnmounted(() => window.removeEventListener('scroll', handleScroll))
     </div>
 
     <!-- Mobile Navigation -->
-    <div v-if="isMenuOpen" class="md:hidden bg-white border-t border-slate-100">
+    <nav v-if="isMenuOpen" class="md:hidden bg-white border-t border-slate-100" aria-label="Mobile">
       <div class="px-4 py-4 space-y-1">
         <a
           v-for="item in navItems"
@@ -100,6 +100,6 @@ onUnmounted(() => window.removeEventListener('scroll', handleScroll))
           Get Started
         </a>
       </div>
-    </div>
+    </nav>
   </header>
 </template>
