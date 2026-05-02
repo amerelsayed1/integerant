@@ -34,6 +34,21 @@ const serviceList = Object.values(services)
           </span>
         </router-link>
       </div>
+
+      <div class="mt-12 flex flex-col sm:flex-row items-center justify-center gap-4">
+        <router-link
+          to="/services"
+          class="inline-flex items-center gap-2 px-6 py-3 border-2 border-slate-200 hover:border-blue-700 text-slate-800 hover:text-blue-700 font-medium rounded-xl transition-colors duration-200"
+        >
+          View all services <ArrowRightIcon :size="14" />
+        </router-link>
+        <router-link
+          to="/projects"
+          class="inline-flex items-center gap-2 px-6 py-3 text-blue-700 hover:text-blue-800 font-medium rounded-xl transition-colors duration-200"
+        >
+          See case studies <ArrowRightIcon :size="14" />
+        </router-link>
+      </div>
     </div>
   </section>
 </template>

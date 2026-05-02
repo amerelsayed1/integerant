@@ -1,7 +1,10 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import { useAuth } from '../composables/auth'
 import HomePage from '../pages/HomePage.vue'
+import ServicesIndexPage from '../pages/ServicesIndexPage.vue'
 import ServiceDetailPage from '../pages/ServiceDetailPage.vue'
+import ProjectsIndexPage from '../pages/ProjectsIndexPage.vue'
+import ProjectDetailPage from '../pages/ProjectDetailPage.vue'
 import LoginPage from '../pages/LoginPage.vue'
 import DashboardLayout from '../pages/dashboard/DashboardLayout.vue'
 import DashboardOverview from '../pages/dashboard/DashboardOverview.vue'
@@ -16,7 +19,10 @@ const router = createRouter({
   history: createWebHistory(),
   routes: [
     { path: '/', component: HomePage },
+    { path: '/services', component: ServicesIndexPage },
     { path: '/services/:slug', component: ServiceDetailPage },
+    { path: '/projects', component: ProjectsIndexPage },
+    { path: '/projects/:slug', component: ProjectDetailPage },
     { path: '/login', component: LoginPage },
     {
       path: '/dashboard',

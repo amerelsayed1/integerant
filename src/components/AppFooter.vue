@@ -6,9 +6,21 @@ import AppLogo from './AppLogo.vue'
 const router = useRouter()
 const currentYear = new Date().getFullYear()
 
-const quickLinks = ['Home', 'About', 'Services', 'Process', 'Contact']
+type QuickLink =
+  | { kind: 'anchor'; label: string; sectionId: string }
+  | { kind: 'route'; label: string; to: string }
+
+const quickLinks: QuickLink[] = [
+  { kind: 'anchor', label: 'Home', sectionId: 'home' },
+  { kind: 'anchor', label: 'About', sectionId: 'about' },
+  { kind: 'route', label: 'Services', to: '/services' },
+  { kind: 'route', label: 'Projects', to: '/projects' },
+  { kind: 'anchor', label: 'Process', sectionId: 'process' },
+  { kind: 'anchor', label: 'Contact', sectionId: 'contact' },
+]
 
 const serviceLinks = [
+  { label: 'All services', to: '/services' },
   { label: 'Web Development', to: '/services/web-development' },
   { label: 'Mobile App Development', to: '/services/mobile-development' },
   { label: 'SaaS Development', to: '/services/saas-development' },
@@ -68,14 +80,22 @@ const scrollToSection = (e: Event, sectionId: string) => {
           <h3 class="text-sm font-semibold uppercase tracking-wider text-slate-300 mb-4">Quick Links</h3>
           <nav aria-label="Footer quick links">
             <ul class="space-y-2.5">
-              <li v-for="item in quickLinks" :key="item">
+              <li v-for="item in quickLinks" :key="item.label">
                 <a
-                  :href="`#${item.toLowerCase()}`"
+                  v-if="item.kind === 'anchor'"
+                  :href="`#${item.sectionId}`"
                   class="text-slate-400 hover:text-white text-sm transition-colors"
-                  @click="scrollToSection($event, item.toLowerCase())"
+                  @click="scrollToSection($event, item.sectionId)"
                 >
-                  {{ item }}
+                  {{ item.label }}
                 </a>
+                <router-link
+                  v-else
+                  :to="item.to"
+                  class="text-slate-400 hover:text-white text-sm transition-colors"
+                >
+                  {{ item.label }}
+                </router-link>
               </li>
             </ul>
           </nav>
