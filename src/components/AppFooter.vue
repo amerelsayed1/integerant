@@ -1,10 +1,13 @@
 <script setup lang="ts">
+import { computed } from 'vue'
 import { LinkedinIcon, TwitterIcon, GithubIcon, MailIcon } from 'lucide-vue-next'
 import { useRouter } from 'vue-router'
 import AppLogo from './AppLogo.vue'
+import { useServicesStore } from '../stores/services'
 
 const router = useRouter()
 const currentYear = new Date().getFullYear()
+const { list: servicesList } = useServicesStore()
 
 type QuickLink =
   | { kind: 'anchor'; label: string; sectionId: string }
@@ -19,15 +22,10 @@ const quickLinks: QuickLink[] = [
   { kind: 'anchor', label: 'Contact', sectionId: 'contact' },
 ]
 
-const serviceLinks = [
+const serviceLinks = computed(() => [
   { label: 'All services', to: '/services' },
-  { label: 'Web Development', to: '/services/web-development' },
-  { label: 'Mobile App Development', to: '/services/mobile-development' },
-  { label: 'SaaS Development', to: '/services/saas-development' },
-  { label: 'Technical Consulting', to: '/services/consulting' },
-  { label: 'UI/UX Design', to: '/services/ui-ux' },
-  { label: 'Maintenance & Support', to: '/services/support' },
-]
+  ...servicesList.value.map((s) => ({ label: s.title, to: `/services/${s.slug}` })),
+])
 
 const socialLinks = [
   { icon: LinkedinIcon, label: 'LinkedIn' },

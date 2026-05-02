@@ -10,11 +10,13 @@ import {
   ZapIcon,
 } from 'lucide-vue-next'
 import { vAnimate } from '../composables/animate'
-import { services, serviceKeys } from '../data/services'
+import { useServicesStore } from '../stores/services'
+import { getIcon } from '../data/serviceIcons'
 import { useSeo } from '../composables/seo'
 
 const route = useRoute()
 const router = useRouter()
+const { list, bySlug } = useServicesStore()
 
 const scrollToHome = (e: Event, sectionId: string) => {
   e.preventDefault()
@@ -26,14 +28,18 @@ const scrollToHome = (e: Event, sectionId: string) => {
 }
 
 const slug = computed(() => route.params.slug as string)
-const service = computed(() => (slug.value ? services[slug.value] : null))
+const service = computed(() => (slug.value ? bySlug(slug.value) : null))
 
-const currentIndex = computed(() => (service.value ? serviceKeys.indexOf(service.value.slug) : -1))
+const currentIndex = computed(() =>
+  service.value ? list.value.findIndex((s) => s.slug === service.value!.slug) : -1
+)
 const prevService = computed(() =>
-  currentIndex.value > 0 ? services[serviceKeys[currentIndex.value - 1]] : null
+  currentIndex.value > 0 ? list.value[currentIndex.value - 1] : null
 )
 const nextService = computed(() =>
-  currentIndex.value < serviceKeys.length - 1 ? services[serviceKeys[currentIndex.value + 1]] : null
+  currentIndex.value >= 0 && currentIndex.value < list.value.length - 1
+    ? list.value[currentIndex.value + 1]
+    : null
 )
 
 const mounted = ref(false)
@@ -134,7 +140,7 @@ useSeo({
 
           <div class="flex items-start gap-5 mb-6">
             <div class="w-14 h-14 bg-blue-50 rounded-2xl flex items-center justify-center flex-shrink-0">
-              <component :is="service.icon" :size="28" class="text-blue-600" />
+              <component :is="getIcon(service.iconName)" :size="28" class="text-blue-600" />
             </div>
             <div>
               <h1 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-slate-900 tracking-tight">

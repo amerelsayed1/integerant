@@ -10,22 +10,25 @@ import {
   WrenchIcon,
 } from 'lucide-vue-next'
 import { vAnimate } from '../composables/animate'
-import { projects, projectKeys } from '../data/projects'
+import { useProjectsStore } from '../stores/projects'
 import { useSeo } from '../composables/seo'
 
 const route = useRoute()
+const { list, bySlug } = useProjectsStore()
 
 const slug = computed(() => route.params.slug as string)
-const project = computed(() => (slug.value ? projects[slug.value] : null))
+const project = computed(() => (slug.value ? bySlug(slug.value) : null))
 
 const currentIndex = computed(() =>
-  project.value ? projectKeys.indexOf(project.value.slug) : -1
+  project.value ? list.value.findIndex((p) => p.slug === project.value!.slug) : -1
 )
 const prevProject = computed(() =>
-  currentIndex.value > 0 ? projects[projectKeys[currentIndex.value - 1]] : null
+  currentIndex.value > 0 ? list.value[currentIndex.value - 1] : null
 )
 const nextProject = computed(() =>
-  currentIndex.value < projectKeys.length - 1 ? projects[projectKeys[currentIndex.value + 1]] : null
+  currentIndex.value >= 0 && currentIndex.value < list.value.length - 1
+    ? list.value[currentIndex.value + 1]
+    : null
 )
 
 const mounted = ref(false)

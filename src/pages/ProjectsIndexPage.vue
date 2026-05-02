@@ -1,17 +1,18 @@
 <script setup lang="ts">
+import { computed } from 'vue'
 import { ArrowRightIcon } from 'lucide-vue-next'
 import { vAnimate } from '../composables/animate'
 import { useSeo } from '../composables/seo'
-import { projects } from '../data/projects'
+import { useProjectsStore } from '../stores/projects'
 
-const projectList = Object.values(projects)
+const { list: projectList } = useProjectsStore()
 
 useSeo({
   title: 'Case Studies & Client Projects',
   description:
     'Selected case studies of web, mobile, and SaaS products Integrant has shipped — including measurable outcomes, technologies used, and the services applied.',
   path: '/projects',
-  jsonLd: [
+  jsonLd: computed(() => [
     {
       '@context': 'https://schema.org',
       '@type': 'CollectionPage',
@@ -25,7 +26,7 @@ useSeo({
       '@context': 'https://schema.org',
       '@type': 'ItemList',
       name: 'Integrant Projects',
-      itemListElement: projectList.map((project, i) => ({
+      itemListElement: projectList.value.map((project, i) => ({
         '@type': 'ListItem',
         position: i + 1,
         url: `https://integerant.com/projects/${project.slug}`,
@@ -40,7 +41,7 @@ useSeo({
         { '@type': 'ListItem', position: 2, name: 'Projects', item: 'https://integerant.com/projects' },
       ],
     },
-  ],
+  ]),
 })
 </script>
 

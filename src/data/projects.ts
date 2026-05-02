@@ -19,8 +19,8 @@ export interface ProjectData {
   services: { label: string; slug: string }[]
 }
 
-export const projects: Record<string, ProjectData> = {
-  'apex-logistics-fleet-tracking': {
+export const defaultProjects: ProjectData[] = [
+  {
     slug: 'apex-logistics-fleet-tracking',
     title: 'Real-time fleet tracking for Apex Logistics',
     client: 'Apex Logistics',
@@ -46,7 +46,7 @@ export const projects: Record<string, ProjectData> = {
       { label: 'SaaS Development', slug: 'saas-development' },
     ],
   },
-  'pulsefit-wellness-app': {
+  {
     slug: 'pulsefit-wellness-app',
     title: 'PulseFit — cross-platform wellness app',
     client: 'PulseFit',
@@ -72,7 +72,7 @@ export const projects: Record<string, ProjectData> = {
       { label: 'UI/UX Design', slug: 'ui-ux' },
     ],
   },
-  'northwind-saas-modernization': {
+  {
     slug: 'northwind-saas-modernization',
     title: 'Northwind Bookkeeping — SaaS modernization',
     client: 'Northwind Bookkeeping',
@@ -98,7 +98,7 @@ export const projects: Record<string, ProjectData> = {
       { label: 'SaaS Development', slug: 'saas-development' },
     ],
   },
-  'lumen-onboarding-redesign': {
+  {
     slug: 'lumen-onboarding-redesign',
     title: 'Lumen — onboarding redesign that cut churn 35%',
     client: 'Lumen Analytics',
@@ -123,6 +123,5 @@ export const projects: Record<string, ProjectData> = {
       { label: 'UI/UX Design', slug: 'ui-ux' },
     ],
   },
-}
+]
 
-export const projectKeys = Object.keys(projects)
