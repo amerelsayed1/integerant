@@ -34,15 +34,39 @@ services:
     container_name: integrant-api
     ports:
       - "8000:8000"
-    volumes:
-      - api-sqlite:/app/database
     environment:
       - APP_ENV=local
       - APP_DEBUG=true
-      - DB_CONNECTION=sqlite
-      - DB_DATABASE=/app/database/database.sqlite
+      - DB_CONNECTION=pgsql
+      - DB_HOST=db
+      - DB_PORT=5432
+      - DB_DATABASE=integrant
+      - DB_USERNAME=integrant
+      - DB_PASSWORD=secret
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: unless-stopped
+    profiles: ["dev", "prod", "api"]
+
+  db:
+    image: postgres:16-alpine
+    container_name: integrant-db
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_DB=integrant
+      - POSTGRES_USER=integrant
+      - POSTGRES_PASSWORD=secret
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U integrant -d integrant"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
     restart: unless-stopped
     profiles: ["dev", "prod", "api"]
 
 volumes:
-  api-sqlite:
+  db-data:

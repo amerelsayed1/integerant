@@ -1,5 +1,7 @@
 <script setup lang="ts">
-import { MenuIcon, SearchIcon, BellIcon, PlusIcon } from 'lucide-vue-next'
+import { MenuIcon, SearchIcon, BellIcon, PlusIcon, LogOutIcon } from 'lucide-vue-next'
+import { useRouter } from 'vue-router'
+import { useAuth } from '../../composables/auth'
 
 defineProps<{
   title: string
@@ -7,6 +9,14 @@ defineProps<{
 }>()
 
 const emit = defineEmits<{ (e: 'toggleSidebar'): void }>()
+
+const router = useRouter()
+const { logout, user } = useAuth()
+
+function handleLogout() {
+  logout()
+  router.push('/login')
+}
 </script>
 
 <template>
@@ -51,12 +61,19 @@ const emit = defineEmits<{ (e: 'toggleSidebar'): void }>()
 
       <div class="flex items-center gap-2 pl-1">
         <div class="w-9 h-9 rounded-full bg-gradient-to-br from-blue-500 to-blue-700 text-white text-sm font-semibold flex items-center justify-center">
-          AM
+          {{ user?.name?.split(' ').map(n => n[0]).join('').slice(0, 2).toUpperCase() ?? 'AM' }}
         </div>
         <div class="hidden md:block leading-tight">
-          <p class="text-sm font-medium text-slate-900">Adam Mansour</p>
-          <p class="text-xs text-slate-500">Workspace owner</p>
+          <p class="text-sm font-medium text-slate-900">{{ user?.name }}</p>
+          <p class="text-xs text-slate-500">{{ user?.role }}</p>
         </div>
+        <button
+          @click="handleLogout"
+          class="p-2 rounded-md text-slate-500 hover:bg-slate-100 hover:text-slate-700 transition-colors"
+          title="Sign out"
+        >
+          <LogOutIcon :size="17" />
+        </button>
       </div>
     </div>
   </header>

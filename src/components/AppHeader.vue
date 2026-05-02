@@ -60,13 +60,6 @@ onUnmounted(() => window.removeEventListener('scroll', handleScroll))
             {{ item }}
           </a>
           <a
-            href="/dashboard"
-            class="ml-2 px-4 py-2 text-sm font-medium text-slate-600 hover:text-blue-700 rounded-lg transition-colors duration-200"
-            @click.prevent="router.push('/dashboard')"
-          >
-            Dashboard
-          </a>
-          <a
             href="#contact"
             class="ml-2 px-5 py-2.5 bg-blue-700 hover:bg-blue-800 text-white text-sm font-medium rounded-lg transition-colors duration-200"
             @click="scrollToSection($event, 'contact')"
@@ -98,13 +91,6 @@ onUnmounted(() => window.removeEventListener('scroll', handleScroll))
           @click="scrollToSection($event, item.toLowerCase())"
         >
           {{ item }}
-        </a>
-        <a
-          href="/dashboard"
-          class="block px-4 py-3 text-sm font-medium text-slate-600 hover:text-blue-700 hover:bg-slate-50 rounded-lg transition-colors"
-          @click.prevent="router.push('/dashboard'); isMenuOpen = false"
-        >
-          Dashboard
         </a>
         <a
           href="#contact"
