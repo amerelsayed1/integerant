@@ -1,0 +1,49 @@
+name: Deploy to production
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+# Only one deploy at a time. If a newer push arrives mid-deploy,
+# queue it rather than cancel — partial deploys are worse than late ones.
+concurrency:
+  group: deploy-production
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    name: Deploy to integerant.com
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    environment:
+      name: production
+      url: https://integerant.com
+
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+
+      - name: Configure SSH key
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
+        run: |
+          if [ -z "${SSH_PRIVATE_KEY:-}" ]; then
+            echo "::error::DEPLOY_SSH_KEY secret is not set."
+            exit 1
+          fi
+          mkdir -p ~/.ssh
+          chmod 700 ~/.ssh
+          printf '%s\n' "$SSH_PRIVATE_KEY" > ~/.ssh/operix_deploy
+          chmod 600 ~/.ssh/operix_deploy
+          # Pre-populate known_hosts so StrictHostKeyChecking has something to compare
+          # (deploy.sh also passes -o StrictHostKeyChecking=no as a fallback)
+          ssh-keyscan -H 51.68.229.216 >> ~/.ssh/known_hosts 2>/dev/null || true
+
+      - name: Run deploy.sh
+        run: bash deploy.sh
+
+      - name: Smoke check
+        run: |
+          curl -fsS https://integerant.com/healthz | grep -q ok
+          echo "Production reachable."

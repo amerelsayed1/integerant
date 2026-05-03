@@ -6,7 +6,18 @@ import AppLogo from './AppLogo.vue'
 
 const router = useRouter()
 
-const navItems = ['Home', 'About', 'Services', 'Process', 'Contact']
+type NavItem =
+  | { kind: 'anchor'; label: string; sectionId: string }
+  | { kind: 'route'; label: string; to: string }
+
+const navItems: NavItem[] = [
+  { kind: 'anchor', label: 'Home', sectionId: 'home' },
+  { kind: 'anchor', label: 'About', sectionId: 'about' },
+  { kind: 'route', label: 'Services', to: '/services' },
+  { kind: 'route', label: 'Projects', to: '/projects' },
+  { kind: 'anchor', label: 'Process', sectionId: 'process' },
+  { kind: 'anchor', label: 'Contact', sectionId: 'contact' },
+]
 
 const isMenuOpen = ref(false)
 const scrolled = ref(false)
@@ -33,6 +44,10 @@ const scrollToSection = (e: Event, sectionId: string) => {
   }
 }
 
+const handleRouteClick = () => {
+  isMenuOpen.value = false
+}
+
 onMounted(() => window.addEventListener('scroll', handleScroll))
 onUnmounted(() => window.removeEventListener('scroll', handleScroll))
 </script>
@@ -44,21 +59,30 @@ onUnmounted(() => window.removeEventListener('scroll', handleScroll))
   >
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex justify-between items-center h-16 md:h-18">
-        <a href="/" @click.prevent="router.push('/')">
+        <router-link to="/" aria-label="Integrant home">
           <AppLogo variant="horizontal" />
-        </a>
+        </router-link>
 
         <!-- Desktop Navigation -->
-        <nav class="hidden md:flex items-center gap-1">
-          <a
-            v-for="item in navItems"
-            :key="item"
-            :href="`#${item.toLowerCase()}`"
-            class="px-4 py-2 text-sm font-medium text-slate-600 hover:text-blue-700 rounded-lg transition-colors duration-200"
-            @click="scrollToSection($event, item.toLowerCase())"
-          >
-            {{ item }}
-          </a>
+        <nav class="hidden md:flex items-center gap-1" aria-label="Primary">
+          <template v-for="item in navItems" :key="item.label">
+            <a
+              v-if="item.kind === 'anchor'"
+              :href="`#${item.sectionId}`"
+              class="px-4 py-2 text-sm font-medium text-slate-600 hover:text-blue-700 rounded-lg transition-colors duration-200"
+              @click="scrollToSection($event, item.sectionId)"
+            >
+              {{ item.label }}
+            </a>
+            <router-link
+              v-else
+              :to="item.to"
+              class="px-4 py-2 text-sm font-medium text-slate-600 hover:text-blue-700 rounded-lg transition-colors duration-200"
+              active-class="text-blue-700"
+            >
+              {{ item.label }}
+            </router-link>
+          </template>
           <a
             href="#contact"
             class="ml-2 px-5 py-2.5 bg-blue-700 hover:bg-blue-800 text-white text-sm font-medium rounded-lg transition-colors duration-200"
@@ -72,6 +96,7 @@ onUnmounted(() => window.removeEventListener('scroll', handleScroll))
         <button
           class="md:hidden p-2 text-slate-700 hover:text-slate-900 rounded-lg"
           :aria-label="isMenuOpen ? 'Close menu' : 'Open menu'"
+          :aria-expanded="isMenuOpen"
           @click="isMenuOpen = !isMenuOpen"
         >
           <XIcon v-if="isMenuOpen" :size="22" />
@@ -81,17 +106,26 @@ onUnmounted(() => window.removeEventListener('scroll', handleScroll))
     </div>
 
     <!-- Mobile Navigation -->
-    <div v-if="isMenuOpen" class="md:hidden bg-white border-t border-slate-100">
+    <nav v-if="isMenuOpen" class="md:hidden bg-white border-t border-slate-100" aria-label="Mobile">
       <div class="px-4 py-4 space-y-1">
-        <a
-          v-for="item in navItems"
-          :key="item"
-          :href="`#${item.toLowerCase()}`"
-          class="block px-4 py-3 text-sm font-medium text-slate-600 hover:text-blue-700 hover:bg-slate-50 rounded-lg transition-colors"
-          @click="scrollToSection($event, item.toLowerCase())"
-        >
-          {{ item }}
-        </a>
+        <template v-for="item in navItems" :key="item.label">
+          <a
+            v-if="item.kind === 'anchor'"
+            :href="`#${item.sectionId}`"
+            class="block px-4 py-3 text-sm font-medium text-slate-600 hover:text-blue-700 hover:bg-slate-50 rounded-lg transition-colors"
+            @click="scrollToSection($event, item.sectionId)"
+          >
+            {{ item.label }}
+          </a>
+          <router-link
+            v-else
+            :to="item.to"
+            class="block px-4 py-3 text-sm font-medium text-slate-600 hover:text-blue-700 hover:bg-slate-50 rounded-lg transition-colors"
+            @click="handleRouteClick"
+          >
+            {{ item.label }}
+          </router-link>
+        </template>
         <a
           href="#contact"
           class="block mt-2 px-4 py-3 bg-blue-700 hover:bg-blue-800 text-white text-sm font-medium rounded-lg text-center transition-colors"
@@ -100,6 +134,6 @@ onUnmounted(() => window.removeEventListener('scroll', handleScroll))
           Get Started
         </a>
       </div>
-    </div>
+    </nav>
   </header>
 </template>

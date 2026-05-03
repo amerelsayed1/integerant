@@ -57,6 +57,7 @@ const scrollTo = (e: Event, id: string) => {
         <div
           class="flex-1 w-full max-w-lg lg:max-w-none transition-all duration-700 ease-out delay-200"
           :class="mounted ? 'opacity-100 scale-100' : 'opacity-0 scale-95'"
+          aria-hidden="true"
         >
           <div class="relative aspect-square max-w-md mx-auto">
             <div class="absolute inset-4 bg-blue-50 rounded-3xl" />

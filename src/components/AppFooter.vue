@@ -1,21 +1,31 @@
 <script setup lang="ts">
+import { computed } from 'vue'
 import { LinkedinIcon, TwitterIcon, GithubIcon, MailIcon } from 'lucide-vue-next'
 import { useRouter } from 'vue-router'
 import AppLogo from './AppLogo.vue'
+import { useServicesStore } from '../stores/services'
 
 const router = useRouter()
 const currentYear = new Date().getFullYear()
+const { list: servicesList } = useServicesStore()
 
-const quickLinks = ['Home', 'About', 'Services', 'Process', 'Contact']
+type QuickLink =
+  | { kind: 'anchor'; label: string; sectionId: string }
+  | { kind: 'route'; label: string; to: string }
 
-const serviceLinks = [
-  { label: 'Web Development', to: '/services/web-development' },
-  { label: 'Mobile App Development', to: '/services/mobile-development' },
-  { label: 'SaaS Development', to: '/services/saas-development' },
-  { label: 'Technical Consulting', to: '/services/consulting' },
-  { label: 'UI/UX Design', to: '/services/ui-ux' },
-  { label: 'Maintenance & Support', to: '/services/support' },
+const quickLinks: QuickLink[] = [
+  { kind: 'anchor', label: 'Home', sectionId: 'home' },
+  { kind: 'anchor', label: 'About', sectionId: 'about' },
+  { kind: 'route', label: 'Services', to: '/services' },
+  { kind: 'route', label: 'Projects', to: '/projects' },
+  { kind: 'anchor', label: 'Process', sectionId: 'process' },
+  { kind: 'anchor', label: 'Contact', sectionId: 'contact' },
 ]
+
+const serviceLinks = computed(() => [
+  { label: 'All services', to: '/services' },
+  ...servicesList.value.map((s) => ({ label: s.title, to: `/services/${s.slug}` })),
+])
 
 const socialLinks = [
   { icon: LinkedinIcon, label: 'LinkedIn' },
@@ -54,6 +64,7 @@ const scrollToSection = (e: Event, sectionId: string) => {
               v-for="social in socialLinks"
               :key="social.label"
               href="#"
+              rel="nofollow noopener"
               class="w-9 h-9 bg-slate-800 hover:bg-blue-700 rounded-lg flex items-center justify-center transition-colors duration-200"
               :aria-label="social.label"
             >
@@ -65,16 +76,24 @@ const scrollToSection = (e: Event, sectionId: string) => {
         <!-- Quick Links -->
         <div>
           <h3 class="text-sm font-semibold uppercase tracking-wider text-slate-300 mb-4">Quick Links</h3>
-          <nav>
+          <nav aria-label="Footer quick links">
             <ul class="space-y-2.5">
-              <li v-for="item in quickLinks" :key="item">
+              <li v-for="item in quickLinks" :key="item.label">
                 <a
-                  :href="`#${item.toLowerCase()}`"
+                  v-if="item.kind === 'anchor'"
+                  :href="`#${item.sectionId}`"
                   class="text-slate-400 hover:text-white text-sm transition-colors"
-                  @click="scrollToSection($event, item.toLowerCase())"
+                  @click="scrollToSection($event, item.sectionId)"
                 >
-                  {{ item }}
+                  {{ item.label }}
                 </a>
+                <router-link
+                  v-else
+                  :to="item.to"
+                  class="text-slate-400 hover:text-white text-sm transition-colors"
+                >
+                  {{ item.label }}
+                </router-link>
               </li>
             </ul>
           </nav>
@@ -83,13 +102,15 @@ const scrollToSection = (e: Event, sectionId: string) => {
         <!-- Services -->
         <div>
           <h3 class="text-sm font-semibold uppercase tracking-wider text-slate-300 mb-4">Services</h3>
-          <ul class="space-y-2.5">
-            <li v-for="item in serviceLinks" :key="item.label">
-              <router-link :to="item.to" class="text-slate-400 hover:text-white text-sm transition-colors">
-                {{ item.label }}
-              </router-link>
-            </li>
-          </ul>
+          <nav aria-label="Footer services">
+            <ul class="space-y-2.5">
+              <li v-for="item in serviceLinks" :key="item.label">
+                <router-link :to="item.to" class="text-slate-400 hover:text-white text-sm transition-colors">
+                  {{ item.label }}
+                </router-link>
+              </li>
+            </ul>
+          </nav>
         </div>
 
         <!-- Contact -->
