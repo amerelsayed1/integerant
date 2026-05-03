@@ -15,8 +15,8 @@ const faqs = [
       <div class="flex items-center gap-3 p-4 bg-blue-50 rounded-xl">
         <div class="w-9 h-9 rounded-full bg-blue-700 text-white flex items-center justify-center text-sm font-semibold flex-shrink-0">IN</div>
         <div>
-          <p class="text-sm font-medium text-slate-900">Integrant Support</p>
-          <a href="mailto:info@integrant.com" class="text-sm text-blue-700 hover:underline">info@integrant.com</a>
+          <p class="text-sm font-medium text-slate-900">Integerant Support</p>
+          <a href="mailto:info@integerant.com" class="text-sm text-blue-700 hover:underline">info@integerant.com</a>
         </div>
       </div>
     </div>

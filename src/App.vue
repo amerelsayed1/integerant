@@ -5,6 +5,7 @@ import { useI18n } from 'vue-i18n'
 import AppHeader from './components/AppHeader.vue'
 import AppFooter from './components/AppFooter.vue'
 import BackgroundDecoration from './components/BackgroundDecoration.vue'
+import WhatsAppButton from './components/WhatsAppButton.vue'
 
 const route = useRoute()
 const isDashboard = computed(() => route.meta.layout === 'dashboard')
@@ -32,5 +33,6 @@ watch(
       <router-view />
     </main>
     <AppFooter />
+    <WhatsAppButton />
   </div>
 </template>

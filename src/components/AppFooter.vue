@@ -34,7 +34,7 @@ const socialLinks = [
 </script>
 
 <template>
-  <footer class="bg-slate-900 text-white">
+  <footer class="bg-navy text-white">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-8">
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
         <!-- About -->
@@ -49,7 +49,7 @@ const socialLinks = [
               :key="social.label"
               href="#"
               rel="nofollow noopener"
-              class="w-9 h-9 bg-slate-800 hover:bg-blue-700 rounded-lg flex items-center justify-center transition-colors duration-200"
+              class="w-9 h-9 bg-navy/80 hover:bg-teal rounded-lg flex items-center justify-center transition-colors duration-200"
               :aria-label="social.label"
             >
               <component :is="social.icon" :size="16" />
@@ -90,11 +90,11 @@ const socialLinks = [
           <h3 class="text-sm font-semibold uppercase tracking-wider text-slate-300 mb-4">{{ t('footer.contact') }}</h3>
           <ul class="space-y-3">
             <li class="flex items-center gap-2.5 text-slate-400 text-sm">
-              <MailIcon :size="16" class="text-blue-500 flex-shrink-0" />
-              <a href="mailto:info@integrant.com" class="hover:text-white transition-colors">info@integrant.com</a>
+              <MailIcon :size="16" class="text-teal flex-shrink-0" />
+              <a href="mailto:info@integerant.com" class="hover:text-white transition-colors">info@integerant.com</a>
             </li>
           </ul>
-          <div class="mt-6 p-4 bg-slate-800/60 rounded-xl">
+          <div class="mt-6 p-4 bg-navy/50 rounded-xl">
             <p class="text-slate-400 text-xs leading-relaxed">{{ t('footer.contactPrompt') }}</p>
           </div>
         </div>
@@ -102,7 +102,7 @@ const socialLinks = [
 
       <div class="border-t border-slate-800 pt-8">
         <div class="flex flex-col sm:flex-row justify-between items-center gap-2 text-slate-500 text-sm">
-          <p>&copy; {{ currentYear }} Integrant. {{ t('footer.rights') }}</p>
+          <p>&copy; {{ currentYear }} Integerant. {{ t('footer.rights') }}</p>
           <p>{{ t('footer.tagline') }}</p>
         </div>
       </div>

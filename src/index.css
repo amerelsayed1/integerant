@@ -3,9 +3,13 @@
 @import 'tailwindcss/utilities';
 
 :root {
-  --color-primary: #0f172a;
-  --color-secondary: #1e40af;
-  --color-accent: #3b82f6;
+  --brand-navy:  #0D1B3D;
+  --brand-teal:  #0FA4A6;
+  --brand-gold:  #C5A15A;
+  --brand-gray:  #E6E9ED;
+  --color-primary: var(--brand-navy);
+  --color-secondary: var(--brand-teal);
+  --color-accent: var(--brand-gold);
   --color-bg: #ffffff;
   --color-bg-alt: #f8fafc;
   --color-text: #1e293b;
@@ -19,6 +23,11 @@ body {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+[dir='rtl'] body,
+[dir='rtl'] {
+  font-family: 'Cairo', 'Segoe UI', Tahoma, Arial, sans-serif;
 }
 
 /* Scroll-triggered animation utilities */

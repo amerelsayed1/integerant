@@ -116,7 +116,7 @@ const wrapperClasses = computed(() => [
       <div class="rounded-xl bg-gradient-to-br from-blue-700 to-blue-900 text-white p-4">
         <p class="text-sm font-semibold">Need a hand?</p>
         <p class="mt-1 text-xs text-blue-100">
-          Talk to the Integrant team about scaling your engagement.
+          Talk to the Integerant team about scaling your engagement.
         </p>
         <RouterLink
           to="/#contact"

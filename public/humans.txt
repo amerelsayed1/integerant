@@ -1,7 +1,7 @@
 /* TEAM */
-Company: Integrant
+Company: Integerant
 Site: https://integerant.com
-Contact: info@integrant.com
+Contact: info@integerant.com
 
 /* SITE */
 Standards: HTML5, CSS3, ES2022

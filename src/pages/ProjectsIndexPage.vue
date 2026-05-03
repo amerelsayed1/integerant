@@ -1,16 +1,30 @@
 <script setup lang="ts">
 import { computed } from 'vue'
-import { ArrowRightIcon } from 'lucide-vue-next'
+import {
+  ArrowRightIcon,
+  ExternalLinkIcon,
+  ShieldCheckIcon,
+  WalletIcon,
+  LayoutDashboardIcon,
+} from 'lucide-vue-next'
+import { useI18n } from 'vue-i18n'
 import { vAnimate } from '../composables/animate'
 import { useSeo } from '../composables/seo'
 import { useProjectsStore } from '../stores/projects'
 
+const { t } = useI18n()
 const { list: projectList } = useProjectsStore()
+
+const iconMap: Record<string, unknown> = {
+  saferoute: ShieldCheckIcon,
+  floosi: WalletIcon,
+  operix: LayoutDashboardIcon,
+}
 
 useSeo({
   title: 'Case Studies & Client Projects',
   description:
-    'Selected case studies of web, mobile, and SaaS products Integrant has shipped — including measurable outcomes, technologies used, and the services applied.',
+    'Selected case studies of web, mobile, and SaaS products Integerant has shipped — including measurable outcomes, technologies used, and the services applied.',
   path: '/projects',
   jsonLd: computed(() => [
     {
@@ -19,13 +33,13 @@ useSeo({
       name: 'Projects',
       url: 'https://integerant.com/projects',
       description:
-        'Case studies of products Integrant has designed, built, and shipped for startups and growing businesses.',
-      isPartOf: { '@type': 'WebSite', name: 'Integrant', url: 'https://integerant.com/' },
+        'Case studies of products Integerant has designed, built, and shipped for startups and growing businesses.',
+      isPartOf: { '@type': 'WebSite', name: 'Integerant', url: 'https://integerant.com/' },
     },
     {
       '@context': 'https://schema.org',
       '@type': 'ItemList',
-      name: 'Integrant Projects',
+      name: 'Integerant Projects',
       itemListElement: projectList.value.map((project, i) => ({
         '@type': 'ListItem',
         position: i + 1,
@@ -50,14 +64,12 @@ useSeo({
     <!-- Hero -->
     <section class="bg-slate-50 border-b border-slate-200">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
-        <span class="text-sm font-semibold text-blue-700 uppercase tracking-wider">Our work</span>
+        <span class="text-sm font-semibold text-gold uppercase tracking-wider">{{ t('projectsPage.label') }}</span>
         <h1 class="mt-3 text-3xl sm:text-4xl lg:text-5xl font-bold text-slate-900 tracking-tight max-w-3xl">
-          Selected case studies from products we have shipped
+          {{ t('projectsPage.heroTitle') }}
         </h1>
         <p class="mt-5 text-lg text-slate-600 leading-relaxed max-w-3xl">
-          A small sample of the work we have delivered for startups and growing businesses across
-          logistics, fintech, health, and B2B SaaS. Every case study includes the problem, our
-          approach, and the measurable outcomes.
+          {{ t('projectsPage.heroSubtitle') }}
         </p>
       </div>
     </section>
@@ -70,38 +82,69 @@ useSeo({
             v-for="project in projectList"
             :key="project.slug"
             :to="`/projects/${project.slug}`"
-            class="group block bg-white rounded-2xl border border-slate-200 p-7 shadow-sm hover:shadow-md hover:border-blue-200 transition-all duration-300"
+            class="group flex flex-col rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border border-white/10 cursor-pointer"
           >
-            <div class="flex items-center gap-2 text-xs font-medium text-slate-500 mb-4">
-              <span class="px-2.5 py-1 bg-blue-50 text-blue-700 rounded-md">{{ project.industry }}</span>
-              <span>{{ project.year }}</span>
-              <span aria-hidden="true">·</span>
-              <span>{{ project.duration }}</span>
-            </div>
-            <h2 class="text-xl font-semibold text-slate-900 mb-3 group-hover:text-blue-700 transition-colors">
-              {{ project.title }}
-            </h2>
-            <p class="text-slate-600 leading-relaxed text-sm mb-5">{{ project.summary }}</p>
+            <!-- Colored header -->
+            <div
+              class="relative flex flex-col items-center justify-center px-7 pt-10 pb-8 text-center flex-shrink-0"
+              :style="`background: linear-gradient(135deg, ${project.coverFrom}, ${project.coverTo})`"
+            >
+              <!-- Subtle dot pattern -->
+              <svg class="absolute inset-0 w-full h-full opacity-10 pointer-events-none" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                  <pattern id="dots" width="24" height="24" patternUnits="userSpaceOnUse">
+                    <circle cx="12" cy="12" r="1.5" fill="white"/>
+                  </pattern>
+                </defs>
+                <rect width="100%" height="100%" fill="url(#dots)"/>
+              </svg>
 
-            <div class="grid grid-cols-3 gap-3 mb-5 pb-5 border-b border-slate-100">
-              <div v-for="(metric, i) in project.metrics" :key="i" class="text-center">
-                <div class="text-base font-bold text-slate-900">{{ metric.value }}</div>
-                <div class="text-[11px] text-slate-500 mt-0.5 leading-tight">{{ metric.label }}</div>
+              <!-- Icon box -->
+              <div
+                class="relative w-16 h-16 rounded-2xl flex items-center justify-center mb-5 shadow-lg"
+                :style="`background: ${project.iconBg}`"
+              >
+                <component :is="iconMap[project.slug]" :size="28" :style="{ color: project.iconColor }" />
               </div>
+
+              <!-- Title -->
+              <h2 class="relative text-2xl font-bold text-white tracking-tight mb-3">{{ t(`projects.items.${project.slug}.title`) }}</h2>
+
+              <!-- Summary -->
+              <p class="relative text-sm text-white/75 leading-relaxed">{{ t(`projects.items.${project.slug}.summary`) }}</p>
             </div>
 
-            <div class="flex items-center justify-between">
+            <!-- White footer -->
+            <div class="flex items-center justify-between gap-3 px-6 py-4 bg-white border-t border-slate-100">
+              <!-- Service tags -->
               <div class="flex flex-wrap gap-1.5">
                 <span
                   v-for="service in project.services"
                   :key="service.slug"
-                  class="text-[11px] font-medium text-slate-600 bg-slate-100 rounded px-2 py-0.5"
+                  class="text-[10px] font-medium text-slate-500 bg-slate-100 rounded-md px-2 py-0.5"
                 >
-                  {{ service.label }}
+                  {{ t(`services.items.${service.slug}.title`) }}
                 </span>
               </div>
-              <span class="inline-flex items-center gap-1.5 text-sm font-medium text-blue-700 group-hover:gap-2.5 transition-all duration-200">
-                Read case study <ArrowRightIcon :size="14" />
+
+              <!-- CTA -->
+              <a
+                v-if="project.externalUrl"
+                :href="project.externalUrl"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="flex-none inline-flex items-center gap-1.5 text-xs font-semibold text-teal hover:gap-2.5 transition-all duration-200 whitespace-nowrap"
+                @click.stop
+              >
+                {{ t('projectsPage.visitSiteLink') }}
+                <ExternalLinkIcon :size="12" />
+              </a>
+              <span
+                v-else
+                class="flex-none inline-flex items-center gap-1.5 text-xs font-semibold text-teal group-hover:gap-2.5 transition-all duration-200 whitespace-nowrap"
+              >
+                {{ t('projectsPage.caseStudyLink') }}
+                <ArrowRightIcon :size="12" />
               </span>
             </div>
           </router-link>
@@ -110,17 +153,17 @@ useSeo({
     </section>
 
     <!-- CTA -->
-    <section class="bg-slate-900 py-16 md:py-20">
+    <section class="bg-navy py-16 md:py-20">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        <h2 class="text-2xl sm:text-3xl font-bold text-white mb-4">Want to be the next case study?</h2>
+        <h2 class="text-2xl sm:text-3xl font-bold text-white mb-4">{{ t('projectsPage.ctaTitle') }}</h2>
         <p class="text-slate-400 text-lg max-w-xl mx-auto mb-8">
-          Tell us about your product. We will reply within one business day with a discovery plan.
+          {{ t('projectsPage.ctaSubtitle') }}
         </p>
         <router-link
-          to="/#contact"
-          class="inline-flex items-center gap-2 px-8 py-4 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-xl transition-colors duration-200 shadow-lg shadow-blue-600/20"
+          to="/contact"
+          class="inline-flex items-center gap-2 px-8 py-4 bg-teal hover:bg-teal/90 text-white font-medium rounded-xl transition-colors duration-200 shadow-lg shadow-teal/20"
         >
-          Start a conversation
+          {{ t('projectsPage.ctaCta') }}
           <ArrowRightIcon :size="16" />
         </router-link>
       </div>

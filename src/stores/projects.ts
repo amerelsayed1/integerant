@@ -1,7 +1,7 @@
 import { ref, computed, watch } from 'vue'
 import { defaultProjects, type ProjectData } from '../data/projects'
 
-const STORAGE_KEY = 'integrant_projects_v1'
+const STORAGE_KEY = 'integrant_projects_v2'
 
 function loadInitial(): ProjectData[] {
   if (typeof localStorage === 'undefined') return [...defaultProjects]

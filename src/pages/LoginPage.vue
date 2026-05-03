@@ -10,7 +10,7 @@ const { login } = useAuth()
 
 useSeo({
   title: 'Sign In',
-  description: 'Sign in to the Integrant client dashboard.',
+  description: 'Sign in to the Integerant client dashboard.',
   path: '/login',
   noindex: true,
 })
@@ -53,7 +53,7 @@ async function handleSubmit() {
               type="email"
               required
               placeholder="admin@integrant.com"
-              class="w-full px-3.5 py-2.5 rounded-lg border border-slate-300 text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              class="w-full px-3.5 py-2.5 rounded-lg border border-slate-300 text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-teal focus:border-transparent"
             />
           </div>
 
@@ -64,7 +64,7 @@ async function handleSubmit() {
               type="password"
               required
               placeholder="••••••••"
-              class="w-full px-3.5 py-2.5 rounded-lg border border-slate-300 text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              class="w-full px-3.5 py-2.5 rounded-lg border border-slate-300 text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-teal focus:border-transparent"
             />
           </div>
 
@@ -73,7 +73,7 @@ async function handleSubmit() {
           <button
             type="submit"
             :disabled="loading"
-            class="w-full py-2.5 bg-blue-700 hover:bg-blue-800 disabled:opacity-60 text-white text-sm font-semibold rounded-lg transition-colors"
+            class="w-full py-2.5 bg-teal hover:bg-navy disabled:opacity-60 text-white text-sm font-semibold rounded-lg transition-colors"
           >
             {{ loading ? 'Signing in…' : 'Sign in' }}
           </button>

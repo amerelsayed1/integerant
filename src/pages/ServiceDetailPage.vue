@@ -15,7 +15,7 @@ import { useServicesStore } from '../stores/services'
 import { getIcon } from '../data/serviceIcons'
 import { useSeo } from '../composables/seo'
 
-const { t } = useI18n()
+const { t, tm } = useI18n()
 const route = useRoute()
 const { list, bySlug } = useServicesStore()
 
@@ -38,14 +38,17 @@ const title = computed(() => service.value ? t(`services.items.${service.value.s
 const tagline = computed(() => service.value ? t(`services.items.${service.value.slug}.tagline`) : '')
 const description = computed(() => service.value ? t(`services.items.${service.value.slug}.description`) : '')
 const ctaText = computed(() => service.value ? t(`services.items.${service.value.slug}.ctaText`) : '')
-const problems = computed<string[]>(() =>
-  service.value ? (t(`services.items.${service.value.slug}.problems`, []) as unknown as string[]) : [],
-)
-const useCases = computed<{ title: string; description: string }[]>(() =>
-  service.value
-    ? (t(`services.items.${service.value.slug}.useCases`, []) as unknown as { title: string; description: string }[])
-    : [],
-)
+type UseCase = { title: string; description: string }
+const problems = computed<string[]>(() => {
+  if (!service.value) return []
+  const val = tm(`services.items.${service.value.slug}.problems`) as unknown
+  return Array.isArray(val) ? (val as string[]) : []
+})
+const useCases = computed<UseCase[]>(() => {
+  if (!service.value) return []
+  const val = tm(`services.items.${service.value.slug}.useCases`) as unknown
+  return Array.isArray(val) ? (val as UseCase[]) : []
+})
 
 const prevTitle = computed(() => prevService.value ? t(`services.items.${prevService.value.slug}.title`) : '')
 const nextTitle = computed(() => nextService.value ? t(`services.items.${nextService.value.slug}.title`) : '')
@@ -70,7 +73,7 @@ useSeo({
             url: `https://integerant.com/services/${service.value.slug}`,
             provider: {
               '@type': 'Organization',
-              name: 'Integrant',
+              name: 'Integerant',
               url: 'https://integerant.com/',
             },
             areaServed: 'Worldwide',
@@ -110,7 +113,7 @@ useSeo({
       <p class="text-slate-600 mb-6">{{ t('serviceDetail.notFoundDesc') }}</p>
       <router-link
         to="/"
-        class="inline-flex items-center gap-2 px-6 py-3 bg-blue-700 hover:bg-blue-800 text-white font-medium rounded-xl transition-colors"
+        class="inline-flex items-center gap-2 px-6 py-3 bg-teal hover:bg-navy text-white font-medium rounded-xl transition-colors"
       >
         <ArrowLeftIcon :size="16" />
         {{ t('serviceDetail.backHome') }}
@@ -129,15 +132,15 @@ useSeo({
         >
           <router-link
             to="/services"
-            class="inline-flex items-center gap-1.5 text-sm font-medium text-blue-700 hover:text-blue-800 mb-6 transition-colors"
+            class="inline-flex items-center gap-1.5 text-sm font-medium text-teal hover:text-navy mb-6 transition-colors"
           >
             <ArrowLeftIcon :size="14" />
             {{ t('serviceDetail.allServices') }}
           </router-link>
 
           <div class="flex items-start gap-5 mb-6">
-            <div class="w-14 h-14 bg-blue-50 rounded-2xl flex items-center justify-center flex-shrink-0">
-              <component :is="getIcon(service.iconName)" :size="28" class="text-blue-600" />
+            <div class="w-14 h-14 bg-teal/10 rounded-2xl flex items-center justify-center flex-shrink-0">
+              <component :is="getIcon(service.iconName)" :size="28" class="text-teal" />
             </div>
             <div>
               <h1 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-slate-900 tracking-tight">{{ title }}</h1>
@@ -155,8 +158,8 @@ useSeo({
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div v-animate class="mb-10">
           <div class="flex items-center gap-3 mb-3">
-            <TargetIcon :size="20" class="text-blue-600" />
-            <span class="text-sm font-semibold text-blue-700 uppercase tracking-wider">{{ t('serviceDetail.problemsLabel') }}</span>
+            <TargetIcon :size="20" class="text-teal" />
+            <span class="text-sm font-semibold text-gold uppercase tracking-wider">{{ t('serviceDetail.problemsLabel') }}</span>
           </div>
           <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight">{{ t('serviceDetail.problemsTitle') }}</h2>
         </div>
@@ -167,7 +170,7 @@ useSeo({
             :key="i"
             class="flex items-start gap-3 p-5 bg-slate-50 rounded-xl border border-slate-100"
           >
-            <CheckCircleIcon :size="20" class="text-blue-500 flex-shrink-0 mt-0.5" />
+            <CheckCircleIcon :size="20" class="text-teal flex-shrink-0 mt-0.5" />
             <span class="text-slate-700 text-sm leading-relaxed">{{ problem }}</span>
           </div>
         </div>
@@ -179,8 +182,8 @@ useSeo({
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div v-animate class="mb-10">
           <div class="flex items-center gap-3 mb-3">
-            <LayersIcon :size="20" class="text-blue-600" />
-            <span class="text-sm font-semibold text-blue-700 uppercase tracking-wider">{{ t('serviceDetail.techLabel') }}</span>
+            <LayersIcon :size="20" class="text-teal" />
+            <span class="text-sm font-semibold text-gold uppercase tracking-wider">{{ t('serviceDetail.techLabel') }}</span>
           </div>
           <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight">{{ t('serviceDetail.techTitle') }}</h2>
         </div>
@@ -202,8 +205,8 @@ useSeo({
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div v-animate class="mb-10">
           <div class="flex items-center gap-3 mb-3">
-            <ZapIcon :size="20" class="text-blue-600" />
-            <span class="text-sm font-semibold text-blue-700 uppercase tracking-wider">{{ t('serviceDetail.useCasesLabel') }}</span>
+            <ZapIcon :size="20" class="text-teal" />
+            <span class="text-sm font-semibold text-gold uppercase tracking-wider">{{ t('serviceDetail.useCasesLabel') }}</span>
           </div>
           <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight">{{ t('serviceDetail.useCasesTitle') }}</h2>
         </div>
@@ -214,8 +217,8 @@ useSeo({
             :key="i"
             class="bg-slate-50 rounded-2xl border border-slate-100 p-7"
           >
-            <div class="w-10 h-10 bg-blue-100 rounded-xl flex items-center justify-center mb-4">
-              <span class="text-blue-700 font-bold text-sm">{{ String(i + 1).padStart(2, '0') }}</span>
+            <div class="w-10 h-10 bg-teal/20 rounded-xl flex items-center justify-center mb-4">
+              <span class="text-teal font-bold text-sm">{{ String(i + 1).padStart(2, '0') }}</span>
             </div>
             <h3 class="text-lg font-semibold text-slate-900 mb-2">{{ useCase.title }}</h3>
             <p class="text-sm text-slate-600 leading-relaxed">{{ useCase.description }}</p>
@@ -225,7 +228,7 @@ useSeo({
     </section>
 
     <!-- CTA -->
-    <section class="bg-slate-900 py-16 md:py-20">
+    <section class="bg-navy py-16 md:py-20">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
         <div v-animate>
           <h2 class="text-2xl sm:text-3xl font-bold text-white mb-4">{{ t('serviceDetail.ctaTitle') }}</h2>
@@ -234,7 +237,7 @@ useSeo({
           </p>
           <router-link
             to="/contact"
-            class="inline-flex items-center gap-2 px-8 py-4 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-xl transition-colors duration-200 shadow-lg shadow-blue-600/20"
+            class="inline-flex items-center gap-2 px-8 py-4 bg-teal hover:bg-teal text-white font-medium rounded-xl transition-colors duration-200 shadow-lg shadow-teal/20"
           >
             {{ ctaText }}
             <ArrowRightIcon :size="16" />
@@ -250,7 +253,7 @@ useSeo({
           <router-link
             v-if="prevService"
             :to="`/services/${prevService.slug}`"
-            class="flex items-center gap-2 text-sm font-medium text-slate-600 hover:text-blue-700 transition-colors"
+            class="flex items-center gap-2 text-sm font-medium text-slate-600 hover:text-teal transition-colors"
           >
             <ArrowLeftIcon :size="14" />
             {{ prevTitle }}
@@ -260,7 +263,7 @@ useSeo({
           <router-link
             v-if="nextService"
             :to="`/services/${nextService.slug}`"
-            class="flex items-center gap-2 text-sm font-medium text-slate-600 hover:text-blue-700 transition-colors"
+            class="flex items-center gap-2 text-sm font-medium text-slate-600 hover:text-teal transition-colors"
           >
             {{ nextTitle }}
             <ArrowRightIcon :size="14" />

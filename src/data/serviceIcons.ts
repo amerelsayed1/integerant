@@ -16,6 +16,20 @@ import {
   LineChartIcon,
   PenToolIcon,
   HeadphonesIcon,
+  Repeat2Icon,
+  SlidersIcon,
+  WalletIcon,
+  LockIcon,
+  MapPinIcon,
+  BellIcon,
+  UsersIcon,
+  LayoutDashboardIcon,
+  ReceiptIcon,
+  PackageIcon,
+  BarChart3Icon,
+  CreditCardIcon,
+  AlertTriangleIcon,
+  ShieldCheckIcon,
 } from 'lucide-vue-next'
 
 export const iconRegistry: Record<string, Component> = {
@@ -28,6 +42,7 @@ export const iconRegistry: Record<string, Component> = {
   code: CodeIcon,
   server: ServerIcon,
   shield: ShieldIcon,
+  'shield-check': ShieldCheckIcon,
   rocket: RocketIcon,
   database: DatabaseIcon,
   zap: ZapIcon,
@@ -35,6 +50,19 @@ export const iconRegistry: Record<string, Component> = {
   'line-chart': LineChartIcon,
   'pen-tool': PenToolIcon,
   headphones: HeadphonesIcon,
+  repeat2: Repeat2Icon,
+  sliders: SlidersIcon,
+  wallet: WalletIcon,
+  lock: LockIcon,
+  'map-pin': MapPinIcon,
+  bell: BellIcon,
+  users: UsersIcon,
+  'layout-dashboard': LayoutDashboardIcon,
+  receipt: ReceiptIcon,
+  package: PackageIcon,
+  'bar-chart': BarChart3Icon,
+  'credit-card': CreditCardIcon,
+  'alert-triangle': AlertTriangleIcon,
 }
 
 export const iconNames = Object.keys(iconRegistry)

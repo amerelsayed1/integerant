@@ -35,7 +35,7 @@ onUnmounted(() => window.removeEventListener('scroll', handleScroll))
   >
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex justify-between items-center h-16 md:h-18">
-        <router-link to="/" aria-label="Integrant home">
+        <router-link to="/" aria-label="Integerant home">
           <AppLogo variant="horizontal" />
         </router-link>
 
@@ -45,16 +45,16 @@ onUnmounted(() => window.removeEventListener('scroll', handleScroll))
             v-for="item in navItems"
             :key="item.key"
             :to="item.to"
-            class="px-4 py-2 text-sm font-medium text-slate-600 hover:text-blue-700 rounded-lg transition-colors duration-200"
-            active-class="text-blue-700"
-            exact-active-class="text-blue-700"
+            class="px-4 py-2 text-sm font-medium text-slate-600 hover:text-teal rounded-lg transition-colors duration-200"
+            active-class="text-teal"
+            exact-active-class="text-teal"
           >
             {{ t(`nav.${item.key}`) }}
           </router-link>
 
           <!-- Language switcher -->
           <button
-            class="mx-2 px-3 py-1.5 text-xs font-semibold rounded-lg border border-slate-200 hover:border-blue-400 text-slate-600 hover:text-blue-700 transition-colors duration-200"
+            class="mx-2 px-3 py-1.5 text-xs font-semibold rounded-lg border border-slate-200 hover:border-teal/40 text-slate-600 hover:text-teal transition-colors duration-200"
             @click="toggleLocale"
           >
             {{ locale === 'ar' ? 'EN' : 'عربي' }}
@@ -62,7 +62,7 @@ onUnmounted(() => window.removeEventListener('scroll', handleScroll))
 
           <router-link
             to="/contact"
-            class="ml-1 px-5 py-2.5 bg-blue-700 hover:bg-blue-800 text-white text-sm font-medium rounded-lg transition-colors duration-200"
+            class="ml-1 px-5 py-2.5 bg-teal hover:bg-navy text-white text-sm font-medium rounded-lg transition-colors duration-200"
           >
             {{ t('nav.getStarted') }}
           </router-link>
@@ -71,7 +71,7 @@ onUnmounted(() => window.removeEventListener('scroll', handleScroll))
         <!-- Mobile right side -->
         <div class="md:hidden flex items-center gap-2">
           <button
-            class="px-3 py-1.5 text-xs font-semibold rounded-lg border border-slate-200 text-slate-600 hover:text-blue-700 transition-colors duration-200"
+            class="px-3 py-1.5 text-xs font-semibold rounded-lg border border-slate-200 text-slate-600 hover:text-teal transition-colors duration-200"
             @click="toggleLocale"
           >
             {{ locale === 'ar' ? 'EN' : 'عربي' }}
@@ -96,15 +96,15 @@ onUnmounted(() => window.removeEventListener('scroll', handleScroll))
           v-for="item in navItems"
           :key="item.key"
           :to="item.to"
-          class="block px-4 py-3 text-sm font-medium text-slate-600 hover:text-blue-700 hover:bg-slate-50 rounded-lg transition-colors"
-          active-class="text-blue-700 bg-blue-50"
+          class="block px-4 py-3 text-sm font-medium text-slate-600 hover:text-teal hover:bg-slate-50 rounded-lg transition-colors"
+          active-class="text-teal bg-teal/10"
           @click="isMenuOpen = false"
         >
           {{ t(`nav.${item.key}`) }}
         </router-link>
         <router-link
           to="/contact"
-          class="block mt-2 px-4 py-3 bg-blue-700 hover:bg-blue-800 text-white text-sm font-medium rounded-lg text-center transition-colors"
+          class="block mt-2 px-4 py-3 bg-teal hover:bg-navy text-white text-sm font-medium rounded-lg text-center transition-colors"
           @click="isMenuOpen = false"
         >
           {{ t('nav.getStarted') }}

@@ -1,8 +1,8 @@
 import { onBeforeUnmount, watchEffect, type MaybeRefOrGetter, toValue } from 'vue'
 
-const SITE_NAME = 'Integrant'
+const SITE_NAME = 'Integerant'
 const SITE_URL = 'https://integerant.com'
-const DEFAULT_OG_IMAGE = `${SITE_URL}/og-image.png`
+const DEFAULT_OG_IMAGE = `${SITE_URL}/og-image.webp`
 
 export interface SeoOptions {
   title?: MaybeRefOrGetter<string>
@@ -70,7 +70,7 @@ export function useSeo(options: SeoOptions) {
     const noindex = toValue(options.noindex) ?? false
     const jsonLd = toValue(options.jsonLd) ?? null
 
-    const fullTitle = title ? `${title} | ${SITE_NAME}` : `${SITE_NAME} — Software Solutions & Consulting`
+    const fullTitle = title ? `${title} | ${SITE_NAME}` : `${SITE_NAME} | Software Development Company in Egypt & GCC`
     const url = `${SITE_URL}${path.startsWith('/') ? path : `/${path}`}`.replace(/\/+$/, '') || SITE_URL + '/'
 
     document.title = fullTitle

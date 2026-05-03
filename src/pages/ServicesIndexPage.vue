@@ -1,38 +1,24 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { ArrowRightIcon, CheckCircleIcon } from 'lucide-vue-next'
+import { useI18n } from 'vue-i18n'
 import { vAnimate } from '../composables/animate'
 import { useSeo } from '../composables/seo'
 import { useServicesStore } from '../stores/services'
 import { getIcon } from '../data/serviceIcons'
 
+const { t, tm } = useI18n()
 const { list } = useServicesStore()
 
-const valueProps = [
-  'Senior engineers and designers — no junior handoffs',
-  'Fixed-scope discovery before any code is written',
-  'Weekly demos and full source ownership from day one',
-  'Production-grade DevOps, testing, and monitoring as standard',
-]
-
-const faqs = [
-  {
-    q: 'How do engagements typically start?',
-    a: 'Every project begins with a paid discovery sprint where we shape scope, architecture, and a fixed estimate before committing to delivery. You leave the sprint with a written plan you can take to any vendor.',
-  },
-  {
-    q: 'Do you work fixed-price or time-and-materials?',
-    a: 'Both. We default to a fixed-scope discovery and either a fixed-price build for well-defined work, or a weekly retainer for evolving products. We will recommend whichever fits the risk profile of your project.',
-  },
-  {
-    q: 'Can you augment our existing engineering team?',
-    a: 'Yes. We provide senior engineers, designers, and fractional CTOs who plug into your stand-ups, code reviews, and tooling. Most augmentation engagements run on three- or six-month rolling contracts.',
-  },
-  {
-    q: 'What happens after a project launches?',
-    a: 'You can take everything in-house, or we stay on for ongoing maintenance and feature work through our Maintenance & Support practice. We keep at least one engineer on every former project so we can pick work back up quickly.',
-  },
-]
+type Faq = { q: string; a: string }
+const valueProps = computed<string[]>(() => {
+  const val = tm('servicesPage.valueProps') as unknown
+  return Array.isArray(val) ? (val as string[]) : []
+})
+const faqs = computed<Faq[]>(() => {
+  const val = tm('servicesPage.faqs') as unknown
+  return Array.isArray(val) ? (val as Faq[]) : []
+})
 
 useSeo({
   title: 'Software Development Services',
@@ -46,13 +32,13 @@ useSeo({
       name: 'Services',
       url: 'https://integerant.com/services',
       description:
-        'Web, mobile, SaaS, consulting, UI/UX, and maintenance services from Integrant.',
-      isPartOf: { '@type': 'WebSite', name: 'Integrant', url: 'https://integerant.com/' },
+        'Web, mobile, SaaS, consulting, UI/UX, and maintenance services from Integerant.',
+      isPartOf: { '@type': 'WebSite', name: 'Integerant', url: 'https://integerant.com/' },
     },
     {
       '@context': 'https://schema.org',
       '@type': 'ItemList',
-      name: 'Integrant Services',
+      name: 'Integerant Services',
       itemListElement: list.value.map((service, i) => ({
         '@type': 'ListItem',
         position: i + 1,
@@ -71,7 +57,7 @@ useSeo({
     {
       '@context': 'https://schema.org',
       '@type': 'FAQPage',
-      mainEntity: faqs.map((f) => ({
+      mainEntity: faqs.value.map((f) => ({
         '@type': 'Question',
         name: f.q,
         acceptedAnswer: { '@type': 'Answer', text: f.a },
@@ -86,14 +72,12 @@ useSeo({
     <!-- Hero -->
     <section class="bg-slate-50 border-b border-slate-200">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
-        <span class="text-sm font-semibold text-blue-700 uppercase tracking-wider">Services</span>
+        <span class="text-sm font-semibold text-gold uppercase tracking-wider">{{ t('services.label') }}</span>
         <h1 class="mt-3 text-3xl sm:text-4xl lg:text-5xl font-bold text-slate-900 tracking-tight max-w-3xl">
-          Software development and consulting services for startups and growing businesses
+          {{ t('servicesPage.heroTitle') }}
         </h1>
         <p class="mt-5 text-lg text-slate-600 leading-relaxed max-w-3xl">
-          We design, build, and maintain web, mobile, and SaaS products end-to-end. Our team pairs
-          senior engineering with research-led design, so you get software that ships on time,
-          scales with your growth, and is genuinely pleasant to use.
+          {{ t('servicesPage.heroSubtitle') }}
         </p>
       </div>
     </section>
@@ -106,15 +90,15 @@ useSeo({
             v-for="service in list"
             :key="service.slug"
             :to="`/services/${service.slug}`"
-            class="group block bg-white rounded-2xl border border-slate-200 p-7 shadow-sm hover:shadow-md hover:border-blue-200 transition-all duration-300"
+            class="group block bg-white rounded-2xl border border-slate-200 p-7 shadow-sm hover:shadow-md hover:border-teal/30 transition-all duration-300"
           >
-            <div class="w-12 h-12 bg-blue-50 rounded-xl flex items-center justify-center mb-5 group-hover:bg-blue-100 transition-colors duration-300">
-              <component :is="getIcon(service.iconName)" :size="22" class="text-blue-600" />
+            <div class="w-12 h-12 bg-teal/10 rounded-xl flex items-center justify-center mb-5 group-hover:bg-teal/20 transition-colors duration-300">
+              <component :is="getIcon(service.iconName)" :size="22" class="text-teal" />
             </div>
-            <h2 class="text-lg font-semibold text-slate-900 mb-2">{{ service.title }}</h2>
-            <p class="text-slate-600 leading-relaxed text-sm mb-4">{{ service.tagline }}</p>
-            <span class="inline-flex items-center gap-1.5 text-sm font-medium text-blue-700 group-hover:gap-2.5 transition-all duration-200">
-              Learn more <ArrowRightIcon :size="14" />
+            <h2 class="text-lg font-semibold text-slate-900 mb-2">{{ t(`services.items.${service.slug}.title`) }}</h2>
+            <p class="text-slate-600 leading-relaxed text-sm mb-4">{{ t(`services.items.${service.slug}.tagline`) }}</p>
+            <span class="inline-flex items-center gap-1.5 text-sm font-medium text-teal group-hover:gap-2.5 transition-all duration-200">
+              {{ t('servicesPage.learnMore') }} <ArrowRightIcon :size="14" />
             </span>
           </router-link>
         </div>
@@ -125,9 +109,9 @@ useSeo({
     <section class="bg-slate-50 border-y border-slate-200 py-16 md:py-24">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div v-animate class="max-w-3xl mb-10">
-          <span class="text-sm font-semibold text-blue-700 uppercase tracking-wider">Why Integrant</span>
+          <span class="text-sm font-semibold text-gold uppercase tracking-wider">{{ t('servicesPage.whyLabel') }}</span>
           <h2 class="mt-3 text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight">
-            What every engagement comes with
+            {{ t('servicesPage.whyTitle') }}
           </h2>
         </div>
         <ul v-animate.stagger class="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-4xl">
@@ -136,7 +120,7 @@ useSeo({
             :key="i"
             class="flex items-start gap-3 p-5 bg-white rounded-xl border border-slate-100"
           >
-            <CheckCircleIcon :size="20" class="text-blue-500 flex-shrink-0 mt-0.5" />
+            <CheckCircleIcon :size="20" class="text-teal flex-shrink-0 mt-0.5" />
             <span class="text-slate-700 text-sm leading-relaxed">{{ item }}</span>
           </li>
         </ul>
@@ -147,9 +131,9 @@ useSeo({
     <section class="bg-white py-16 md:py-24">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div v-animate class="max-w-3xl mb-10">
-          <span class="text-sm font-semibold text-blue-700 uppercase tracking-wider">FAQ</span>
+          <span class="text-sm font-semibold text-gold uppercase tracking-wider">{{ t('servicesPage.faqLabel') }}</span>
           <h2 class="mt-3 text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight">
-            Common questions about working with us
+            {{ t('servicesPage.faqTitle') }}
           </h2>
         </div>
         <div v-animate.stagger class="space-y-4 max-w-3xl">
@@ -160,7 +144,7 @@ useSeo({
           >
             <summary class="cursor-pointer list-none flex items-start justify-between gap-4 text-slate-900 font-medium">
               <span>{{ faq.q }}</span>
-              <span class="text-blue-600 transition-transform group-open:rotate-45 text-xl leading-none">+</span>
+              <span class="text-teal transition-transform group-open:rotate-45 text-xl leading-none">+</span>
             </summary>
             <p class="mt-3 text-slate-600 text-sm leading-relaxed">{{ faq.a }}</p>
           </details>
@@ -169,17 +153,17 @@ useSeo({
     </section>
 
     <!-- CTA -->
-    <section class="bg-slate-900 py-16 md:py-20">
+    <section class="bg-navy py-16 md:py-20">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        <h2 class="text-2xl sm:text-3xl font-bold text-white mb-4">Ready to scope your project?</h2>
+        <h2 class="text-2xl sm:text-3xl font-bold text-white mb-4">{{ t('servicesPage.ctaTitle') }}</h2>
         <p class="text-slate-400 text-lg max-w-xl mx-auto mb-8">
-          Tell us what you are building. We will reply within one business day with a discovery plan.
+          {{ t('servicesPage.ctaSubtitle') }}
         </p>
         <router-link
           to="/#contact"
-          class="inline-flex items-center gap-2 px-8 py-4 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-xl transition-colors duration-200 shadow-lg shadow-blue-600/20"
+          class="inline-flex items-center gap-2 px-8 py-4 bg-teal hover:bg-teal/90 text-white font-medium rounded-xl transition-colors duration-200 shadow-lg shadow-teal/20"
         >
-          Start a conversation
+          {{ t('servicesPage.ctaCta') }}
           <ArrowRightIcon :size="16" />
         </router-link>
       </div>

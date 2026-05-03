@@ -65,7 +65,7 @@ const pageMeta = computed(() => {
 
 useSeo({
   title: () => `${pageMeta.value.title} — Dashboard`,
-  description: 'Integrant client dashboard.',
+  description: 'Integerant client dashboard.',
   path: () => route.path,
   noindex: true,
 })

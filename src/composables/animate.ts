@@ -2,6 +2,11 @@ import { type Directive } from 'vue'
 
 const observerMap = new WeakMap<HTMLElement, IntersectionObserver>()
 
+function isAlreadyInViewport(el: HTMLElement): boolean {
+  const rect = el.getBoundingClientRect()
+  return rect.top < window.innerHeight && rect.bottom > 0
+}
+
 export const vAnimate: Directive<HTMLElement, string | undefined> = {
   mounted(el, binding) {
     const animClass = binding.arg === 'scale' ? 'fade-in-scale' : 'fade-in-up'
@@ -32,6 +37,12 @@ export const vAnimate: Directive<HTMLElement, string | undefined> = {
         child.style.transitionDelay = `${i * 80}ms`
       })
 
+      // If already in viewport at mount time, show immediately (no rootMargin penalty)
+      if (isAlreadyInViewport(el)) {
+        requestAnimationFrame(() => children.forEach((child) => child.classList.add('is-visible')))
+        return
+      }
+
       const observer = new IntersectionObserver(
         ([entry]) => {
           if (entry.isIntersecting) {
@@ -39,12 +50,18 @@ export const vAnimate: Directive<HTMLElement, string | undefined> = {
             observer.disconnect()
           }
         },
-        { rootMargin: '-60px', threshold: 0.1 }
+        { rootMargin: '-40px', threshold: 0.05 }
       )
       observer.observe(el)
       observerMap.set(el, observer)
     } else {
       el.classList.add(animClass)
+
+      // If already in viewport at mount time, show immediately
+      if (isAlreadyInViewport(el)) {
+        requestAnimationFrame(() => el.classList.add('is-visible'))
+        return
+      }
 
       const observer = new IntersectionObserver(
         ([entry]) => {
@@ -53,7 +70,7 @@ export const vAnimate: Directive<HTMLElement, string | undefined> = {
             observer.disconnect()
           }
         },
-        { rootMargin: '-80px', threshold: 0.1 }
+        { rootMargin: '-40px', threshold: 0.05 }
       )
       observer.observe(el)
       observerMap.set(el, observer)

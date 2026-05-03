@@ -3,6 +3,23 @@ export interface ProjectMetric {
   value: string
 }
 
+export interface ProjectScreen {
+  title: string
+  description: string
+  layout: 'map' | 'kanban' | 'mobile-form' | 'chart' | 'feed' | 'table' | 'wizard' | 'api' | 'browser'
+  accent: string
+  bg: string
+}
+
+export interface ProjectFeatureIcon {
+  iconName: string
+}
+
+export interface ProjectTimelineEntry {
+  phase: string
+  weeks: string
+}
+
 export interface ProjectData {
   slug: string
   title: string
@@ -17,111 +34,248 @@ export interface ProjectData {
   metrics: ProjectMetric[]
   technologies: string[]
   services: { label: string; slug: string }[]
+  iconBg: string
+  iconColor: string
+  coverFrom: string
+  coverTo: string
+  screens: ProjectScreen[]
+  externalUrl?: string
+  platforms?: string[]
+  appStoreUrl?: string
+  playStoreUrl?: string
+  features?: ProjectFeatureIcon[]
+  timeline?: ProjectTimelineEntry[]
 }
 
 export const defaultProjects: ProjectData[] = [
   {
-    slug: 'apex-logistics-fleet-tracking',
-    title: 'Real-time fleet tracking for Apex Logistics',
-    client: 'Apex Logistics',
-    industry: 'Logistics & Supply Chain',
-    year: '2025',
-    duration: '14 weeks',
-    summary:
-      'A web platform that lets dispatchers see every vehicle in their fleet on a live map, assign jobs in seconds, and surface delays before customers notice.',
-    challenge:
-      'Apex was running its 200+ vehicle fleet through spreadsheets and phone calls. Dispatchers had no visibility into vehicle location or job status, late deliveries cost five-figure sums per week, and their warehouse customers were threatening to switch providers.',
-    solution:
-      'We designed and built a real-time dispatch platform with live GPS tracking, drag-and-drop job assignment, and automated SLA alerts. The driver-side mobile app captures proof of delivery and updates the dispatcher view in under one second.',
-    results:
-      'On-time delivery climbed from 78% to 96% in the first quarter after launch, dispatcher headcount needs flattened despite a 30% increase in fleet size, and Apex retained their two largest accounts.',
-    metrics: [
-      { label: 'On-time delivery', value: '78% → 96%' },
-      { label: 'Dispatch time per job', value: '−65%' },
-      { label: 'Customer churn', value: '−40%' },
-    ],
-    technologies: ['Vue 3', 'TypeScript', 'Node.js', 'PostgreSQL', 'Redis', 'WebSockets', 'Mapbox', 'AWS'],
-    services: [
-      { label: 'Web Development', slug: 'web-development' },
-      { label: 'SaaS Development', slug: 'saas-development' },
-    ],
-  },
-  {
-    slug: 'pulsefit-wellness-app',
-    title: 'PulseFit — cross-platform wellness app',
-    client: 'PulseFit',
-    industry: 'Health & Wellness',
+    slug: 'saferoute',
+    title: 'SafeRoute',
+    client: 'SafeRoute',
+    industry: 'Safety & Navigation',
     year: '2024',
-    duration: '20 weeks',
+    duration: '16 weeks',
     summary:
-      'A native-feeling iOS and Android app that pairs with wearables, guides users through coached workouts, and turned a pre-revenue startup into a Series A candidate.',
+      'A real-time safety navigation platform that helps users discover and share safe routes, report hazards, and stay informed about local incidents.',
     challenge:
-      'PulseFit had a Figma prototype and an investor deadline. They needed a production-grade app on both stores in under five months, with wearable integration, social features, and an offline workout mode — without compromising on design polish.',
+      'Users needed a reliable way to navigate urban areas safely, with up-to-date information on road conditions, crime hotspots, and community-reported hazards — data that traditional map apps do not surface.',
     solution:
-      'We built a single React Native codebase with deep native modules for HealthKit and Health Connect, an offline-first sync layer, and a creator console for coaches to publish programs. We shipped to TestFlight in week 8 and to both app stores in week 18.',
+      'We built a cross-platform mobile app with real-time hazard reporting, community-verified route ratings, and push alerts for incidents along saved routes. A lightweight backend aggregates reports and pushes updates in under two seconds.',
     results:
-      'PulseFit launched on time with a 4.8 average rating across stores, hit 50k installs in the first month, and closed a Series A two quarters ahead of plan.',
+      'SafeRoute launched across iOS and Android with strong early traction, averaging 4.7 stars in both stores and thousands of active community reporters within the first month.',
     metrics: [
-      { label: 'App store rating', value: '4.8 / 5' },
-      { label: 'Installs in month 1', value: '50,000+' },
-      { label: 'D30 retention', value: '42%' },
+      { label: 'App store rating', value: '4.7 / 5' },
+      { label: 'Active reporters', value: '10,000+' },
+      { label: 'Avg. alert latency', value: '<2 sec' },
     ],
-    technologies: ['React Native', 'TypeScript', 'Expo', 'HealthKit', 'Health Connect', 'Firebase', 'Stripe'],
+    technologies: ['React Native', 'TypeScript', 'Node.js', 'PostgreSQL', 'Redis', 'Firebase', 'Mapbox'],
     services: [
       { label: 'Mobile App Development', slug: 'mobile-development' },
       { label: 'UI/UX Design', slug: 'ui-ux' },
     ],
+    iconBg: '#dbeafe',
+    iconColor: '#1d4ed8',
+    coverFrom: '#1e3a8a',
+    coverTo: '#3b82f6',
+    externalUrl: 'https://saferoute.app',
+    platforms: ['iOS', 'Android'],
+    features: [
+      { iconName: 'map-pin' },
+      { iconName: 'shield-check' },
+      { iconName: 'bell' },
+      { iconName: 'users' },
+      { iconName: 'zap' },
+      { iconName: 'globe' },
+    ],
+    timeline: [
+      { phase: 'Phase 01', weeks: 'Weeks 1–3' },
+      { phase: 'Phase 02', weeks: 'Weeks 4–8' },
+      { phase: 'Phase 03', weeks: 'Weeks 9–14' },
+      { phase: 'Phase 04', weeks: 'Weeks 15–16' },
+    ],
+    screens: [
+      {
+        title: 'Live Safety Map',
+        description: 'Community-reported hazards, verified safe routes, and real-time incident pins visible on a live map.',
+        layout: 'map',
+        accent: '#3b82f6',
+        bg: '#0f172a',
+      },
+      {
+        title: 'Route Safety Score',
+        description: 'Each suggested route is scored on safety, lighting, and recent incident history so users can make informed choices.',
+        layout: 'chart',
+        accent: '#60a5fa',
+        bg: '#1e293b',
+      },
+      {
+        title: 'Incident Report Flow',
+        description: 'One-tap hazard reporting with category selection, photo upload, and location pinning — completed in under 20 seconds.',
+        layout: 'mobile-form',
+        accent: '#34d399',
+        bg: '#064e3b',
+      },
+      {
+        title: 'Alert Feed',
+        description: 'Personalised push alerts for incidents along saved routes, with severity levels and community-verified status.',
+        layout: 'feed',
+        accent: '#f59e0b',
+        bg: '#1c1917',
+      },
+    ],
   },
   {
-    slug: 'northwind-saas-modernization',
-    title: 'Northwind Bookkeeping — SaaS modernization',
-    client: 'Northwind Bookkeeping',
-    industry: 'Fintech / Accounting',
+    slug: 'floosi',
+    title: 'Floosi',
+    client: 'Floosi',
+    industry: 'Fintech',
     year: '2024',
-    duration: '9 months',
+    duration: '24 weeks',
     summary:
-      'Migrating a 12-year-old PHP monolith to a modern multi-tenant SaaS architecture without dropping a single customer or invoice.',
+      'A smart personal finance platform that helps users track spending, set budgets, and grow their savings through automated insights and goal tracking.',
     challenge:
-      'Northwind’s monolith was hitting scaling limits, deploys were taking four hours, and three different audit firms had flagged the platform as unfit for SOC 2. Customers were demanding API access the legacy system could not provide.',
+      'Most budgeting apps overwhelm users with manual data entry. Floosi needed a frictionless experience that connects bank accounts, categorises transactions automatically, and nudges users toward better habits without requiring daily attention.',
     solution:
-      'We led the architecture redesign, picked the team’s first set of services to extract, and rebuilt the highest-traffic flows in TypeScript on AWS. We kept the monolith and the new services running in parallel behind a router until every customer was migrated.',
+      'We built a full-stack web and mobile platform with open-banking integrations, ML-powered transaction categorisation, and a goal-based savings engine. The onboarding flow connects a bank account in under three minutes.',
     results:
-      'Average deploy went from four hours to nine minutes, the platform passed SOC 2 Type II within twelve months of project start, and Northwind launched a public API that now drives 18% of new revenue.',
+      'Floosi users save an average of 18% more in the first three months, with a 72% day-60 retention rate — well above the category average. The platform handles thousands of transactions daily with 99.9% uptime.',
     metrics: [
-      { label: 'Deploy time', value: '4h → 9m' },
-      { label: 'p95 API latency', value: '−72%' },
-      { label: 'Revenue from API', value: '18% of new ARR' },
+      { label: 'Avg. savings increase', value: '+18%' },
+      { label: 'Day-60 retention', value: '72%' },
+      { label: 'Uptime', value: '99.9%' },
     ],
-    technologies: ['Node.js', 'TypeScript', 'PostgreSQL', 'Kubernetes', 'Terraform', 'AWS', 'OpenAPI'],
+    technologies: ['Vue 3', 'TypeScript', 'Laravel', 'PostgreSQL', 'Redis', 'Stripe', 'Plaid'],
     services: [
-      { label: 'Technical Consulting', slug: 'consulting' },
+      { label: 'Web Development', slug: 'web-development' },
+      { label: 'Mobile App Development', slug: 'mobile-development' },
       { label: 'SaaS Development', slug: 'saas-development' },
     ],
+    iconBg: '#d1fae5',
+    iconColor: '#059669',
+    coverFrom: '#065f46',
+    coverTo: '#059669',
+    platforms: ['iOS', 'Android'],
+    appStoreUrl: 'https://apps.apple.com',
+    playStoreUrl: 'https://play.google.com',
+    features: [
+      { iconName: 'repeat2' },
+      { iconName: 'sliders' },
+      { iconName: 'zap' },
+      { iconName: 'globe' },
+      { iconName: 'lock' },
+      { iconName: 'wallet' },
+    ],
+    timeline: [
+      { phase: 'Phase 01', weeks: 'Weeks 1–4' },
+      { phase: 'Phase 02', weeks: 'Weeks 5–9' },
+      { phase: 'Phase 03', weeks: 'Weeks 10–17' },
+      { phase: 'Phase 04', weeks: 'Weeks 18–24' },
+    ],
+    screens: [
+      {
+        title: 'Spending Dashboard',
+        description: 'Monthly spending breakdown by category with trend lines and comparison to previous months — all pulled automatically from connected accounts.',
+        layout: 'chart',
+        accent: '#34d399',
+        bg: '#022c22',
+      },
+      {
+        title: 'Budget Tracker',
+        description: 'Visual budget progress bars with real-time updates as transactions come in, and smart alerts before limits are reached.',
+        layout: 'kanban',
+        accent: '#6ee7b7',
+        bg: '#0f2918',
+      },
+      {
+        title: 'Savings Goals',
+        description: 'Goal-based savings pots with automated contributions, projected completion dates, and milestone celebrations.',
+        layout: 'feed',
+        accent: '#10b981',
+        bg: '#1a3a2a',
+      },
+      {
+        title: 'Transaction Feed',
+        description: 'Unified transaction list across all accounts with AI-powered categories, notes, and receipt photo attachments.',
+        layout: 'table',
+        accent: '#4ade80',
+        bg: '#0a1f14',
+      },
+    ],
   },
   {
-    slug: 'lumen-onboarding-redesign',
-    title: 'Lumen — onboarding redesign that cut churn 35%',
-    client: 'Lumen Analytics',
-    industry: 'B2B SaaS',
+    slug: 'operix',
+    title: 'Operix',
+    client: 'Operix',
+    industry: 'Business Management',
     year: '2025',
-    duration: '8 weeks',
+    duration: '9 months',
     summary:
-      'A research-led redesign of the first-run experience for a B2B analytics tool, shipped behind a controlled rollout and validated with measurable retention gains.',
+      'A multi-tenant business finance manager built for operations teams — covering invoicing, inventory, POS, and full double-entry accounting in one platform.',
     challenge:
-      'Lumen was paying real money for trial signups and losing 60% of them in the first three days. Customer interviews suggested the product was great once people got past setup, but setup took 45 minutes and asked questions most users could not answer.',
+      'Growing businesses were juggling separate tools for invoicing, stock control, and accounting. Month-end reconciliation took days, and the lack of a unified audit trail created compliance risks.',
     solution:
-      'We ran 12 user sessions, mapped every dropoff in the funnel, and rebuilt onboarding around a five-minute sample workspace, deferred configuration, and progressive disclosure. We shipped behind a feature flag to half of new accounts and measured against the existing flow.',
+      'We designed and built a modular SaaS platform with a GL-backed accounting engine, multi-location POS, inventory management, and tenant isolation baked in from day one. Every transaction posts a double-entry journal entry automatically.',
     results:
-      'Day-30 trial-to-paid conversion improved by 35%, time-to-first-value dropped from 45 minutes to under 6, and the new flow shipped to 100% of accounts in week 9.',
+      'Operix tenants close their books in hours instead of days, with zero reconciliation errors reported since launch. The platform supports multiple currencies and is actively used across multiple business types.',
     metrics: [
-      { label: 'Trial → paid', value: '+35%' },
-      { label: 'Time-to-first-value', value: '45m → <6m' },
-      { label: 'Setup support tickets', value: '−68%' },
+      { label: 'Month-end close time', value: '−80%' },
+      { label: 'Reconciliation errors', value: '0' },
+      { label: 'Supported currencies', value: '10+' },
     ],
-    technologies: ['Figma', 'User Research', 'Usability Testing', 'Design Systems', 'A/B Testing'],
+    technologies: ['Vue 3', 'TypeScript', 'Laravel', 'PostgreSQL', 'Redis', 'Docker'],
     services: [
-      { label: 'UI/UX Design', slug: 'ui-ux' },
+      { label: 'SaaS Development', slug: 'saas-development' },
+      { label: 'Technical Consulting', slug: 'consulting' },
+    ],
+    iconBg: '#ffedd5',
+    iconColor: '#ea580c',
+    coverFrom: '#7c2d12',
+    coverTo: '#f97316',
+    externalUrl: 'https://operix.io',
+    platforms: ['Web'],
+    features: [
+      { iconName: 'layout-dashboard' },
+      { iconName: 'receipt' },
+      { iconName: 'package' },
+      { iconName: 'credit-card' },
+      { iconName: 'bar-chart' },
+      { iconName: 'lock' },
+    ],
+    timeline: [
+      { phase: 'Phase 01', weeks: 'Weeks 1–6' },
+      { phase: 'Phase 02', weeks: 'Weeks 7–18' },
+      { phase: 'Phase 03', weeks: 'Weeks 19–30' },
+      { phase: 'Phase 04', weeks: 'Weeks 31–36' },
+    ],
+    screens: [
+      {
+        title: 'Finance Dashboard',
+        description: 'P&L, balance sheet, and cash flow metrics in a single view — updated in real time as invoices are posted.',
+        layout: 'browser',
+        accent: '#fb923c',
+        bg: '#1c0a00',
+      },
+      {
+        title: 'POS & Shift Management',
+        description: 'Touch-friendly point-of-sale with shift open/close, cash drawer reconciliation, and receipt printing.',
+        layout: 'browser',
+        accent: '#f97316',
+        bg: '#1a0800',
+      },
+      {
+        title: 'Inventory Control',
+        description: 'Multi-location stock tracking with purchase orders, stock transfers, and low-stock alerts.',
+        layout: 'browser',
+        accent: '#fdba74',
+        bg: '#1c1007',
+      },
+      {
+        title: 'GL Journal & Audit Log',
+        description: 'Immutable double-entry journal with full audit trail, period locking, and CSV export for accountants.',
+        layout: 'browser',
+        accent: '#fed7aa',
+        bg: '#0f0800',
+      },
     ],
   },
 ]
-
