@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed, ref, onMounted } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
+import { useRoute } from 'vue-router'
+import { useI18n } from 'vue-i18n'
 import {
   ArrowLeftIcon,
   ArrowRightIcon,
@@ -14,39 +15,46 @@ import { useServicesStore } from '../stores/services'
 import { getIcon } from '../data/serviceIcons'
 import { useSeo } from '../composables/seo'
 
+const { t } = useI18n()
 const route = useRoute()
-const router = useRouter()
 const { list, bySlug } = useServicesStore()
-
-const scrollToHome = (e: Event, sectionId: string) => {
-  e.preventDefault()
-  router.push('/').then(() => {
-    setTimeout(() => {
-      document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth' })
-    }, 100)
-  })
-}
 
 const slug = computed(() => route.params.slug as string)
 const service = computed(() => (slug.value ? bySlug(slug.value) : null))
 
 const currentIndex = computed(() =>
-  service.value ? list.value.findIndex((s) => s.slug === service.value!.slug) : -1
+  service.value ? list.value.findIndex((s) => s.slug === service.value!.slug) : -1,
 )
 const prevService = computed(() =>
-  currentIndex.value > 0 ? list.value[currentIndex.value - 1] : null
+  currentIndex.value > 0 ? list.value[currentIndex.value - 1] : null,
 )
 const nextService = computed(() =>
   currentIndex.value >= 0 && currentIndex.value < list.value.length - 1
     ? list.value[currentIndex.value + 1]
-    : null
+    : null,
 )
+
+const title = computed(() => service.value ? t(`services.items.${service.value.slug}.title`) : '')
+const tagline = computed(() => service.value ? t(`services.items.${service.value.slug}.tagline`) : '')
+const description = computed(() => service.value ? t(`services.items.${service.value.slug}.description`) : '')
+const ctaText = computed(() => service.value ? t(`services.items.${service.value.slug}.ctaText`) : '')
+const problems = computed<string[]>(() =>
+  service.value ? (t(`services.items.${service.value.slug}.problems`, []) as unknown as string[]) : [],
+)
+const useCases = computed<{ title: string; description: string }[]>(() =>
+  service.value
+    ? (t(`services.items.${service.value.slug}.useCases`, []) as unknown as { title: string; description: string }[])
+    : [],
+)
+
+const prevTitle = computed(() => prevService.value ? t(`services.items.${prevService.value.slug}.title`) : '')
+const nextTitle = computed(() => nextService.value ? t(`services.items.${nextService.value.slug}.title`) : '')
 
 const mounted = ref(false)
 onMounted(() => requestAnimationFrame(() => { mounted.value = true }))
 
 useSeo({
-  title: () => (service.value ? `${service.value.title} — ${service.value.tagline}` : 'Service Not Found'),
+  title: () => (service.value ? `${title.value} — ${tagline.value}` : 'Service Not Found'),
   description: () => service.value?.description ?? 'The requested service could not be found.',
   path: () => (service.value ? `/services/${service.value.slug}` : '/services'),
   noindex: () => !service.value,
@@ -56,9 +64,9 @@ useSeo({
           {
             '@context': 'https://schema.org',
             '@type': 'Service',
-            name: service.value.title,
-            description: service.value.description,
-            serviceType: service.value.title,
+            name: title.value,
+            description: description.value,
+            serviceType: title.value,
             url: `https://integerant.com/services/${service.value.slug}`,
             provider: {
               '@type': 'Organization',
@@ -68,7 +76,7 @@ useSeo({
             areaServed: 'Worldwide',
             hasOfferCatalog: {
               '@type': 'OfferCatalog',
-              name: `${service.value.title} Capabilities`,
+              name: `${title.value} Capabilities`,
               itemListElement: service.value.technologies.map((tech) => ({
                 '@type': 'Offer',
                 itemOffered: { '@type': 'Service', name: tech },
@@ -79,22 +87,12 @@ useSeo({
             '@context': 'https://schema.org',
             '@type': 'BreadcrumbList',
             itemListElement: [
-              {
-                '@type': 'ListItem',
-                position: 1,
-                name: 'Home',
-                item: 'https://integerant.com/',
-              },
-              {
-                '@type': 'ListItem',
-                position: 2,
-                name: 'Services',
-                item: 'https://integerant.com/#services',
-              },
+              { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://integerant.com/' },
+              { '@type': 'ListItem', position: 2, name: 'Services', item: 'https://integerant.com/services' },
               {
                 '@type': 'ListItem',
                 position: 3,
-                name: service.value.title,
+                name: title.value,
                 item: `https://integerant.com/services/${service.value.slug}`,
               },
             ],
@@ -108,14 +106,14 @@ useSeo({
   <!-- Not Found -->
   <div v-if="!service" class="min-h-screen flex items-center justify-center bg-white">
     <div class="text-center">
-      <h1 class="text-2xl font-bold text-slate-900 mb-4">Service Not Found</h1>
-      <p class="text-slate-600 mb-6">The service you're looking for doesn't exist.</p>
+      <h1 class="text-2xl font-bold text-slate-900 mb-4">{{ t('serviceDetail.notFound') }}</h1>
+      <p class="text-slate-600 mb-6">{{ t('serviceDetail.notFoundDesc') }}</p>
       <router-link
         to="/"
         class="inline-flex items-center gap-2 px-6 py-3 bg-blue-700 hover:bg-blue-800 text-white font-medium rounded-xl transition-colors"
       >
         <ArrowLeftIcon :size="16" />
-        Back to Home
+        {{ t('serviceDetail.backHome') }}
       </router-link>
     </div>
   </div>
@@ -129,28 +127,25 @@ useSeo({
           class="transition-all duration-500 ease-out"
           :class="mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'"
         >
-          <a
-            href="#services"
+          <router-link
+            to="/services"
             class="inline-flex items-center gap-1.5 text-sm font-medium text-blue-700 hover:text-blue-800 mb-6 transition-colors"
-            @click="scrollToHome($event, 'services')"
           >
             <ArrowLeftIcon :size="14" />
-            All Services
-          </a>
+            {{ t('serviceDetail.allServices') }}
+          </router-link>
 
           <div class="flex items-start gap-5 mb-6">
             <div class="w-14 h-14 bg-blue-50 rounded-2xl flex items-center justify-center flex-shrink-0">
               <component :is="getIcon(service.iconName)" :size="28" class="text-blue-600" />
             </div>
             <div>
-              <h1 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-slate-900 tracking-tight">
-                {{ service.title }}
-              </h1>
-              <p class="mt-2 text-lg sm:text-xl text-slate-600">{{ service.tagline }}</p>
+              <h1 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-slate-900 tracking-tight">{{ title }}</h1>
+              <p class="mt-2 text-lg sm:text-xl text-slate-600">{{ tagline }}</p>
             </div>
           </div>
 
-          <p class="text-lg text-slate-600 leading-relaxed max-w-3xl">{{ service.description }}</p>
+          <p class="text-lg text-slate-600 leading-relaxed max-w-3xl">{{ description }}</p>
         </div>
       </div>
     </section>
@@ -161,14 +156,14 @@ useSeo({
         <div v-animate class="mb-10">
           <div class="flex items-center gap-3 mb-3">
             <TargetIcon :size="20" class="text-blue-600" />
-            <span class="text-sm font-semibold text-blue-700 uppercase tracking-wider">Problems We Solve</span>
+            <span class="text-sm font-semibold text-blue-700 uppercase tracking-wider">{{ t('serviceDetail.problemsLabel') }}</span>
           </div>
-          <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight">Is this you?</h2>
+          <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight">{{ t('serviceDetail.problemsTitle') }}</h2>
         </div>
 
         <div v-animate.stagger class="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div
-            v-for="(problem, i) in service.problems"
+            v-for="(problem, i) in problems"
             :key="i"
             class="flex items-start gap-3 p-5 bg-slate-50 rounded-xl border border-slate-100"
           >
@@ -185,9 +180,9 @@ useSeo({
         <div v-animate class="mb-10">
           <div class="flex items-center gap-3 mb-3">
             <LayersIcon :size="20" class="text-blue-600" />
-            <span class="text-sm font-semibold text-blue-700 uppercase tracking-wider">Technologies &amp; Tools</span>
+            <span class="text-sm font-semibold text-blue-700 uppercase tracking-wider">{{ t('serviceDetail.techLabel') }}</span>
           </div>
-          <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight">What we work with</h2>
+          <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight">{{ t('serviceDetail.techTitle') }}</h2>
         </div>
 
         <div v-animate.delay-100 class="flex flex-wrap gap-3">
@@ -208,14 +203,14 @@ useSeo({
         <div v-animate class="mb-10">
           <div class="flex items-center gap-3 mb-3">
             <ZapIcon :size="20" class="text-blue-600" />
-            <span class="text-sm font-semibold text-blue-700 uppercase tracking-wider">Example Use Cases</span>
+            <span class="text-sm font-semibold text-blue-700 uppercase tracking-wider">{{ t('serviceDetail.useCasesLabel') }}</span>
           </div>
-          <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight">How we've helped</h2>
+          <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight">{{ t('serviceDetail.useCasesTitle') }}</h2>
         </div>
 
         <div v-animate.stagger class="grid grid-cols-1 md:grid-cols-3 gap-6">
           <div
-            v-for="(useCase, i) in service.useCases"
+            v-for="(useCase, i) in useCases"
             :key="i"
             class="bg-slate-50 rounded-2xl border border-slate-100 p-7"
           >
@@ -233,18 +228,17 @@ useSeo({
     <section class="bg-slate-900 py-16 md:py-20">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
         <div v-animate>
-          <h2 class="text-2xl sm:text-3xl font-bold text-white mb-4">Ready to get started?</h2>
+          <h2 class="text-2xl sm:text-3xl font-bold text-white mb-4">{{ t('serviceDetail.ctaTitle') }}</h2>
           <p class="text-slate-400 text-lg max-w-xl mx-auto mb-8">
-            Let's discuss how our {{ service.title.toLowerCase() }} services can help your business grow.
+            {{ t('serviceDetail.ctaSubtitle', { service: title.toLowerCase() }) }}
           </p>
-          <a
-            href="#contact"
+          <router-link
+            to="/contact"
             class="inline-flex items-center gap-2 px-8 py-4 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-xl transition-colors duration-200 shadow-lg shadow-blue-600/20"
-            @click="scrollToHome($event, 'contact')"
           >
-            {{ service.ctaText }}
+            {{ ctaText }}
             <ArrowRightIcon :size="16" />
-          </a>
+          </router-link>
         </div>
       </div>
     </section>
@@ -259,7 +253,7 @@ useSeo({
             class="flex items-center gap-2 text-sm font-medium text-slate-600 hover:text-blue-700 transition-colors"
           >
             <ArrowLeftIcon :size="14" />
-            {{ prevService.title }}
+            {{ prevTitle }}
           </router-link>
           <div v-else />
 
@@ -268,7 +262,7 @@ useSeo({
             :to="`/services/${nextService.slug}`"
             class="flex items-center gap-2 text-sm font-medium text-slate-600 hover:text-blue-700 transition-colors"
           >
-            {{ nextService.title }}
+            {{ nextTitle }}
             <ArrowRightIcon :size="14" />
           </router-link>
           <div v-else />

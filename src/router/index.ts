@@ -1,8 +1,11 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import { useAuth } from '../composables/auth'
 import HomePage from '../pages/HomePage.vue'
+import AboutPage from '../pages/AboutPage.vue'
 import ServicesIndexPage from '../pages/ServicesIndexPage.vue'
 import ServiceDetailPage from '../pages/ServiceDetailPage.vue'
+import ProcessPage from '../pages/ProcessPage.vue'
+import ContactPage from '../pages/ContactPage.vue'
 import ProjectsIndexPage from '../pages/ProjectsIndexPage.vue'
 import ProjectDetailPage from '../pages/ProjectDetailPage.vue'
 import LoginPage from '../pages/LoginPage.vue'
@@ -22,8 +25,11 @@ const router = createRouter({
   history: createWebHistory(),
   routes: [
     { path: '/', component: HomePage },
+    { path: '/about', component: AboutPage },
     { path: '/services', component: ServicesIndexPage },
     { path: '/services/:slug', component: ServiceDetailPage },
+    { path: '/process', component: ProcessPage },
+    { path: '/contact', component: ContactPage },
     { path: '/projects', component: ProjectsIndexPage },
     { path: '/projects/:slug', component: ProjectDetailPage },
     { path: '/login', component: LoginPage },
@@ -47,10 +53,7 @@ const router = createRouter({
       ],
     },
   ],
-  scrollBehavior(to, _from, _savedPosition) {
-    if (to.hash) {
-      return { el: to.hash, behavior: 'smooth' }
-    }
+  scrollBehavior(_to, _from, _savedPosition) {
     return { top: 0 }
   },
 })

@@ -1,14 +1,12 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import { ArrowRightIcon } from 'lucide-vue-next'
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
 
 const mounted = ref(false)
 onMounted(() => requestAnimationFrame(() => { mounted.value = true }))
-
-const scrollTo = (e: Event, id: string) => {
-  e.preventDefault()
-  document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })
-}
 </script>
 
 <template>
@@ -17,39 +15,36 @@ const scrollTo = (e: Event, id: string) => {
       <div class="flex flex-col lg:flex-row items-center gap-12 lg:gap-16">
         <!-- Left Content -->
         <div
-          class="flex-1 text-center lg:text-left transition-all duration-[600ms] ease-out"
+          class="flex-1 text-center lg:text-start transition-all duration-[600ms] ease-out"
           :class="mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-[30px]'"
         >
           <div class="inline-flex items-center gap-2 px-3 py-1.5 bg-blue-50 text-blue-700 text-xs font-semibold rounded-full mb-6 tracking-wide uppercase">
             <span class="w-1.5 h-1.5 bg-blue-500 rounded-full" />
-            Software Solutions &amp; Consulting
+            {{ t('hero.badge') }}
           </div>
 
           <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold text-slate-900 tracking-tight leading-[1.1] mb-6">
-            Building software <span class="text-blue-700">that scales</span> your business
+            {{ t('hero.titleBefore') }}<span class="text-blue-700">{{ t('hero.titleHighlight') }}</span>{{ t('hero.titleAfter') }}
           </h1>
 
           <p class="text-lg text-slate-600 leading-relaxed max-w-xl mx-auto lg:mx-0 mb-8">
-            We build scalable software and provide expert consulting for startups and growing
-            businesses. From idea to deployment, we are your technology partner.
+            {{ t('hero.subtitle') }}
           </p>
 
           <div class="flex flex-col sm:flex-row items-center gap-4 justify-center lg:justify-start">
-            <a
-              href="#contact"
+            <router-link
+              to="/contact"
               class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-7 py-3.5 bg-blue-700 hover:bg-blue-800 text-white font-medium rounded-xl transition-colors duration-200 shadow-sm shadow-blue-700/20"
-              @click="scrollTo($event, 'contact')"
             >
-              Contact Us
+              {{ t('hero.cta') }}
               <ArrowRightIcon :size="16" />
-            </a>
-            <a
-              href="#services"
+            </router-link>
+            <router-link
+              to="/services"
               class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-7 py-3.5 border-2 border-slate-200 hover:border-blue-700 text-slate-800 hover:text-blue-700 font-medium rounded-xl transition-colors duration-200"
-              @click="scrollTo($event, 'services')"
             >
-              Our Services
-            </a>
+              {{ t('hero.services') }}
+            </router-link>
           </div>
         </div>
 
@@ -111,7 +106,7 @@ const scrollTo = (e: Event, id: string) => {
             </div>
             <div class="absolute bottom-4 right-4 z-20 bg-white rounded-xl shadow-md border border-slate-100 px-3 py-2 flex items-center gap-2">
               <div class="w-2 h-2 bg-green-500 rounded-full" />
-              <span class="text-xs font-medium text-slate-600">Deployed</span>
+              <span class="text-xs font-medium text-slate-600">{{ t('hero.deployed') }}</span>
             </div>
           </div>
         </div>

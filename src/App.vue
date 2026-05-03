@@ -1,12 +1,24 @@
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, watch } from 'vue'
 import { useRoute } from 'vue-router'
+import { useI18n } from 'vue-i18n'
 import AppHeader from './components/AppHeader.vue'
 import AppFooter from './components/AppFooter.vue'
 import BackgroundDecoration from './components/BackgroundDecoration.vue'
 
 const route = useRoute()
 const isDashboard = computed(() => route.meta.layout === 'dashboard')
+
+const { locale } = useI18n()
+
+watch(
+  locale,
+  (lang) => {
+    document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr'
+    document.documentElement.lang = lang
+  },
+  { immediate: true },
+)
 </script>
 
 <template>
