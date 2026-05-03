@@ -1,20 +1,28 @@
 <script setup lang="ts">
+import { computed } from 'vue'
 import { ArrowRightIcon } from 'lucide-vue-next'
+import { useI18n } from 'vue-i18n'
 import { vAnimate } from '../composables/animate'
 import { services } from '../data/services'
 
-const serviceList = Object.values(services)
+const { t } = useI18n()
+
+const serviceList = computed(() =>
+  Object.values(services).map((s) => ({
+    ...s,
+    title: t(`services.items.${s.slug}.title`),
+    tagline: t(`services.items.${s.slug}.tagline`),
+  })),
+)
 </script>
 
 <template>
   <section id="services" class="py-20 md:py-28 bg-white">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div v-animate class="text-center mb-14">
-        <span class="text-sm font-semibold text-blue-700 uppercase tracking-wider">What We Do</span>
-        <h2 class="mt-3 text-3xl sm:text-4xl font-bold text-slate-900 tracking-tight">Our Services</h2>
-        <p class="mt-4 text-lg text-slate-600 max-w-2xl mx-auto">
-          Comprehensive software solutions to help your business grow and succeed in the digital landscape.
-        </p>
+        <span class="text-sm font-semibold text-blue-700 uppercase tracking-wider">{{ t('services.label') }}</span>
+        <h2 class="mt-3 text-3xl sm:text-4xl font-bold text-slate-900 tracking-tight">{{ t('services.title') }}</h2>
+        <p class="mt-4 text-lg text-slate-600 max-w-2xl mx-auto">{{ t('services.subtitle') }}</p>
       </div>
 
       <div v-animate.stagger class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -30,7 +38,7 @@ const serviceList = Object.values(services)
           <h3 class="text-lg font-semibold text-slate-900 mb-2">{{ service.title }}</h3>
           <p class="text-slate-600 leading-relaxed text-sm mb-4">{{ service.tagline }}</p>
           <span class="inline-flex items-center gap-1.5 text-sm font-medium text-blue-700 group-hover:gap-2.5 transition-all duration-200">
-            Learn more <ArrowRightIcon :size="14" />
+            {{ t('services.learnMore') }} <ArrowRightIcon :size="14" />
           </span>
         </router-link>
       </div>

@@ -1,40 +1,35 @@
 <script setup lang="ts">
+import { computed } from 'vue'
 import { LinkedinIcon, TwitterIcon, GithubIcon, MailIcon } from 'lucide-vue-next'
-import { useRouter } from 'vue-router'
+import { useI18n } from 'vue-i18n'
 import AppLogo from './AppLogo.vue'
 
-const router = useRouter()
+const { t } = useI18n()
+
 const currentYear = new Date().getFullYear()
 
-const quickLinks = ['Home', 'About', 'Services', 'Process', 'Contact']
+const quickLinks = [
+  { key: 'home', to: '/' },
+  { key: 'about', to: '/about' },
+  { key: 'services', to: '/services' },
+  { key: 'process', to: '/process' },
+  { key: 'contact', to: '/contact' },
+] as const
 
-const serviceLinks = [
-  { label: 'Web Development', to: '/services/web-development' },
-  { label: 'Mobile App Development', to: '/services/mobile-development' },
-  { label: 'SaaS Development', to: '/services/saas-development' },
-  { label: 'Technical Consulting', to: '/services/consulting' },
-  { label: 'UI/UX Design', to: '/services/ui-ux' },
-  { label: 'Maintenance & Support', to: '/services/support' },
-]
+const serviceLinks = computed(() => [
+  { label: t('services.items.web-development.title'), to: '/services/web-development' },
+  { label: t('services.items.mobile-development.title'), to: '/services/mobile-development' },
+  { label: t('services.items.saas-development.title'), to: '/services/saas-development' },
+  { label: t('services.items.consulting.title'), to: '/services/consulting' },
+  { label: t('services.items.ui-ux.title'), to: '/services/ui-ux' },
+  { label: t('services.items.support.title'), to: '/services/support' },
+])
 
 const socialLinks = [
   { icon: LinkedinIcon, label: 'LinkedIn' },
   { icon: TwitterIcon, label: 'Twitter' },
   { icon: GithubIcon, label: 'GitHub' },
 ]
-
-const scrollToSection = (e: Event, sectionId: string) => {
-  e.preventDefault()
-  if (router.currentRoute.value.path !== '/') {
-    router.push('/').then(() => {
-      setTimeout(() => {
-        document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth' })
-      }, 100)
-    })
-  } else {
-    document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth' })
-  }
-}
 </script>
 
 <template>
@@ -46,9 +41,7 @@ const scrollToSection = (e: Event, sectionId: string) => {
           <div class="mb-4">
             <AppLogo variant="horizontal" dark />
           </div>
-          <p class="text-slate-400 text-sm leading-relaxed mb-5">
-            Software solutions and consulting for startups and growing businesses. We turn ideas into scalable, reliable products.
-          </p>
+          <p class="text-slate-400 text-sm leading-relaxed mb-5">{{ t('footer.desc') }}</p>
           <div class="flex items-center gap-3">
             <a
               v-for="social in socialLinks"
@@ -64,17 +57,13 @@ const scrollToSection = (e: Event, sectionId: string) => {
 
         <!-- Quick Links -->
         <div>
-          <h3 class="text-sm font-semibold uppercase tracking-wider text-slate-300 mb-4">Quick Links</h3>
+          <h3 class="text-sm font-semibold uppercase tracking-wider text-slate-300 mb-4">{{ t('footer.quickLinks') }}</h3>
           <nav>
             <ul class="space-y-2.5">
-              <li v-for="item in quickLinks" :key="item">
-                <a
-                  :href="`#${item.toLowerCase()}`"
-                  class="text-slate-400 hover:text-white text-sm transition-colors"
-                  @click="scrollToSection($event, item.toLowerCase())"
-                >
-                  {{ item }}
-                </a>
+              <li v-for="item in quickLinks" :key="item.key">
+                <router-link :to="item.to" class="text-slate-400 hover:text-white text-sm transition-colors">
+                  {{ t(`nav.${item.key}`) }}
+                </router-link>
               </li>
             </ul>
           </nav>
@@ -82,9 +71,9 @@ const scrollToSection = (e: Event, sectionId: string) => {
 
         <!-- Services -->
         <div>
-          <h3 class="text-sm font-semibold uppercase tracking-wider text-slate-300 mb-4">Services</h3>
+          <h3 class="text-sm font-semibold uppercase tracking-wider text-slate-300 mb-4">{{ t('footer.services') }}</h3>
           <ul class="space-y-2.5">
-            <li v-for="item in serviceLinks" :key="item.label">
+            <li v-for="item in serviceLinks" :key="item.to">
               <router-link :to="item.to" class="text-slate-400 hover:text-white text-sm transition-colors">
                 {{ item.label }}
               </router-link>
@@ -94,7 +83,7 @@ const scrollToSection = (e: Event, sectionId: string) => {
 
         <!-- Contact -->
         <div>
-          <h3 class="text-sm font-semibold uppercase tracking-wider text-slate-300 mb-4">Contact</h3>
+          <h3 class="text-sm font-semibold uppercase tracking-wider text-slate-300 mb-4">{{ t('footer.contact') }}</h3>
           <ul class="space-y-3">
             <li class="flex items-center gap-2.5 text-slate-400 text-sm">
               <MailIcon :size="16" class="text-blue-500 flex-shrink-0" />
@@ -102,17 +91,15 @@ const scrollToSection = (e: Event, sectionId: string) => {
             </li>
           </ul>
           <div class="mt-6 p-4 bg-slate-800/60 rounded-xl">
-            <p class="text-slate-400 text-xs leading-relaxed">
-              Have a project in mind? We'd love to hear about it. Drop us a line and we'll get back to you within 24 hours.
-            </p>
+            <p class="text-slate-400 text-xs leading-relaxed">{{ t('footer.contactPrompt') }}</p>
           </div>
         </div>
       </div>
 
       <div class="border-t border-slate-800 pt-8">
         <div class="flex flex-col sm:flex-row justify-between items-center gap-2 text-slate-500 text-sm">
-          <p>&copy; {{ currentYear }} Integrant. All rights reserved.</p>
-          <p>Software Solutions &amp; Consulting</p>
+          <p>&copy; {{ currentYear }} Integrant. {{ t('footer.rights') }}</p>
+          <p>{{ t('footer.tagline') }}</p>
         </div>
       </div>
     </div>

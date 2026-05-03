@@ -1,36 +1,26 @@
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted } from 'vue'
-import { useRouter } from 'vue-router'
 import { MenuIcon, XIcon } from 'lucide-vue-next'
+import { useI18n } from 'vue-i18n'
 import AppLogo from './AppLogo.vue'
 
-const router = useRouter()
+const { t, locale } = useI18n()
 
-const navItems = ['Home', 'About', 'Services', 'Process', 'Contact']
+const navItems = [
+  { key: 'home', to: '/' },
+  { key: 'about', to: '/about' },
+  { key: 'services', to: '/services' },
+  { key: 'process', to: '/process' },
+  { key: 'contact', to: '/contact' },
+] as const
 
 const isMenuOpen = ref(false)
 const scrolled = ref(false)
 
-const handleScroll = () => {
-  scrolled.value = window.scrollY > 20
-}
+const handleScroll = () => { scrolled.value = window.scrollY > 20 }
 
-const scrollToSection = (e: Event, sectionId: string) => {
-  e.preventDefault()
-  isMenuOpen.value = false
-
-  // If not on home page, navigate there first then scroll
-  if (router.currentRoute.value.path !== '/') {
-    router.push('/').then(() => {
-      setTimeout(() => {
-        const el = document.getElementById(sectionId)
-        if (el) el.scrollIntoView({ behavior: 'smooth' })
-      }, 100)
-    })
-  } else {
-    const el = document.getElementById(sectionId)
-    if (el) el.scrollIntoView({ behavior: 'smooth' })
-  }
+const toggleLocale = () => {
+  locale.value = locale.value === 'ar' ? 'en' : 'ar'
 }
 
 onMounted(() => window.addEventListener('scroll', handleScroll))
@@ -44,61 +34,79 @@ onUnmounted(() => window.removeEventListener('scroll', handleScroll))
   >
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex justify-between items-center h-16 md:h-18">
-        <a href="/" @click.prevent="router.push('/')">
+        <router-link to="/">
           <AppLogo variant="horizontal" />
-        </a>
+        </router-link>
 
         <!-- Desktop Navigation -->
         <nav class="hidden md:flex items-center gap-1">
-          <a
+          <router-link
             v-for="item in navItems"
-            :key="item"
-            :href="`#${item.toLowerCase()}`"
+            :key="item.key"
+            :to="item.to"
             class="px-4 py-2 text-sm font-medium text-slate-600 hover:text-blue-700 rounded-lg transition-colors duration-200"
-            @click="scrollToSection($event, item.toLowerCase())"
+            active-class="text-blue-700"
+            exact-active-class="text-blue-700"
           >
-            {{ item }}
-          </a>
-          <a
-            href="#contact"
-            class="ml-2 px-5 py-2.5 bg-blue-700 hover:bg-blue-800 text-white text-sm font-medium rounded-lg transition-colors duration-200"
-            @click="scrollToSection($event, 'contact')"
+            {{ t(`nav.${item.key}`) }}
+          </router-link>
+
+          <!-- Language switcher -->
+          <button
+            class="mx-2 px-3 py-1.5 text-xs font-semibold rounded-lg border border-slate-200 hover:border-blue-400 text-slate-600 hover:text-blue-700 transition-colors duration-200"
+            @click="toggleLocale"
           >
-            Get Started
-          </a>
+            {{ locale === 'ar' ? 'EN' : 'عربي' }}
+          </button>
+
+          <router-link
+            to="/contact"
+            class="ml-1 px-5 py-2.5 bg-blue-700 hover:bg-blue-800 text-white text-sm font-medium rounded-lg transition-colors duration-200"
+          >
+            {{ t('nav.getStarted') }}
+          </router-link>
         </nav>
 
-        <!-- Mobile Menu Button -->
-        <button
-          class="md:hidden p-2 text-slate-700 hover:text-slate-900 rounded-lg"
-          :aria-label="isMenuOpen ? 'Close menu' : 'Open menu'"
-          @click="isMenuOpen = !isMenuOpen"
-        >
-          <XIcon v-if="isMenuOpen" :size="22" />
-          <MenuIcon v-else :size="22" />
-        </button>
+        <!-- Mobile right side -->
+        <div class="md:hidden flex items-center gap-2">
+          <button
+            class="px-3 py-1.5 text-xs font-semibold rounded-lg border border-slate-200 text-slate-600 hover:text-blue-700 transition-colors duration-200"
+            @click="toggleLocale"
+          >
+            {{ locale === 'ar' ? 'EN' : 'عربي' }}
+          </button>
+          <button
+            class="p-2 text-slate-700 hover:text-slate-900 rounded-lg"
+            :aria-label="isMenuOpen ? 'Close menu' : 'Open menu'"
+            @click="isMenuOpen = !isMenuOpen"
+          >
+            <XIcon v-if="isMenuOpen" :size="22" />
+            <MenuIcon v-else :size="22" />
+          </button>
+        </div>
       </div>
     </div>
 
     <!-- Mobile Navigation -->
     <div v-if="isMenuOpen" class="md:hidden bg-white border-t border-slate-100">
       <div class="px-4 py-4 space-y-1">
-        <a
+        <router-link
           v-for="item in navItems"
-          :key="item"
-          :href="`#${item.toLowerCase()}`"
+          :key="item.key"
+          :to="item.to"
           class="block px-4 py-3 text-sm font-medium text-slate-600 hover:text-blue-700 hover:bg-slate-50 rounded-lg transition-colors"
-          @click="scrollToSection($event, item.toLowerCase())"
+          active-class="text-blue-700 bg-blue-50"
+          @click="isMenuOpen = false"
         >
-          {{ item }}
-        </a>
-        <a
-          href="#contact"
+          {{ t(`nav.${item.key}`) }}
+        </router-link>
+        <router-link
+          to="/contact"
           class="block mt-2 px-4 py-3 bg-blue-700 hover:bg-blue-800 text-white text-sm font-medium rounded-lg text-center transition-colors"
-          @click="scrollToSection($event, 'contact')"
+          @click="isMenuOpen = false"
         >
-          Get Started
-        </a>
+          {{ t('nav.getStarted') }}
+        </router-link>
       </div>
     </div>
   </header>

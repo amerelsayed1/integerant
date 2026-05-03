@@ -24,6 +24,31 @@ Internet → bfm-frontend (80/443)
 
 ---
 
+## CI/CD — GitHub Actions
+
+Merging to `main` triggers `.github/workflows/deploy.yml`, which runs `deploy.sh` on a GitHub-hosted runner.
+
+### Required secret: `DEPLOY_SSH_KEY`
+
+The workflow injects the private SSH key from this secret into `~/.ssh/operix_deploy` before calling `deploy.sh`.  
+It must be set in **two places** (the job uses the `production` environment, so both levels are checked):
+
+| Scope | Where to set |
+|---|---|
+| Repository | Settings → Secrets → Actions → `DEPLOY_SSH_KEY` |
+| Environment | Settings → Environments → production → `DEPLOY_SSH_KEY` |
+
+To re-add from the local key file (requires `gh` CLI authenticated as a repo admin):
+
+```bash
+gh secret set DEPLOY_SSH_KEY --repo amerelsayed1/integerant < ~/.ssh/operix_deploy
+gh secret set DEPLOY_SSH_KEY --repo amerelsayed1/integerant --env production < ~/.ssh/operix_deploy
+```
+
+The key used is `~/.ssh/operix_deploy` — the same shared deploy key as the Operix project on the same server.
+
+---
+
 ## Prerequisites
 
 ### SSH key
@@ -34,6 +59,8 @@ If setting up on a new machine, copy your private key there:
 cp /path/to/key ~/.ssh/operix_deploy
 chmod 600 ~/.ssh/operix_deploy
 ```
+
+The matching public key (`~/.ssh/operix_deploy.pub`) must be in `~ubuntu/.ssh/authorized_keys` on `51.68.229.216`.
 
 Verify access:
 
