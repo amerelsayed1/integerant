@@ -7,6 +7,7 @@ import {
   UsersIcon,
   TrendingUpIcon,
   LayersIcon,
+  FileTextIcon,
   SettingsIcon,
   LifeBuoyIcon,
   XIcon,
@@ -26,7 +27,13 @@ const navGroups = [
       { name: 'Projects', to: '/dashboard/projects', icon: BriefcaseIcon },
       { name: 'Clients', to: '/dashboard/clients', icon: UsersIcon },
       { name: 'Leads', to: '/dashboard/leads', icon: TrendingUpIcon },
+    ],
+  },
+  {
+    label: 'Site content',
+    items: [
       { name: 'Services', to: '/dashboard/services', icon: LayersIcon },
+      { name: 'Case Studies', to: '/dashboard/case-studies', icon: FileTextIcon },
     ],
   },
   {

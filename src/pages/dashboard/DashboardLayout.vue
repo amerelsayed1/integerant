@@ -3,12 +3,14 @@ import { ref, computed } from 'vue'
 import { useRoute } from 'vue-router'
 import DashboardSidebar from '../../components/dashboard/DashboardSidebar.vue'
 import DashboardTopbar from '../../components/dashboard/DashboardTopbar.vue'
+import { useSeo } from '../../composables/seo'
 
 const route = useRoute()
 const sidebarOpen = ref(false)
 
 const pageMeta = computed(() => {
-  const map: Record<string, { title: string; subtitle: string }> = {
+  const path = route.path
+  const exact: Record<string, { title: string; subtitle: string }> = {
     '/dashboard': {
       title: 'Overview',
       subtitle: 'A snapshot of your business right now',
@@ -27,7 +29,19 @@ const pageMeta = computed(() => {
     },
     '/dashboard/services': {
       title: 'Services',
-      subtitle: 'Offerings and performance',
+      subtitle: 'Manage the services shown on the public site',
+    },
+    '/dashboard/services/new': {
+      title: 'New service',
+      subtitle: 'Create a new public service page',
+    },
+    '/dashboard/case-studies': {
+      title: 'Case Studies',
+      subtitle: 'Manage the case studies shown on the public site',
+    },
+    '/dashboard/case-studies/new': {
+      title: 'New case study',
+      subtitle: 'Create a new public case study page',
     },
     '/dashboard/settings': {
       title: 'Settings',
@@ -38,7 +52,22 @@ const pageMeta = computed(() => {
       subtitle: 'Resources and contact',
     },
   }
-  return map[route.path] ?? { title: 'Dashboard', subtitle: '' }
+  if (exact[path]) return exact[path]
+
+  if (path.startsWith('/dashboard/services/')) {
+    return { title: 'Edit service', subtitle: 'Update the public service page' }
+  }
+  if (path.startsWith('/dashboard/case-studies/')) {
+    return { title: 'Edit case study', subtitle: 'Update the public case study page' }
+  }
+  return { title: 'Dashboard', subtitle: '' }
+})
+
+useSeo({
+  title: () => `${pageMeta.value.title} — Dashboard`,
+  description: 'Integrant client dashboard.',
+  path: () => route.path,
+  noindex: true,
 })
 </script>
 

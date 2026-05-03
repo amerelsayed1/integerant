@@ -3,6 +3,7 @@ export default {
     home: 'Home',
     about: 'About',
     services: 'Services',
+    projects: 'Projects',
     process: 'Process',
     contact: 'Contact',
     getStarted: 'Get Started',
@@ -35,6 +36,8 @@ export default {
     subtitle:
       'Comprehensive software solutions to help your business grow and succeed in the digital landscape.',
     learnMore: 'Learn more',
+    viewAll: 'View all services',
+    caseStudies: 'See case studies',
     items: {
       'web-development': {
         title: 'Web Development',

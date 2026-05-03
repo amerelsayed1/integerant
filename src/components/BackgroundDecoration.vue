@@ -1,5 +1,5 @@
 <template>
-  <div class="fixed inset-0 z-0 overflow-hidden pointer-events-none">
+  <div class="fixed inset-0 z-0 overflow-hidden pointer-events-none" aria-hidden="true">
     <div
       class="absolute -top-40 -right-40 w-[600px] h-[600px] rounded-full opacity-[0.04]"
       :style="{ background: 'radial-gradient(circle, #3b82f6 0%, transparent 70%)' }"

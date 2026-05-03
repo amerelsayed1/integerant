@@ -138,6 +138,12 @@ The script is fully idempotent — safe to re-run on subsequent deploys too.
 
 ## Routine deploys
 
+Deploys are **automated via GitHub Actions** on every push to `main`
+(see [Continuous deployment](#continuous-deployment) below).
+
+If you need to deploy manually from your machine — for a hotfix, while
+GitHub Actions is down, or to deploy from a non-`main` branch:
+
 ```bash
 bash deploy.sh
 ```
@@ -153,6 +159,79 @@ What it does, in order:
 7. **Migrations** — `php artisan migrate --force`
 8. **Cache warm** — config, route, view caches
 9. **Smoke test** — `curl https://integerant.com/healthz` must return `ok`
+
+---
+
+## Continuous deployment
+
+Two workflows live in `.github/workflows/`:
+
+| Workflow            | Trigger                          | What it does |
+|---------------------|----------------------------------|--------------|
+| `ci.yml`            | PRs targeting `main`, push to `main` | `npm ci && npm run build` (vue-tsc type-check + Vite build). Fails the PR if the frontend won't compile. |
+| `deploy.yml`        | Push to `main`, manual dispatch  | Runs `deploy.sh` against the OVH VPS. |
+
+### One-time setup: GitHub secret
+
+The deploy workflow needs the SSH private key for `ubuntu@51.68.229.216`.
+Add it as a **repository secret** (Settings → Secrets and variables → Actions → New repository secret):
+
+| Name              | Value                                               |
+|-------------------|-----------------------------------------------------|
+| `DEPLOY_SSH_KEY`  | Contents of `~/.ssh/operix_deploy` (private key, full PEM) |
+
+The key must already be authorized in `~/.ssh/authorized_keys` on the
+server — the same key already used for manual deploys.
+
+### Optional but recommended: required reviewers
+
+Settings → Environments → `production` → "Required reviewers". Add yourself.
+Every deploy will then pause and wait for a one-click approval from the
+Actions tab before SSH'ing into the VPS. Cheap insurance against rogue
+merges going straight to production.
+
+### How the merge → deploy flow works
+
+```
+feature branch → open PR
+     │
+     ▼
+ci.yml runs (type-check + build) ── must pass before merge
+     │
+     ▼
+merge to main
+     │
+     ▼
+deploy.yml triggers → checkout → load DEPLOY_SSH_KEY → bash deploy.sh
+     │
+     ▼
+deploy.sh rsyncs code to /opt/integerant, rebuilds Docker images,
+runs migrations, warms caches, smoke-tests /healthz
+     │
+     ▼
+green check on the merge commit · live on https://integerant.com
+```
+
+### Manual deploys still work
+
+`deploy.sh` is unchanged and still runs from any developer machine that
+has `~/.ssh/operix_deploy` set up. Use this if Actions is unavailable
+or to deploy a non-`main` branch.
+
+### Watching a deploy
+
+GitHub Actions tab → "Deploy to production" → click the running run.
+You'll see each step (rsync, SSL check, nginx reload, Docker build,
+migrations, smoke test) stream live. Typical run is 3-6 minutes
+depending on whether the Docker layers are cached.
+
+### What the CI workflow does NOT cover (yet)
+
+- Laravel `phpunit` tests — not run in CI
+- Backend type-check / static analysis
+- E2E tests against the deployed site
+
+Add these to `ci.yml` (or a new workflow) when the backend stabilises.
 
 ---
 

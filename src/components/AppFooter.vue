@@ -3,27 +3,28 @@ import { computed } from 'vue'
 import { LinkedinIcon, TwitterIcon, GithubIcon, MailIcon } from 'lucide-vue-next'
 import { useI18n } from 'vue-i18n'
 import AppLogo from './AppLogo.vue'
+import { useServicesStore } from '../stores/services'
 
 const { t } = useI18n()
 
 const currentYear = new Date().getFullYear()
+const { list: servicesList } = useServicesStore()
 
 const quickLinks = [
   { key: 'home', to: '/' },
   { key: 'about', to: '/about' },
   { key: 'services', to: '/services' },
+  { key: 'projects', to: '/projects' },
   { key: 'process', to: '/process' },
   { key: 'contact', to: '/contact' },
 ] as const
 
-const serviceLinks = computed(() => [
-  { label: t('services.items.web-development.title'), to: '/services/web-development' },
-  { label: t('services.items.mobile-development.title'), to: '/services/mobile-development' },
-  { label: t('services.items.saas-development.title'), to: '/services/saas-development' },
-  { label: t('services.items.consulting.title'), to: '/services/consulting' },
-  { label: t('services.items.ui-ux.title'), to: '/services/ui-ux' },
-  { label: t('services.items.support.title'), to: '/services/support' },
-])
+const serviceLinks = computed(() =>
+  servicesList.value.map((s) => ({
+    label: t(`services.items.${s.slug}.title`),
+    to: `/services/${s.slug}`,
+  })),
+)
 
 const socialLinks = [
   { icon: LinkedinIcon, label: 'LinkedIn' },
@@ -47,6 +48,7 @@ const socialLinks = [
               v-for="social in socialLinks"
               :key="social.label"
               href="#"
+              rel="nofollow noopener"
               class="w-9 h-9 bg-slate-800 hover:bg-blue-700 rounded-lg flex items-center justify-center transition-colors duration-200"
               :aria-label="social.label"
             >
@@ -58,7 +60,7 @@ const socialLinks = [
         <!-- Quick Links -->
         <div>
           <h3 class="text-sm font-semibold uppercase tracking-wider text-slate-300 mb-4">{{ t('footer.quickLinks') }}</h3>
-          <nav>
+          <nav aria-label="Footer quick links">
             <ul class="space-y-2.5">
               <li v-for="item in quickLinks" :key="item.key">
                 <router-link :to="item.to" class="text-slate-400 hover:text-white text-sm transition-colors">
@@ -72,13 +74,15 @@ const socialLinks = [
         <!-- Services -->
         <div>
           <h3 class="text-sm font-semibold uppercase tracking-wider text-slate-300 mb-4">{{ t('footer.services') }}</h3>
-          <ul class="space-y-2.5">
-            <li v-for="item in serviceLinks" :key="item.to">
-              <router-link :to="item.to" class="text-slate-400 hover:text-white text-sm transition-colors">
-                {{ item.label }}
-              </router-link>
-            </li>
-          </ul>
+          <nav aria-label="Footer services">
+            <ul class="space-y-2.5">
+              <li v-for="item in serviceLinks" :key="item.to">
+                <router-link :to="item.to" class="text-slate-400 hover:text-white text-sm transition-colors">
+                  {{ item.label }}
+                </router-link>
+              </li>
+            </ul>
+          </nav>
         </div>
 
         <!-- Contact -->

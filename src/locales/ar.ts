@@ -3,6 +3,7 @@ export default {
     home: 'الرئيسية',
     about: 'من نحن',
     services: 'الخدمات',
+    projects: 'المشاريع',
     process: 'آلية عملنا',
     contact: 'تواصل معنا',
     getStarted: 'ابدأ الآن',
@@ -34,6 +35,8 @@ export default {
     title: 'خدماتنا',
     subtitle: 'حلول برمجية شاملة تساعد شركتك على النمو والنجاح في المشهد الرقمي.',
     learnMore: 'اعرف أكثر',
+    viewAll: 'عرض جميع الخدمات',
+    caseStudies: 'استعرض حالات العملاء',
     items: {
       'web-development': {
         title: 'تطوير الويب',

@@ -10,6 +10,7 @@ const navItems = [
   { key: 'home', to: '/' },
   { key: 'about', to: '/about' },
   { key: 'services', to: '/services' },
+  { key: 'projects', to: '/projects' },
   { key: 'process', to: '/process' },
   { key: 'contact', to: '/contact' },
 ] as const
@@ -34,12 +35,12 @@ onUnmounted(() => window.removeEventListener('scroll', handleScroll))
   >
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex justify-between items-center h-16 md:h-18">
-        <router-link to="/">
+        <router-link to="/" aria-label="Integrant home">
           <AppLogo variant="horizontal" />
         </router-link>
 
         <!-- Desktop Navigation -->
-        <nav class="hidden md:flex items-center gap-1">
+        <nav class="hidden md:flex items-center gap-1" aria-label="Primary">
           <router-link
             v-for="item in navItems"
             :key="item.key"
@@ -78,6 +79,7 @@ onUnmounted(() => window.removeEventListener('scroll', handleScroll))
           <button
             class="p-2 text-slate-700 hover:text-slate-900 rounded-lg"
             :aria-label="isMenuOpen ? 'Close menu' : 'Open menu'"
+            :aria-expanded="isMenuOpen"
             @click="isMenuOpen = !isMenuOpen"
           >
             <XIcon v-if="isMenuOpen" :size="22" />
@@ -88,7 +90,7 @@ onUnmounted(() => window.removeEventListener('scroll', handleScroll))
     </div>
 
     <!-- Mobile Navigation -->
-    <div v-if="isMenuOpen" class="md:hidden bg-white border-t border-slate-100">
+    <nav v-if="isMenuOpen" class="md:hidden bg-white border-t border-slate-100" aria-label="Mobile">
       <div class="px-4 py-4 space-y-1">
         <router-link
           v-for="item in navItems"
@@ -108,6 +110,6 @@ onUnmounted(() => window.removeEventListener('scroll', handleScroll))
           {{ t('nav.getStarted') }}
         </router-link>
       </div>
-    </div>
+    </nav>
   </header>
 </template>

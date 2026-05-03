@@ -11,29 +11,40 @@ import {
   ZapIcon,
 } from 'lucide-vue-next'
 import { vAnimate } from '../composables/animate'
-import { services, serviceKeys } from '../data/services'
+import { useServicesStore } from '../stores/services'
+import { getIcon } from '../data/serviceIcons'
+import { useSeo } from '../composables/seo'
 
 const { t } = useI18n()
 const route = useRoute()
+const { list, bySlug } = useServicesStore()
 
 const slug = computed(() => route.params.slug as string)
-const service = computed(() => (slug.value ? services[slug.value] : null))
+const service = computed(() => (slug.value ? bySlug(slug.value) : null))
 
-const currentIndex = computed(() => (service.value ? serviceKeys.indexOf(service.value.slug) : -1))
+const currentIndex = computed(() =>
+  service.value ? list.value.findIndex((s) => s.slug === service.value!.slug) : -1,
+)
 const prevService = computed(() =>
-  currentIndex.value > 0 ? services[serviceKeys[currentIndex.value - 1]] : null,
+  currentIndex.value > 0 ? list.value[currentIndex.value - 1] : null,
 )
 const nextService = computed(() =>
-  currentIndex.value < serviceKeys.length - 1 ? services[serviceKeys[currentIndex.value + 1]] : null,
+  currentIndex.value >= 0 && currentIndex.value < list.value.length - 1
+    ? list.value[currentIndex.value + 1]
+    : null,
 )
 
 const title = computed(() => service.value ? t(`services.items.${service.value.slug}.title`) : '')
 const tagline = computed(() => service.value ? t(`services.items.${service.value.slug}.tagline`) : '')
 const description = computed(() => service.value ? t(`services.items.${service.value.slug}.description`) : '')
 const ctaText = computed(() => service.value ? t(`services.items.${service.value.slug}.ctaText`) : '')
-const problems = computed<string[]>(() => service.value ? (t(`services.items.${service.value.slug}.problems`, []) as unknown as string[]) : [])
+const problems = computed<string[]>(() =>
+  service.value ? (t(`services.items.${service.value.slug}.problems`, []) as unknown as string[]) : [],
+)
 const useCases = computed<{ title: string; description: string }[]>(() =>
-  service.value ? (t(`services.items.${service.value.slug}.useCases`, []) as unknown as { title: string; description: string }[]) : [],
+  service.value
+    ? (t(`services.items.${service.value.slug}.useCases`, []) as unknown as { title: string; description: string }[])
+    : [],
 )
 
 const prevTitle = computed(() => prevService.value ? t(`services.items.${prevService.value.slug}.title`) : '')
@@ -41,6 +52,54 @@ const nextTitle = computed(() => nextService.value ? t(`services.items.${nextSer
 
 const mounted = ref(false)
 onMounted(() => requestAnimationFrame(() => { mounted.value = true }))
+
+useSeo({
+  title: () => (service.value ? `${title.value} — ${tagline.value}` : 'Service Not Found'),
+  description: () => service.value?.description ?? 'The requested service could not be found.',
+  path: () => (service.value ? `/services/${service.value.slug}` : '/services'),
+  noindex: () => !service.value,
+  jsonLd: () =>
+    service.value
+      ? [
+          {
+            '@context': 'https://schema.org',
+            '@type': 'Service',
+            name: title.value,
+            description: description.value,
+            serviceType: title.value,
+            url: `https://integerant.com/services/${service.value.slug}`,
+            provider: {
+              '@type': 'Organization',
+              name: 'Integrant',
+              url: 'https://integerant.com/',
+            },
+            areaServed: 'Worldwide',
+            hasOfferCatalog: {
+              '@type': 'OfferCatalog',
+              name: `${title.value} Capabilities`,
+              itemListElement: service.value.technologies.map((tech) => ({
+                '@type': 'Offer',
+                itemOffered: { '@type': 'Service', name: tech },
+              })),
+            },
+          },
+          {
+            '@context': 'https://schema.org',
+            '@type': 'BreadcrumbList',
+            itemListElement: [
+              { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://integerant.com/' },
+              { '@type': 'ListItem', position: 2, name: 'Services', item: 'https://integerant.com/services' },
+              {
+                '@type': 'ListItem',
+                position: 3,
+                name: title.value,
+                item: `https://integerant.com/services/${service.value.slug}`,
+              },
+            ],
+          },
+        ]
+      : null,
+})
 </script>
 
 <template>
@@ -78,7 +137,7 @@ onMounted(() => requestAnimationFrame(() => { mounted.value = true }))
 
           <div class="flex items-start gap-5 mb-6">
             <div class="w-14 h-14 bg-blue-50 rounded-2xl flex items-center justify-center flex-shrink-0">
-              <component :is="service.icon" :size="28" class="text-blue-600" />
+              <component :is="getIcon(service.iconName)" :size="28" class="text-blue-600" />
             </div>
             <div>
               <h1 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-slate-900 tracking-tight">{{ title }}</h1>

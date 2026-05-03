@@ -3,12 +3,14 @@ import { computed } from 'vue'
 import { ArrowRightIcon } from 'lucide-vue-next'
 import { useI18n } from 'vue-i18n'
 import { vAnimate } from '../composables/animate'
-import { services } from '../data/services'
+import { useServicesStore } from '../stores/services'
+import { getIcon } from '../data/serviceIcons'
 
 const { t } = useI18n()
+const { list } = useServicesStore()
 
 const serviceList = computed(() =>
-  Object.values(services).map((s) => ({
+  list.value.map((s) => ({
     ...s,
     title: t(`services.items.${s.slug}.title`),
     tagline: t(`services.items.${s.slug}.tagline`),
@@ -33,13 +35,28 @@ const serviceList = computed(() =>
           class="group block bg-white rounded-2xl border border-slate-200 p-7 shadow-sm hover:shadow-md hover:border-blue-200 transition-all duration-300"
         >
           <div class="w-12 h-12 bg-blue-50 rounded-xl flex items-center justify-center mb-5 group-hover:bg-blue-100 transition-colors duration-300">
-            <component :is="service.icon" :size="22" class="text-blue-600" />
+            <component :is="getIcon(service.iconName)" :size="22" class="text-blue-600" />
           </div>
           <h3 class="text-lg font-semibold text-slate-900 mb-2">{{ service.title }}</h3>
           <p class="text-slate-600 leading-relaxed text-sm mb-4">{{ service.tagline }}</p>
           <span class="inline-flex items-center gap-1.5 text-sm font-medium text-blue-700 group-hover:gap-2.5 transition-all duration-200">
             {{ t('services.learnMore') }} <ArrowRightIcon :size="14" />
           </span>
+        </router-link>
+      </div>
+
+      <div class="mt-12 flex flex-col sm:flex-row items-center justify-center gap-4">
+        <router-link
+          to="/services"
+          class="inline-flex items-center gap-2 px-6 py-3 border-2 border-slate-200 hover:border-blue-700 text-slate-800 hover:text-blue-700 font-medium rounded-xl transition-colors duration-200"
+        >
+          {{ t('services.viewAll') }} <ArrowRightIcon :size="14" />
+        </router-link>
+        <router-link
+          to="/projects"
+          class="inline-flex items-center gap-2 px-6 py-3 text-blue-700 hover:text-blue-800 font-medium rounded-xl transition-colors duration-200"
+        >
+          {{ t('services.caseStudies') }} <ArrowRightIcon :size="14" />
         </router-link>
       </div>
     </div>

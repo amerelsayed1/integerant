@@ -1,33 +1,23 @@
-import type { Component } from 'vue'
-import {
-  GlobeIcon,
-  SmartphoneIcon,
-  CloudIcon,
-  LightbulbIcon,
-  PaletteIcon,
-  WrenchIcon,
-} from 'lucide-vue-next'
-
 export interface ServiceData {
   slug: string
   title: string
   tagline: string
   description: string
-  icon: Component
+  iconName: string
   problems: string[]
   technologies: string[]
   useCases: { title: string; description: string }[]
   ctaText: string
 }
 
-export const services: Record<string, ServiceData> = {
-  'web-development': {
+export const defaultServices: ServiceData[] = [
+  {
     slug: 'web-development',
     title: 'Web Development',
     tagline: 'Modern web applications built for performance and scale',
     description:
       'We design and develop responsive, high-performance web applications using modern frameworks and best practices. From interactive single-page applications to complex enterprise platforms, we deliver solutions that are fast, accessible, and built to grow with your business.',
-    icon: GlobeIcon,
+    iconName: 'globe',
     problems: [
       "Outdated website that doesn't reflect your brand or convert visitors",
       'Slow page load times driving users away',
@@ -67,13 +57,13 @@ export const services: Record<string, ServiceData> = {
     ],
     ctaText: 'Start Your Web Project',
   },
-  'mobile-development': {
+  {
     slug: 'mobile-development',
     title: 'Mobile App Development',
     tagline: 'Native and cross-platform apps that users love',
     description:
       'We build mobile applications for iOS and Android that deliver seamless, intuitive experiences. Whether you need a native app for maximum performance or a cross-platform solution for faster time-to-market, we craft mobile products that engage users and drive business results.',
-    icon: SmartphoneIcon,
+    iconName: 'smartphone',
     problems: [
       'No mobile presence in an increasingly mobile-first world',
       'Existing app is slow, buggy, or outdated',
@@ -113,13 +103,13 @@ export const services: Record<string, ServiceData> = {
     ],
     ctaText: 'Build Your Mobile App',
   },
-  'saas-development': {
+  {
     slug: 'saas-development',
     title: 'SaaS Development',
     tagline: 'Scalable platforms designed for growth and reliability',
     description:
       'We architect and build SaaS platforms from the ground up — multi-tenant, secure, and designed to scale. From subscription management to user onboarding, we handle the complex infrastructure so you can focus on delivering value to your customers.',
-    icon: CloudIcon,
+    iconName: 'cloud',
     problems: [
       'Validating a SaaS idea without burning through runway',
       'Scaling infrastructure as your user base grows',
@@ -159,13 +149,13 @@ export const services: Record<string, ServiceData> = {
     ],
     ctaText: 'Launch Your SaaS',
   },
-  consulting: {
+  {
     slug: 'consulting',
     title: 'Technical Consulting',
     tagline: 'Expert guidance to make the right technology decisions',
     description:
       'Our consulting services help you navigate complex technical decisions with confidence. From architecture reviews and technology selection to team augmentation and process optimization, we bring senior-level expertise to ensure your project is set up for long-term success.',
-    icon: LightbulbIcon,
+    iconName: 'lightbulb',
     problems: [
       'Uncertainty about which technology stack to choose',
       'Technical debt slowing down development velocity',
@@ -205,13 +195,13 @@ export const services: Record<string, ServiceData> = {
     ],
     ctaText: 'Book a Consultation',
   },
-  'ui-ux': {
+  {
     slug: 'ui-ux',
     title: 'UI/UX Design',
     tagline: 'Research-driven design that users love to interact with',
     description:
       'We create user interfaces that are beautiful, intuitive, and effective. Our design process is grounded in user research and iterative testing, ensuring every interaction serves a purpose. From wireframes to polished prototypes, we design experiences that convert.',
-    icon: PaletteIcon,
+    iconName: 'palette',
     problems: [
       'Low conversion rates despite good traffic',
       'Users abandoning complex workflows or forms',
@@ -251,13 +241,13 @@ export const services: Record<string, ServiceData> = {
     ],
     ctaText: 'Improve Your UX',
   },
-  support: {
+  {
     slug: 'support',
     title: 'Maintenance & Support',
     tagline: 'Keep your systems running smoothly and evolving',
     description:
       "Software doesn't end at launch. We provide ongoing maintenance, monitoring, and support to keep your applications secure, performant, and up-to-date. From bug fixes and security patches to feature enhancements and infrastructure optimization, we're your long-term technology partner.",
-    icon: WrenchIcon,
+    iconName: 'wrench',
     problems: [
       'Production issues with no dedicated team to resolve them',
       'Security vulnerabilities in unpatched dependencies',
@@ -297,6 +287,4 @@ export const services: Record<string, ServiceData> = {
     ],
     ctaText: 'Get Ongoing Support',
   },
-}
-
-export const serviceKeys = Object.keys(services)
+]
