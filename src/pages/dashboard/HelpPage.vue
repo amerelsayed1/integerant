@@ -15,7 +15,7 @@ const faqs = [
       <div class="flex items-center gap-3 p-4 bg-blue-50 rounded-xl">
         <div class="w-9 h-9 rounded-full bg-blue-700 text-white flex items-center justify-center text-sm font-semibold flex-shrink-0">IN</div>
         <div>
-          <p class="text-sm font-medium text-slate-900">Integerant Support</p>
+          <p class="text-sm font-medium text-slate-900">BunyanX Support</p>
           <a href="mailto:info@bunyanx.com" class="text-sm text-blue-700 hover:underline">info@bunyanx.com</a>
         </div>
       </div>

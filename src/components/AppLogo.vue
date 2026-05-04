@@ -18,33 +18,31 @@ const isArabic = computed(() => locale.value === 'ar')
 </script>
 
 <template>
-  <!-- Favicon -->
+  <!-- Favicon / small mark -->
   <img
     v-if="variant === 'favicon'"
-    src="/icon/icon_color_transparent.webp"
-    alt="Integerant"
+    src="/logo/logo-mark.svg"
+    alt="BunyanX"
     :class="$attrs.class || 'w-8 h-8'"
     loading="eager"
   />
 
-  <!-- Icon only -->
+  <!-- Icon mark only -->
   <img
     v-else-if="variant === 'icon'"
-    :src="dark
-      ? (isArabic ? '/icon/arabic-icon-dark.webp' : '/icon/icon_white_on_navy.webp')
-      : (isArabic ? '/icon/arabic-icon-light.webp' : '/icon/icon_color_transparent.webp')"
-    :alt="isArabic ? 'إنتجرأنت' : 'Integerant'"
+    :src="dark ? '/logo/logo-mark-white.svg' : '/logo/logo-mark.svg'"
+    alt="BunyanX"
     :class="$attrs.class || 'h-10 w-auto'"
     loading="eager"
   />
 
-  <!-- Horizontal (default) -->
+  <!-- Horizontal lockup (default) -->
   <img
     v-else
     :src="dark
-      ? (isArabic ? '/logo/arabic-logo-horizontal-dark.webp' : '/logo/primary_horizontal_white_on_navy.webp')
-      : (isArabic ? '/logo/arabic-logo-horizontal-light.webp' : '/logo/primary_horizontal_transparent.webp')"
-    :alt="isArabic ? 'إنتجرأنت — حلول برمجية واستشارات' : 'Integerant — Custom Software for Egypt & GCC'"
+      ? (isArabic ? '/logo/logo-horizontal-ar-on-dark.svg' : '/logo/logo-horizontal-en-on-dark.svg')
+      : (isArabic ? '/logo/logo-horizontal-ar-light.svg'   : '/logo/logo-horizontal-en-light.svg')"
+    :alt="isArabic ? 'بنيان إكس — حلول برمجية' : 'BunyanX — Software Solutions'"
     :class="$attrs.class || 'h-9 w-auto'"
     loading="eager"
   />

@@ -6,8 +6,8 @@ import { useSeo } from '../composables/seo'
 const { t } = useI18n()
 
 useSeo({
-  title: 'About Integerant',
-  description: 'Learn about Integerant — our team, values, and how we partner with startups and growing businesses to build scalable software.',
+  title: 'About BunyanX',
+  description: 'Learn about BunyanX — our team, values, and how we partner with startups and growing businesses to build scalable software.',
   path: '/about',
 })
 </script>

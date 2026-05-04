@@ -1,6 +1,6 @@
 import { onBeforeUnmount, watchEffect, type MaybeRefOrGetter, toValue } from 'vue'
 
-const SITE_NAME = 'Integerant'
+const SITE_NAME = 'BunyanX'
 const SITE_URL = 'https://bunyanx.com'
 const DEFAULT_OG_IMAGE = `${SITE_URL}/og-image.webp`
 

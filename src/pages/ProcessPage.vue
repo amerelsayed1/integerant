@@ -7,7 +7,7 @@ const { t } = useI18n()
 
 useSeo({
   title: 'Our Process',
-  description: 'How Integerant works — discovery, planning, development, testing, delivery and ongoing support. A proven methodology that ensures quality every time.',
+  description: 'How BunyanX works — discovery, planning, development, testing, delivery and ongoing support. A proven methodology that ensures quality every time.',
   path: '/process',
 })
 </script>

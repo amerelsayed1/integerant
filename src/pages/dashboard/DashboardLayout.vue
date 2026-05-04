@@ -65,7 +65,7 @@ const pageMeta = computed(() => {
 
 useSeo({
   title: () => `${pageMeta.value.title} — Dashboard`,
-  description: 'Integerant client dashboard.',
+  description: 'BunyanX client dashboard.',
   path: () => route.path,
   noindex: true,
 })

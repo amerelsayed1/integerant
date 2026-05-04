@@ -21,8 +21,8 @@ export default {
   },
   about: {
     label: 'Who We Are',
-    title: 'About Integerant',
-    p1: 'Integerant provides end-to-end software solutions, system design, and consulting services tailored for businesses and startups in Egypt and the GCC. We combine technical expertise with strategic thinking to deliver products that drive growth.',
+    title: 'About BunyanX',
+    p1: 'BunyanX provides end-to-end software solutions, system design, and consulting services tailored for businesses and startups in Egypt and the GCC. We combine technical expertise with strategic thinking to deliver products that drive growth.',
     p2: "Our team works closely with clients to understand their unique challenges and build solutions that scale. Whether you're launching a new product or modernizing existing systems, we bring the right mix of engineering skill and business insight to every engagement.",
     stats: {
       projects: 'Projects Delivered',
@@ -262,7 +262,7 @@ export default {
       send: 'Send Message',
     },
     company: {
-      title: 'Integerant',
+      title: 'BunyanX',
       desc: 'Custom software for startups and growing businesses in Egypt and the GCC. We build technology that matters.',
     },
     emailCard: {
@@ -284,7 +284,7 @@ export default {
     title: 'Companies that ship with us',
   },
   whyUs: {
-    label: 'Why Integerant',
+    label: 'Why BunyanX',
     title: 'Built different, by design',
     subtitle: 'We work the way great engineering teams do — not the way agencies usually do.',
     items: [
@@ -320,7 +320,7 @@ export default {
     subtitle: 'Real results from real teams who trusted us with their most important projects.',
     items: [
       {
-        quote: 'Integerant delivered our fleet tracking platform in 14 weeks with zero compromises on quality. Our on-time delivery jumped from 78% to 96% in the first quarter after launch.',
+        quote: 'BunyanX delivered our fleet tracking platform in 14 weeks with zero compromises on quality. Our on-time delivery jumped from 78% to 96% in the first quarter after launch.',
         author: 'Mohammed Al-Rashid',
         role: 'Operations Director',
         company: 'Apex Logistics',
@@ -356,7 +356,7 @@ export default {
   servicesPage: {
     heroTitle: 'Software development and consulting services for startups and growing businesses',
     heroSubtitle: 'We design, build, and maintain web, mobile, and SaaS products end-to-end. Our team pairs senior engineering with research-led design, so you get software that ships on time, scales with your growth, and is genuinely pleasant to use.',
-    whyLabel: 'Why Integerant',
+    whyLabel: 'Why BunyanX',
     whyTitle: 'What every engagement comes with',
     faqLabel: 'FAQ',
     faqTitle: 'Common questions about working with us',

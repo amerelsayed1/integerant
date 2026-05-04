@@ -53,7 +53,7 @@ function save() {
       <div class="space-y-3 text-sm text-slate-600">
         <div class="flex justify-between py-2 border-b border-slate-100">
           <span class="text-slate-500">Workspace name</span>
-          <span class="font-medium text-slate-900">Integerant</span>
+          <span class="font-medium text-slate-900">BunyanX</span>
         </div>
         <div class="flex justify-between py-2 border-b border-slate-100">
           <span class="text-slate-500">Plan</span>

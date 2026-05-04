@@ -10,7 +10,7 @@ const { login } = useAuth()
 
 useSeo({
   title: 'Sign In',
-  description: 'Sign in to the Integerant client dashboard.',
+  description: 'Sign in to the BunyanX client dashboard.',
   path: '/login',
   noindex: true,
 })

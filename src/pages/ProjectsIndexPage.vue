@@ -24,7 +24,7 @@ const iconMap: Record<string, unknown> = {
 useSeo({
   title: 'Case Studies & Client Projects',
   description:
-    'Selected case studies of web, mobile, and SaaS products Integerant has shipped — including measurable outcomes, technologies used, and the services applied.',
+    'Selected case studies of web, mobile, and SaaS products BunyanX has shipped — including measurable outcomes, technologies used, and the services applied.',
   path: '/projects',
   jsonLd: computed(() => [
     {
@@ -33,13 +33,13 @@ useSeo({
       name: 'Projects',
       url: 'https://bunyanx.com/projects',
       description:
-        'Case studies of products Integerant has designed, built, and shipped for startups and growing businesses.',
-      isPartOf: { '@type': 'WebSite', name: 'Integerant', url: 'https://bunyanx.com/' },
+        'Case studies of products BunyanX has designed, built, and shipped for startups and growing businesses.',
+      isPartOf: { '@type': 'WebSite', name: 'BunyanX', url: 'https://bunyanx.com/' },
     },
     {
       '@context': 'https://schema.org',
       '@type': 'ItemList',
-      name: 'Integerant Projects',
+      name: 'BunyanX Projects',
       itemListElement: projectList.value.map((project, i) => ({
         '@type': 'ListItem',
         position: i + 1,

@@ -15,7 +15,7 @@ const { list: servicesList } = useServicesStore()
 useSeo({
   title: 'Software Development Company for Startups & Growing Businesses',
   description:
-    'Integerant builds custom web platforms, mobile apps, SaaS systems, and business automation tools for startups and growing businesses in Egypt and the GCC.',
+    'BunyanX builds custom web platforms, mobile apps, SaaS systems, and business automation tools for startups and growing businesses in Egypt and the GCC.',
   path: '/',
   jsonLd: computed(() => [
     {

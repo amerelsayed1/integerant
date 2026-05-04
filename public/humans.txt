@@ -1,5 +1,5 @@
 /* TEAM */
-Company: Integerant
+Company: BunyanX
 Site: https://bunyanx.com
 Contact: info@bunyanx.com
 

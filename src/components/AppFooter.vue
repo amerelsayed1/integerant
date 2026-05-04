@@ -102,7 +102,7 @@ const socialLinks = [
 
       <div class="border-t border-slate-800 pt-8">
         <div class="flex flex-col sm:flex-row justify-between items-center gap-2 text-slate-500 text-sm">
-          <p>&copy; {{ currentYear }} Integerant. {{ t('footer.rights') }}</p>
+          <p>&copy; {{ currentYear }} BunyanX. {{ t('footer.rights') }}</p>
           <p>{{ t('footer.tagline') }}</p>
         </div>
       </div>

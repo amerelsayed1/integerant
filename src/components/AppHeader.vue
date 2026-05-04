@@ -35,7 +35,7 @@ onUnmounted(() => window.removeEventListener('scroll', handleScroll))
   >
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex justify-between items-center h-16 md:h-18">
-        <router-link to="/" aria-label="Integerant home">
+        <router-link to="/" aria-label="BunyanX home">
           <AppLogo variant="horizontal" />
         </router-link>
 

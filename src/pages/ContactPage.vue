@@ -7,7 +7,7 @@ const { t } = useI18n()
 
 useSeo({
   title: 'Contact Us',
-  description: 'Get in touch with Integerant. Tell us about your project and we will reply within one business day.',
+  description: 'Get in touch with BunyanX. Tell us about your project and we will reply within one business day.',
   path: '/contact',
 })
 </script>

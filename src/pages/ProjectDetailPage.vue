@@ -88,7 +88,7 @@ useSeo({
             articleSection: 'Case Study',
             about: project.value!.industry,
             datePublished: `${project.value!.year}-01-01`,
-            author: { '@type': 'Organization', name: 'Integerant', url: 'https://bunyanx.com/' },
+            author: { '@type': 'Organization', name: 'BunyanX', url: 'https://bunyanx.com/' },
           },
           {
             '@context': 'https://schema.org',

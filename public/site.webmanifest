@@ -1,12 +1,12 @@
 {
-  "name": "Integerant — Custom Software for Egypt & GCC",
-  "short_name": "Integerant",
+  "name": "BunyanX — Custom Software for Egypt & GCC",
+  "short_name": "BunyanX",
   "description": "Software solutions and consulting for startups and growing businesses.",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",
   "background_color": "#ffffff",
-  "theme_color": "#0D1B3D",
+  "theme_color": "#0D1117",
   "lang": "en",
   "dir": "ltr",
   "icons": [

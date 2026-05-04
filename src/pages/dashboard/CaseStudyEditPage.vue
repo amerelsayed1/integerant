@@ -327,7 +327,7 @@ function save() {
       <fieldset class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 space-y-3">
         <legend class="px-2 text-sm font-semibold text-slate-700">Services delivered</legend>
         <p class="text-xs text-slate-500">
-          Select the Integerant services applied on this engagement. The case study links back to each.
+          Select the BunyanX services applied on this engagement. The case study links back to each.
         </p>
         <div class="flex flex-wrap gap-2">
           <button

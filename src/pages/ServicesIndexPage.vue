@@ -32,13 +32,13 @@ useSeo({
       name: 'Services',
       url: 'https://bunyanx.com/services',
       description:
-        'Web, mobile, SaaS, consulting, UI/UX, and maintenance services from Integerant.',
-      isPartOf: { '@type': 'WebSite', name: 'Integerant', url: 'https://bunyanx.com/' },
+        'Web, mobile, SaaS, consulting, UI/UX, and maintenance services from BunyanX.',
+      isPartOf: { '@type': 'WebSite', name: 'BunyanX', url: 'https://bunyanx.com/' },
     },
     {
       '@context': 'https://schema.org',
       '@type': 'ItemList',
-      name: 'Integerant Services',
+      name: 'BunyanX Services',
       itemListElement: list.value.map((service, i) => ({
         '@type': 'ListItem',
         position: i + 1,

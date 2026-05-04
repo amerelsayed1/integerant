@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="380" viewBox="0 0 512 380" role="img" aria-label="BunyanX logo">
+
+<defs>
+  <linearGradient id="bxBlue" x1="0" y1="0" x2="1" y2="1">
+    <stop offset="0%" stop-color="#0A84FF"/>
+    <stop offset="100%" stop-color="#2563EB"/>
+  </linearGradient>
+  <filter id="softGlow" x="-30%" y="-30%" width="160%" height="160%">
+    <feGaussianBlur stdDeviation="2.5" result="blur"/>
+    <feMerge>
+      <feMergeNode in="blur"/>
+      <feMergeNode in="SourceGraphic"/>
+    </feMerge>
+  </filter>
+</defs>
+
+
+
+<g transform="translate(173 30) scale(1.65)" filter="url(#softGlow)">
+<g id="bunyanx-mark" fill="url(#bxBlue)">
+  <!-- Angular B -->
+  <path d="M10 16 H54 L72 34 L58 48 L72 62 L54 80 H10 Z M28 32 V46 H50 L58 39 L50 32 Z M28 54 V64 H50 L58 59 L50 54 Z" fill-rule="evenodd"/>
+  <!-- X forward mark -->
+  <path d="M71 18 H91 L75 41 L96 80 H77 L64 56 L50 80 H31 L55 43 Z"/>
+  <path d="M74 18 H91 L31 80 H48 Z" fill="#49B6FF" opacity="0.92"/>
+</g>
+</g>
+<text x="256" y="230" text-anchor="middle" fill="#FFFFFF" font-family="DM Sans, Inter, Arial, sans-serif" font-size="58" font-weight="700" letter-spacing="-1.6">Bunyan<tspan fill="#0A84FF">X</tspan></text>
+<text x="256" y="282" text-anchor="middle" fill="#FFFFFF" font-family="Tajawal, Cairo, Arial, sans-serif" font-size="44" font-weight="700">بنيان <tspan fill="#0A84FF">إكس</tspan></text>
+<text x="256" y="326" text-anchor="middle" fill="#B8C0CC" font-family="DM Sans, Inter, Arial, sans-serif" font-size="18" font-weight="500">Build Smart. Scale Further.</text>
+
+</svg>

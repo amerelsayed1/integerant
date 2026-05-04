@@ -73,7 +73,7 @@ useSeo({
             url: `https://bunyanx.com/services/${service.value.slug}`,
             provider: {
               '@type': 'Organization',
-              name: 'Integerant',
+              name: 'BunyanX',
               url: 'https://bunyanx.com/',
             },
             areaServed: 'Worldwide',
