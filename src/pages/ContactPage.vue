@@ -6,7 +6,7 @@ import { useSeo } from '../composables/seo'
 const { t } = useI18n()
 
 useSeo({
-  title: 'Contact Us',
+  title: () => t('seo.contact'),
   description: 'Get in touch with BunyanX. Tell us about your project and we will reply within one business day.',
   path: '/contact',
 })

@@ -22,7 +22,7 @@ const iconMap: Record<string, unknown> = {
 }
 
 useSeo({
-  title: 'Case Studies & Client Projects',
+  title: () => t('seo.projects'),
   description:
     'Selected case studies of web, mobile, and SaaS products BunyanX has shipped — including measurable outcomes, technologies used, and the services applied.',
   path: '/projects',

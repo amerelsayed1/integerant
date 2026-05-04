@@ -572,4 +572,14 @@ export default {
       },
     },
   },
+  seo: {
+    home: 'Software Development Company for Startups & Growing Businesses',
+    about: 'About BunyanX',
+    services: 'Software Development Services',
+    projects: 'Case Studies & Client Projects',
+    process: 'Our Process',
+    contact: 'Contact Us',
+    serviceNotFound: 'Service Not Found',
+    projectNotFound: 'Case Study Not Found',
+  },
 }

@@ -57,7 +57,7 @@ const mounted = ref(false)
 onMounted(() => requestAnimationFrame(() => { mounted.value = true }))
 
 useSeo({
-  title: () => (service.value ? `${title.value} — ${tagline.value}` : 'Service Not Found'),
+  title: () => (service.value ? `${title.value} — ${tagline.value}` : t('seo.serviceNotFound')),
   description: () => service.value?.description ?? 'The requested service could not be found.',
   path: () => (service.value ? `/services/${service.value.slug}` : '/services'),
   noindex: () => !service.value,

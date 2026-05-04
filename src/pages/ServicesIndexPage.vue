@@ -21,7 +21,7 @@ const faqs = computed<Faq[]>(() => {
 })
 
 useSeo({
-  title: 'Software Development Services',
+  title: () => t('seo.services'),
   description:
     'Web, mobile, and SaaS development plus UI/UX design, technical consulting, and ongoing support. Senior engineers, fixed-scope discovery, and weekly demos.',
   path: '/services',

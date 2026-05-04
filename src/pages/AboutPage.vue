@@ -6,7 +6,7 @@ import { useSeo } from '../composables/seo'
 const { t } = useI18n()
 
 useSeo({
-  title: 'About BunyanX',
+  title: () => t('seo.about'),
   description: 'Learn about BunyanX — our team, values, and how we partner with startups and growing businesses to build scalable software.',
   path: '/about',
 })

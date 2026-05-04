@@ -71,7 +71,7 @@ const mounted = ref(false)
 onMounted(() => requestAnimationFrame(() => { mounted.value = true }))
 
 useSeo({
-  title: () => project.value ? t(`projects.items.${project.value.slug}.title`) : 'Case Study Not Found',
+  title: () => project.value ? t(`projects.items.${project.value.slug}.title`) : t('seo.projectNotFound'),
   description: () => project.value ? t(`projects.items.${project.value.slug}.summary`) : 'The requested case study could not be found.',
   path: () => (project.value ? `/projects/${project.value.slug}` : '/projects'),
   type: () => (project.value ? 'article' : 'website'),
