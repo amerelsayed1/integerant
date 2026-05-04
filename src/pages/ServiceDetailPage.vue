@@ -70,11 +70,11 @@ useSeo({
             name: title.value,
             description: description.value,
             serviceType: title.value,
-            url: `https://integerant.com/services/${service.value.slug}`,
+            url: `https://bunyanx.com/services/${service.value.slug}`,
             provider: {
               '@type': 'Organization',
               name: 'Integerant',
-              url: 'https://integerant.com/',
+              url: 'https://bunyanx.com/',
             },
             areaServed: 'Worldwide',
             hasOfferCatalog: {
@@ -90,13 +90,13 @@ useSeo({
             '@context': 'https://schema.org',
             '@type': 'BreadcrumbList',
             itemListElement: [
-              { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://integerant.com/' },
-              { '@type': 'ListItem', position: 2, name: 'Services', item: 'https://integerant.com/services' },
+              { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://bunyanx.com/' },
+              { '@type': 'ListItem', position: 2, name: 'Services', item: 'https://bunyanx.com/services' },
               {
                 '@type': 'ListItem',
                 position: 3,
                 name: title.value,
-                item: `https://integerant.com/services/${service.value.slug}`,
+                item: `https://bunyanx.com/services/${service.value.slug}`,
               },
             ],
           },

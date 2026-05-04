@@ -25,7 +25,7 @@ useSeo({
       itemListElement: servicesList.value.map((service, i) => ({
         '@type': 'ListItem',
         position: i + 1,
-        url: `https://integerant.com/services/${service.slug}`,
+        url: `https://bunyanx.com/services/${service.slug}`,
         name: service.title,
       })),
     },

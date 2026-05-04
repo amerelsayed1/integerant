@@ -1,8 +1,8 @@
-# https://integerant.com/robots.txt
+# https://bunyanx.com/robots.txt
 User-agent: *
 Allow: /
 Disallow: /dashboard
 Disallow: /dashboard/
 Disallow: /login
 
-Sitemap: https://integerant.com/sitemap.xml
+Sitemap: https://bunyanx.com/sitemap.xml

@@ -61,7 +61,7 @@ const handleSubmit = () => { /* UI only */ }
                 <MailIcon :size="22" class="text-teal" />
               </div>
               <h3 class="text-lg font-semibold text-slate-900 mb-2">{{ t('contact.emailCard.title') }}</h3>
-              <a href="mailto:info@integerant.com" class="text-teal hover:text-navy text-sm font-medium transition-colors">info@integerant.com</a>
+              <a href="mailto:info@bunyanx.com" class="text-teal hover:text-navy text-sm font-medium transition-colors">info@bunyanx.com</a>
               <p class="text-slate-500 text-sm mt-2">{{ t('contact.emailCard.response') }}</p>
             </div>
           </div>

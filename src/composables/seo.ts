@@ -1,7 +1,7 @@
 import { onBeforeUnmount, watchEffect, type MaybeRefOrGetter, toValue } from 'vue'
 
 const SITE_NAME = 'Integerant'
-const SITE_URL = 'https://integerant.com'
+const SITE_URL = 'https://bunyanx.com'
 const DEFAULT_OG_IMAGE = `${SITE_URL}/og-image.webp`
 
 export interface SeoOptions {

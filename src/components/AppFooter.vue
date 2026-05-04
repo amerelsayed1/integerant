@@ -91,7 +91,7 @@ const socialLinks = [
           <ul class="space-y-3">
             <li class="flex items-center gap-2.5 text-slate-400 text-sm">
               <MailIcon :size="16" class="text-teal flex-shrink-0" />
-              <a href="mailto:info@integerant.com" class="hover:text-white transition-colors">info@integerant.com</a>
+              <a href="mailto:info@bunyanx.com" class="hover:text-white transition-colors">info@bunyanx.com</a>
             </li>
           </ul>
           <div class="mt-6 p-4 bg-navy/50 rounded-xl">

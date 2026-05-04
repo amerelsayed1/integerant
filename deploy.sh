@@ -5,7 +5,7 @@ set -euo pipefail
 SERVER="ubuntu@51.68.229.216"
 SSH_KEY="$HOME/.ssh/operix_deploy"
 DEPLOY_PATH="/opt/integerant"
-DOMAIN="integerant.com"
+DOMAIN="bunyanx.com"
 LOCAL_PATH="$(cd "$(dirname "$0")" && pwd)"
 
 ssh_run()  { ssh -i "$SSH_KEY" -o StrictHostKeyChecking=no "$SERVER" "$@"; }
@@ -83,17 +83,17 @@ ssh_run "
   fi
 "
 
-# ─── Step 4: Inject integerant.com nginx block into bfm-frontend ─────────────
+# ─── Step 4: Inject bunyanx.com nginx block into bfm-frontend ─────────────
 log "Updating bfm-frontend nginx with ${DOMAIN} server block..."
-ssh_run "cat > /tmp/integerant_nginx.conf << 'NGINXEOF'
-# ── integerant.com ─────────────────────────────────────────────────────────────
+ssh_run "cat > /tmp/bunyanx_nginx.conf << 'NGINXEOF'
+# ── bunyanx.com ─────────────────────────────────────────────────────────────
 server {
     listen 443 ssl;
     http2 on;
-    server_name integerant.com www.integerant.com;
+    server_name bunyanx.com www.bunyanx.com;
 
-    ssl_certificate     /etc/letsencrypt/live/integerant.com/fullchain.pem;
-    ssl_certificate_key /etc/letsencrypt/live/integerant.com/privkey.pem;
+    ssl_certificate     /etc/letsencrypt/live/bunyanx.com/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/bunyanx.com/privkey.pem;
     ssl_protocols TLSv1.2 TLSv1.3;
     ssl_ciphers ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:DHE-RSA-AES128-GCM-SHA256;
     ssl_prefer_server_ciphers off;
@@ -123,18 +123,18 @@ server {
 }
 NGINXEOF
 
-# Copy nginx snippet into bfm-frontend and add integerant.com to HTTP redirect block
-docker cp /tmp/integerant_nginx.conf bfm-frontend:/etc/nginx/conf.d/integerant.com.conf
+# Copy nginx snippet into bfm-frontend and add bunyanx.com to HTTP redirect block
+docker cp /tmp/bunyanx_nginx.conf bfm-frontend:/etc/nginx/conf.d/bunyanx.com.conf
 
-# Add integerant.com to the HTTP redirect server_name (if not already)
+# Add bunyanx.com to the HTTP redirect server_name (if not already)
 docker exec bfm-frontend sh -c \"
-  grep -q 'integerant.com' /etc/nginx/conf.d/default.conf \
-    || sed -i 's/server_name operixhq.com/server_name integerant.com www.integerant.com operixhq.com/' /etc/nginx/conf.d/default.conf
+  grep -q 'bunyanx.com' /etc/nginx/conf.d/default.conf \
+    || sed -i 's/server_name operixhq.com/server_name bunyanx.com www.bunyanx.com operixhq.com/' /etc/nginx/conf.d/default.conf
 \"
 
 # Test and reload
 docker exec bfm-frontend nginx -t && docker exec bfm-frontend nginx -s reload
-echo '  nginx reloaded with integerant.com config'
+echo '  nginx reloaded with bunyanx.com config'
 "
 
 # ─── Step 5: Build and start containers ───────────────────────────────────────

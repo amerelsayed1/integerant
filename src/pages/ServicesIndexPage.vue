@@ -30,10 +30,10 @@ useSeo({
       '@context': 'https://schema.org',
       '@type': 'CollectionPage',
       name: 'Services',
-      url: 'https://integerant.com/services',
+      url: 'https://bunyanx.com/services',
       description:
         'Web, mobile, SaaS, consulting, UI/UX, and maintenance services from Integerant.',
-      isPartOf: { '@type': 'WebSite', name: 'Integerant', url: 'https://integerant.com/' },
+      isPartOf: { '@type': 'WebSite', name: 'Integerant', url: 'https://bunyanx.com/' },
     },
     {
       '@context': 'https://schema.org',
@@ -42,7 +42,7 @@ useSeo({
       itemListElement: list.value.map((service, i) => ({
         '@type': 'ListItem',
         position: i + 1,
-        url: `https://integerant.com/services/${service.slug}`,
+        url: `https://bunyanx.com/services/${service.slug}`,
         name: service.title,
       })),
     },
@@ -50,8 +50,8 @@ useSeo({
       '@context': 'https://schema.org',
       '@type': 'BreadcrumbList',
       itemListElement: [
-        { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://integerant.com/' },
-        { '@type': 'ListItem', position: 2, name: 'Services', item: 'https://integerant.com/services' },
+        { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://bunyanx.com/' },
+        { '@type': 'ListItem', position: 2, name: 'Services', item: 'https://bunyanx.com/services' },
       ],
     },
     {

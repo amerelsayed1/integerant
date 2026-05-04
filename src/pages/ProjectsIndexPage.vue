@@ -31,10 +31,10 @@ useSeo({
       '@context': 'https://schema.org',
       '@type': 'CollectionPage',
       name: 'Projects',
-      url: 'https://integerant.com/projects',
+      url: 'https://bunyanx.com/projects',
       description:
         'Case studies of products Integerant has designed, built, and shipped for startups and growing businesses.',
-      isPartOf: { '@type': 'WebSite', name: 'Integerant', url: 'https://integerant.com/' },
+      isPartOf: { '@type': 'WebSite', name: 'Integerant', url: 'https://bunyanx.com/' },
     },
     {
       '@context': 'https://schema.org',
@@ -43,7 +43,7 @@ useSeo({
       itemListElement: projectList.value.map((project, i) => ({
         '@type': 'ListItem',
         position: i + 1,
-        url: `https://integerant.com/projects/${project.slug}`,
+        url: `https://bunyanx.com/projects/${project.slug}`,
         name: project.title,
       })),
     },
@@ -51,8 +51,8 @@ useSeo({
       '@context': 'https://schema.org',
       '@type': 'BreadcrumbList',
       itemListElement: [
-        { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://integerant.com/' },
-        { '@type': 'ListItem', position: 2, name: 'Projects', item: 'https://integerant.com/projects' },
+        { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://bunyanx.com/' },
+        { '@type': 'ListItem', position: 2, name: 'Projects', item: 'https://bunyanx.com/projects' },
       ],
     },
   ]),

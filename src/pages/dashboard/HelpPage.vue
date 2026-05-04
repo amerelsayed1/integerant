@@ -16,7 +16,7 @@ const faqs = [
         <div class="w-9 h-9 rounded-full bg-blue-700 text-white flex items-center justify-center text-sm font-semibold flex-shrink-0">IN</div>
         <div>
           <p class="text-sm font-medium text-slate-900">Integerant Support</p>
-          <a href="mailto:info@integerant.com" class="text-sm text-blue-700 hover:underline">info@integerant.com</a>
+          <a href="mailto:info@bunyanx.com" class="text-sm text-blue-700 hover:underline">info@bunyanx.com</a>
         </div>
       </div>
     </div>
