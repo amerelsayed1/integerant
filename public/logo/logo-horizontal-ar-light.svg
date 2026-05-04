@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="640" height="200" viewBox="0 0 640 200" role="img" aria-label="BunyanX logo">
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="200" viewBox="0 28 640 135" role="img" aria-label="BunyanX logo">
 
 <defs>
   <linearGradient id="bxBlue" x1="0" y1="0" x2="1" y2="1">
@@ -25,7 +25,7 @@
   <path d="M74 18 H91 L31 80 H48 Z" fill="#49B6FF" opacity="0.92"/>
 </g>
 </g>
-<text x="168" y="104" direction="rtl" unicode-bidi="plaintext" fill="#0D1117" font-family="Tajawal, Cairo, Arial, sans-serif" font-size="48" font-weight="700">بنيان <tspan fill="#0A84FF">إكس</tspan></text>
-<text x="168" y="142" direction="rtl" unicode-bidi="plaintext" fill="#4B5563" font-family="Tajawal, Cairo, Arial, sans-serif" font-size="19" font-weight="500">نبني بذكاء. ننمو أبعد.</text>
+<text x="168" y="112" fill="#0D1117" font-family="Tajawal, Cairo, Arial, sans-serif" font-size="48" font-weight="700">بنيان <tspan fill="#0A84FF">إكس</tspan></text>
+
 
 </svg>

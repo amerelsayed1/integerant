@@ -34,7 +34,7 @@ onUnmounted(() => window.removeEventListener('scroll', handleScroll))
     :class="scrolled ? 'bg-white/90 backdrop-blur-md shadow-sm' : 'bg-white/70 backdrop-blur-sm'"
   >
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex justify-between items-center h-16 md:h-18">
+      <div class="flex justify-between items-center h-24 md:h-24">
         <router-link to="/" aria-label="BunyanX home">
           <AppLogo variant="horizontal" />
         </router-link>
